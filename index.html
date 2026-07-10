@@ -238,6 +238,9 @@
   /* on hover the button fills with ink, so the sketch flips to paper */
   .theme-fab:hover .icon path,.theme-fab:hover .icon line{stroke:var(--paper);}
   .theme-fab:hover .g-moon .body,.theme-fab:hover .g-sun .body{fill:rgba(var(--accent-rgb),.28);}
+  /* dark mode: solid sun disc, no outline ring */
+  html[data-theme="dark"] .theme-fab .g-sun .body{fill:var(--accent);stroke:none;}
+  html[data-theme="dark"] .theme-fab:hover .g-sun .body{fill:var(--paper);}
   .theme-fab .g-moon,.theme-fab .g-sun{
     transform-origin:12px 12px;
     transition:opacity .4s ease, transform .7s var(--ease);
@@ -276,6 +279,30 @@
     0%{transform:scale(1);opacity:.75;}
     100%{transform:scale(1.85);opacity:0;}
   }
+  /* always-on label riding beside the switch */
+  .fab-label{
+    position:fixed;right:96px;bottom:113px;z-index:401;pointer-events:none;
+    display:flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);padding:9px 13px;border-radius:7px;white-space:nowrap;
+    box-shadow:0 6px 18px rgba(0,0,0,.14);
+    animation:labelRock 3.6s ease-in-out infinite;
+    transition:opacity .4s ease, transform .4s var(--ease);
+  }
+  .fab-label .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;
+    animation:labelBlink 1.6s ease-in-out infinite;
+  }
+  .fab-label::after{
+    content:'';position:absolute;right:-5px;top:50%;margin-top:-5px;
+    border:5px solid transparent;border-left-color:var(--ink);border-right:0;
+  }
+  @keyframes labelRock{0%,100%{transform:translateX(0);}50%{transform:translateX(-4px);}}
+  @keyframes labelBlink{0%,100%{opacity:1;}50%{opacity:.25;}}
+  /* fade the label out on hover so it does not crowd the click */
+  .theme-fab:hover ~ .fab-label{opacity:0;transform:translateX(6px);}
+  @media (prefers-reduced-motion: reduce){ .fab-label,.fab-label .dot{animation:none;} }
+
   .fab-tip{
     position:fixed;right:96px;bottom:113px;z-index:401;
     font-family:var(--mono);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;
@@ -296,19 +323,44 @@
   ::view-transition-old(root){z-index:1;}
   ::view-transition-new(root){z-index:9999;}
   @media (max-width:900px){
-    .theme-fab{right:20px;bottom:86px;width:52px;height:52px;}
-    .fab-tip{right:82px;bottom:100px;}
+    .theme-fab{right:20px;bottom:84px;width:52px;height:52px;}
+    #toTop{right:20px;bottom:22px;width:52px;height:52px;font-size:19px;}
+    #toTop .arrow{width:23px;height:23px;}
+    .fab-tip,.fab-label{right:82px;bottom:100px;}
   }
-  .logo{font-family:var(--serif);font-weight:600;font-size:21px;}
-  .logo em{font-style:italic;color:var(--accent);}
-  #siteLogo{cursor:pointer;}
+  /* premium monogram: boxed serif mark shared by logo and the morph clone */
+  .logo{
+    font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:1px;
+    display:inline-flex;align-items:center;gap:1px;
+    padding:5px 12px;border:1.5px solid var(--ink);border-radius:9px;
+    position:relative;line-height:1;color:var(--ink);
+    transition:border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease);
+  }
+  .logo .lp{position:relative;}
+  .logo em{font-style:italic;color:var(--accent);position:relative;}
+  /* the corner tick that lifts it from a plain boxed initial */
+  .logo::after{
+    content:'';position:absolute;top:-1.5px;right:-1.5px;width:9px;height:9px;
+    border-top:1.5px solid var(--accent);border-right:1.5px solid var(--accent);
+    border-top-right-radius:9px;
+    transition:width .35s var(--ease), height .35s var(--ease);
+  }
+  #siteLogo{cursor:pointer;transition:border-color .5s ease, box-shadow .35s var(--ease), transform .35s var(--ease), padding .5s var(--ease);}
+  #siteLogo:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(var(--accent-rgb),.16);transform:translateY(-1px);}
+  #siteLogo:hover::after{width:13px;height:13px;}
   html.morph-on #siteLogo{opacity:0;}
+  /* during flight the box is hidden; it draws itself in once the letters land */
+  html.morph-on #siteLogo{border-color:transparent;padding-left:0;padding-right:0;}
+  html.morph-on #siteLogo::after{opacity:0;transition:opacity .3s ease;}
+  #siteLogo.framed{border-color:var(--ink);padding-left:12px;padding-right:12px;}
+  #siteLogo.framed::after{opacity:1;}
   .map-hello .im{display:inline-block;}
   .morph-clone{
     position:fixed;left:0;top:0;z-index:650;pointer-events:none;white-space:nowrap;
     display:none;font-family:var(--serif);font-weight:600;line-height:1.05;letter-spacing:-1px;
     transform-origin:left top;will-change:transform;
   }
+  /* as the clone shrinks to logo size, fade its serif tracking toward the boxed look */
   .morph-clone em{font-style:italic;color:var(--accent);}
   .morph-clone .mf{
     display:inline-block;overflow:hidden;white-space:nowrap;
@@ -832,6 +884,128 @@
   }
   #toTop:hover .arrow{transform:translateY(-3px);}
 
+  /* ===== case study modal (full narrative deep-dive) ===== */
+  .case-trigger{
+    display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--accent);background:none;border:none;cursor:pointer;padding:0;
+    transition:gap .3s var(--ease);
+  }
+  .case-trigger:hover{gap:13px;}
+  .case-trigger .cs-arr{transition:transform .3s var(--ease);}
+  .case-trigger:hover .cs-arr{transform:translateX(2px);}
+  .exp-metric{
+    display:inline-flex;align-items:baseline;gap:6px;margin-right:14px;
+    font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--ink-faint);
+    border:1px solid var(--rule);border-radius:6px;padding:4px 9px;
+  }
+  .exp-metric b{color:var(--accent);font-size:13px;font-weight:700;}
+  .exp-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 0;margin-top:18px;}
+
+  #caseBackdrop{
+    position:fixed;inset:0;z-index:900;background:rgba(var(--veil-rgb),.55);
+    backdrop-filter:blur(9px) saturate(.9);-webkit-backdrop-filter:blur(9px) saturate(.9);
+    opacity:0;pointer-events:none;transition:opacity .4s ease;
+  }
+  #caseBackdrop.open{opacity:1;pointer-events:auto;}
+
+  .case-modal{
+    position:fixed;inset:0;z-index:901;overflow-y:auto;overflow-x:hidden;
+    opacity:0;pointer-events:none;transition:opacity .45s ease;
+    -webkit-overflow-scrolling:touch;
+  }
+  .case-modal.open{opacity:1;pointer-events:auto;}
+  .case-modal .cm-inner{
+    min-height:100%;
+    background:
+      radial-gradient(var(--grid-dot) 1.1px, transparent 1.1px) 0 0 / 22px 22px,
+      var(--paper);
+    padding:0 0 90px;
+  }
+  .cm-bar{
+    position:sticky;top:0;z-index:5;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);
+  }
+  .cm-bar .cm-id{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);}
+  .cm-close{
+    width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);background:transparent;
+    color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:background .25s,color .25s,transform .3s var(--ease);
+  }
+  .cm-close:hover{background:var(--ink);color:var(--paper);transform:rotate(90deg);}
+  .cm-close svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;}
+
+  .cm-narrow{max-width:720px;margin:0 auto;padding:0 32px;}
+  .cm-wide{max-width:1080px;margin:0 auto;padding:0 32px;}
+
+  .cm-hero{padding:66px 0 20px;}
+  .cm-tag{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+  .cm-tag .n{color:var(--ink-faint);}
+  .cm-hero h2{font-family:var(--serif);font-weight:400;letter-spacing:.4px;line-height:1.1;font-size:clamp(30px,5vw,54px);max-width:20ch;color:var(--ink);}
+  .cm-hero h2 em{font-style:italic;color:var(--accent);}
+
+  .cm-beat{display:grid;grid-template-columns:150px 1fr;gap:34px;padding:34px 0;border-top:1px solid var(--rule);}
+  .cm-beat:first-of-type{border-top:none;}
+  .cm-beat-label{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);padding-top:5px;position:sticky;top:96px;height:fit-content;}
+  .cm-beat-label .step{display:block;color:var(--ink-faint);font-size:10px;margin-bottom:6px;}
+  .cm-beat-body p{font-size:17px;line-height:1.7;color:var(--ink-soft);}
+  .cm-beat-body p + p{margin-top:16px;}
+  .cm-beat-body strong{color:var(--ink);font-weight:600;}
+  @media (max-width:720px){ .cm-beat{grid-template-columns:1fr;gap:12px;} .cm-beat-label{position:static;padding-top:0;} }
+
+  .cm-break{text-align:center;padding:56px 0;}
+  .cm-break .big{font-family:var(--serif);font-weight:400;font-size:clamp(64px,13vw,150px);line-height:.9;color:var(--accent);letter-spacing:-1px;}
+  .cm-break .cap{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faint);margin-top:14px;max-width:34ch;margin-left:auto;margin-right:auto;}
+  .cm-lesson{font-family:'Caveat',cursive;font-size:clamp(24px,3.4vw,34px);line-height:1.4;color:var(--ink);text-align:center;max-width:28ch;margin:44px auto 0;}
+  .cm-lesson::before{content:'\270E';color:var(--accent);margin-right:10px;font-size:.8em;}
+
+  /* dashboard inside modal */
+  .dash-wrap{border:1px solid var(--rule);border-radius:18px;overflow:hidden;background:var(--surface-dark);margin-top:26px;box-shadow:0 24px 60px rgba(0,0,0,.18);}
+  .dash-top{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--dk-border);background:color-mix(in srgb, var(--surface-dark) 90%, black);}
+  .dash-dots{display:flex;gap:7px;}
+  .dash-dots i{width:11px;height:11px;border-radius:50%;display:block;}
+  .dash-dots i:nth-child(1){background:#e0574a;} .dash-dots i:nth-child(2){background:#e8a51f;} .dash-dots i:nth-child(3){background:#5cae6b;}
+  .dash-tt{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--dk-faint);text-transform:uppercase;}
+  .dash-badge{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:1px;color:var(--dk-faint);border:1px solid var(--dk-border);padding:4px 9px;border-radius:5px;text-transform:uppercase;}
+  .dash-body{padding:26px 24px 30px;color:var(--dk-text);}
+  .dash-controls{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;margin-bottom:26px;}
+  .ctl{display:flex;flex-direction:column;gap:8px;}
+  .ctl-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dk-faint);}
+  .seg{display:flex;border:1px solid var(--dk-border);border-radius:9px;overflow:hidden;}
+  .seg button{font-family:var(--mono);font-size:11px;letter-spacing:.5px;padding:8px 13px;background:transparent;color:var(--dk-muted);border:none;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
+  .seg button + button{border-left:1px solid var(--dk-border);}
+  .seg button.on{background:var(--accent);color:#fff;}
+  html[data-theme="dark"] .seg button.on{color:#241c31;}
+  .toggle-ab{margin-left:auto;display:flex;flex-direction:column;gap:8px;}
+  .dash-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;}
+  @media (max-width:800px){ .dash-grid{grid-template-columns:1fr;} }
+  .panel-h{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dk-faint);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
+  .panel-h .hint{color:var(--dk-border);font-size:9px;}
+  .funnel{display:flex;flex-direction:column;gap:14px;}
+  .fn-row{display:flex;flex-direction:column;gap:6px;}
+  .fn-top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;}
+  .fn-stage{color:var(--dk-muted);letter-spacing:.5px;}
+  .fn-val{color:var(--dk-text);font-weight:700;}
+  .fn-track{height:26px;background:rgba(var(--accent-rgb),.06);border-radius:7px;overflow:hidden;position:relative;}
+  html[data-theme="dark"] .fn-track{background:rgba(239,233,251,.09);}
+  .fn-fill{height:100%;border-radius:7px;background:linear-gradient(90deg, rgba(var(--accent-rgb),.55), var(--accent));width:0;transition:width 1s var(--ease);}
+  .fn-fill.leak{background:linear-gradient(90deg, rgba(224,87,74,.5), #e0574a);}
+  .fn-drop{font-family:var(--mono);font-size:9.5px;color:var(--dk-faint);align-self:flex-end;}
+  .fn-drop b{color:#e0574a;} .fn-drop.ok b{color:#5cae6b;}
+  .rc{display:flex;flex-direction:column;gap:13px;}
+  .rc-row{display:flex;flex-direction:column;gap:5px;}
+  .rc-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--dk-muted);}
+  .rc-top b{color:var(--dk-text);}
+  .rc-track{height:9px;background:rgba(var(--accent-rgb),.06);border-radius:5px;overflow:hidden;}
+  html[data-theme="dark"] .rc-track{background:rgba(239,233,251,.09);}
+  .rc-fill{height:100%;border-radius:5px;width:0;transition:width .9s var(--ease);}
+  .dash-note{margin-top:24px;padding-top:18px;border-top:1px solid var(--dk-border);font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--dk-faint);letter-spacing:.3px;}
+  .dash-note b{color:var(--dk-muted);}
+  .insight{margin-top:20px;padding:16px 18px;border-left:3px solid var(--accent);background:rgba(var(--accent-rgb),.08);border-radius:0 8px 8px 0;font-size:14px;line-height:1.6;color:var(--dk-text);}
+  .insight b{color:var(--accent);font-weight:600;}
+
   /* reveals */
   @keyframes riseIn{from{opacity:0;transform:translateY(28px) skewY(1.2deg);}}
   [data-reveal]{opacity:0;}
@@ -922,7 +1096,7 @@
 </div>
 
 <header>
-  <div class="logo" id="siteLogo">S<em>P</em></div>
+  <div class="logo" id="siteLogo"><span class="lp">S</span><em>P</em></div>
   <nav id="siteNav">
     <ul>
       <li><a href="#about">About</a></li>
@@ -1109,6 +1283,10 @@
           <li>Managed end-to-end placement delivery for US clients across data, AI/ML, cybersecurity, and finance roles.</li>
         </ul>
         <div class="exp-tags"><span class="tag">SQL (BigQuery)</span><span class="tag">KPI Reporting</span><span class="tag">Root Cause Analysis</span></div>
+        <div class="exp-actions">
+          <span class="exp-metric"><b>+18%</b> interview conversion</span>
+          <button class="case-trigger" data-case="kgs">Read the case study <span class="cs-arr">&#8594;</span></button>
+        </div>
       </div>
       <div class="exp-date">Oct 2025 &ndash; Present</div>
     </div>
@@ -1125,6 +1303,10 @@
           <li>Delivered 20+ career-awareness workshops, translating complex academic data into clear narratives for students and administrators.</li>
         </ul>
         <div class="exp-tags"><span class="tag">A/B Testing</span><span class="tag">ROI Analysis</span><span class="tag">Segmentation</span></div>
+        <div class="exp-actions">
+          <span class="exp-metric"><b>+35%</b> lead conversion</span>
+          <button class="case-trigger" data-case="aces">Read the case study <span class="cs-arr">&#8594;</span></button>
+        </div>
       </div>
       <div class="exp-date">Feb 2024 &ndash; Jul 2025</div>
     </div>
@@ -1377,6 +1559,142 @@
   </div>
 </section>
 
+<div id="caseBackdrop"></div>
+<div class="case-modal" id="caseModal" role="dialog" aria-modal="true" aria-label="Case study">
+  <div class="cm-inner">
+    <div class="cm-bar">
+      <span class="cm-id" id="cmId">Case study</span>
+      <button class="cm-close" id="cmClose" aria-label="Close case study">
+        <svg viewBox="0 0 24 24"><path d="M5 5 L19 19 M19 5 L5 19"/></svg>
+      </button>
+    </div>
+    <div id="cmContent"></div>
+  </div>
+</div>
+
+<template id="caseAces">
+  <div class="cm-narrow">
+    <div class="cm-hero">
+      <div class="cm-tag"><span class="n">Case 01</span> &middot; ACES Consulting</div>
+      <h2>Marketing spend was leaking. The <em>website</em> told us where.</h2>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">01</span>The situation</div>
+      <div class="cm-beat-body">
+        <p>ACES Consulting was a career-guidance firm I co-founded in Bhubaneswar, born out of a problem I saw firsthand during career-awareness programs with UNICEF Odisha: bright students making career choices on limited information and social pressure. We built ACES to change that, and within eighteen months we were working with <strong>5+ schools</strong>.</p>
+        <p>But early-stage firms have a brutal constraint: every marketing rupee has to work. We were spending across digital and offline channels with no clear picture of what actually produced leads. And our website, the front door for parents and schools researching us, was getting traffic that wasn't converting.</p>
+      </div>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">02</span>The question</div>
+      <div class="cm-beat-body"><p>Where should our next rupee of marketing spend go, and why were website visitors leaving without enquiring?</p></div>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">03</span>What I did</div>
+      <div class="cm-beat-body">
+        <p>Two connected analyses. <strong>First, the funnel:</strong> I instrumented the site's user journey and traced engagement metrics page by page to find where visitors dropped off. The pattern pointed to the calls-to-action, so I ran A/B tests on CTA placement, copy, and form length rather than redesigning on instinct.</p>
+        <p><strong>Second, the spend:</strong> I built a channel-level ROI view comparing acquisition cost against lead quality per channel, not just lead volume, because a cheap lead that never converts to a school partnership is expensive.</p>
+      </div>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">04</span>What we found</div>
+      <div class="cm-beat-body"><p>The CTA testing lifted lead-capture conversion sharply. The ROI analysis showed a small set of digital channels producing most of the qualified pipeline, while a majority of spend sat in channels producing volume without quality.</p></div>
+    </div>
+  </div>
+  <div class="cm-break">
+    <div class="big">+35%</div>
+    <div class="cap">lift in lead-capture conversion from CTA testing alone</div>
+  </div>
+  <div class="cm-narrow">
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">05</span>What we did</div>
+      <div class="cm-beat-body"><p>Reallocated <strong>60% of the marketing budget</strong> to the top-performing channels within six months, and made the funnel review a monthly rhythm instead of a one-time exercise. The reallocation didn't need a bigger budget; it needed the existing one pointed at the truth.</p></div>
+    </div>
+    <div class="cm-lesson">Analysis nobody acts on is decoration. This one worked because every output was shaped as a spending decision, not a report.</div>
+  </div>
+</template>
+
+<template id="caseKgs">
+  <div class="cm-narrow">
+    <div class="cm-hero">
+      <div class="cm-tag"><span class="n">Case 02</span> &middot; KGS Technology Group</div>
+      <h2>Finding the bottleneck in a US talent <em>placement pipeline.</em></h2>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">01</span>The situation</div>
+      <div class="cm-beat-body"><p>At KGS Technology Group, I manage end-to-end talent-placement delivery for US-based clients: candidates moving through submission, screening, and interview stages toward offers. When I joined, pipeline health lived in scattered status updates and instinct. People knew placements were stalling; nobody could say precisely where or why.</p></div>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">02</span>The question</div>
+      <div class="cm-beat-body"><p>At which stage of the pipeline are we losing candidates, and what's causing it?</p></div>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">03</span>What I did</div>
+      <div class="cm-beat-body">
+        <p>I built the analytics layer the process didn't have. Using <strong>SQL on BigQuery</strong>, I queried the placement pipeline to measure stage-wise conversion, submission to screening, screening to interview, interview to offer, and compared rates across role types and client accounts.</p>
+        <p>Then I went past the numbers into root-cause: for stalled placements, I categorized the failure reasons, resume-to-JD mismatch, feedback lag from hiring managers, screening drop-offs, so the pattern behind the pattern was visible.</p>
+      </div>
+    </div>
+  </div>
+  <div class="cm-wide">
+    <div class="dash-wrap">
+      <div class="dash-top">
+        <div class="dash-dots"><i></i><i></i><i></i></div>
+        <div class="dash-tt">Pipeline Health / Placement Analytics</div>
+        <div class="dash-badge">Synthetic data</div>
+      </div>
+      <div class="dash-body">
+        <div class="dash-controls">
+          <div class="ctl"><span class="ctl-lbl">Role type</span>
+            <div class="seg" id="segRole">
+              <button class="on" data-role="all">All roles</button>
+              <button data-role="data">Data</button>
+              <button data-role="swe">Software</button>
+              <button data-role="cloud">Cloud</button>
+            </div>
+          </div>
+          <div class="ctl"><span class="ctl-lbl">Client account</span>
+            <div class="seg" id="segAcct">
+              <button class="on" data-acct="all">All accounts</button>
+              <button data-acct="a">Account A</button>
+              <button data-acct="b">Account B</button>
+            </div>
+          </div>
+          <div class="toggle-ab"><span class="ctl-lbl">Process</span>
+            <div class="seg" id="segAB">
+              <button class="on" data-ab="before">Before fixes</button>
+              <button data-ab="after">After fixes</button>
+            </div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div><div class="panel-h">Stage-wise conversion <span class="hint">candidates advancing &#8594;</span></div><div class="funnel" id="funnel"></div></div>
+          <div><div class="panel-h">Why placements stalled <span class="hint">root cause</span></div><div class="rc" id="rootcause"></div></div>
+        </div>
+        <div class="insight" id="insight"></div>
+        <div class="dash-note"><b>How to read this.</b> The underlying data is client-confidential, so this dashboard is a recreation built on synthetic data that mirrors the real pipeline's structure. The methodology is exactly what ran in production; the numbers in the visuals are illustrative. Toggle <b>Before / After fixes</b> to see the effect of the process changes.</div>
+      </div>
+    </div>
+  </div>
+  <div class="cm-narrow">
+    <div class="cm-beat" style="margin-top:60px;">
+      <div class="cm-beat-label"><span class="step">04</span>What we found</div>
+      <div class="cm-beat-body"><p>The losses weren't evenly distributed. Specific stages were leaking disproportionately, and the root-cause tagging showed the leaks had <strong>fixable operational causes</strong> rather than candidate-quality causes.</p></div>
+    </div>
+    <div class="cm-beat">
+      <div class="cm-beat-label"><span class="step">05</span>What we did</div>
+      <div class="cm-beat-body"><p>The findings drove concrete process changes: tightened feedback loops with US hiring managers and restructured how candidate profiles were matched to job requirements before submission. I also replaced ad hoc status checks with a <strong>weekly KPI reporting view</strong> the delivery team now runs on, so the pipeline is monitored continuously instead of investigated occasionally.</p></div>
+    </div>
+  </div>
+  <div class="cm-break">
+    <div class="big">+18%</div>
+    <div class="cap">interview conversion rate, first quarter after the changes</div>
+  </div>
+  <div class="cm-narrow">
+    <div class="cm-lesson">A one-time analysis finds the problem. A reporting rhythm keeps it fixed. The 18% mattered less than the fact that the team stopped flying blind.</div>
+  </div>
+</template>
+
 <button class="theme-fab" id="themeToggle" aria-label="Switch theme" title="Switch to dark">
   <svg class="fab-frame" viewBox="0 0 60 60" aria-hidden="true">
     <path class="ring" d="M30 2.6 C 40.2 2.1, 50.6 8.9, 54.7 18.5 C 58.7 27.9, 56.6 39.9, 49.1 47.5 C 41.6 55.1, 29.3 58.5, 19.3 54.3 C 8.9 50.0, 2.1 39.2, 2.6 28.3 C 3.1 16.9, 11.7 6.3, 22.5 3.5 C 24.9 2.9, 27.4 2.6, 30 2.6 Z"/>
@@ -1401,6 +1719,7 @@
     </g>
   </svg>
 </button>
+<div class="fab-label" id="fabLabel" aria-hidden="true"><span class="dot"></span><span class="txt">Dark mode?</span></div>
 <div class="fab-tip" id="fabTip" aria-hidden="true">Try dark mode</div>
 <button id="toTop" aria-label="Back to top">
   <svg class="fab-frame" viewBox="0 0 60 60" aria-hidden="true">
@@ -1683,7 +2002,7 @@
       const rB = banner.getBoundingClientRect();
       if (pinned){
         // pinned: banner and hero freeze together; the stage track sits behind them
-        const pinDist = Math.round(window.innerHeight * 0.85);
+        const pinDist = Math.round(window.innerHeight * 0.62);
         stage.style.height = (sticky.offsetHeight + pinDist) + 'px';
         D = pinDist;
         src = { left: rT.left, vTop: 64 + (rT.top - rB.top), h: rT.height };
@@ -1738,7 +2057,7 @@
           f.el.style.opacity = Math.max(0, 1 - fold * 1.8);
         });
         // beat 2 (0.17 to 0.94): arced flight from rest to the monogram
-        const e = easeInOut(clamp((p - 0.17) / 0.77));
+        const e = easeInOut(clamp((p - 0.17) / 0.83));
         const P0 = { x: src.left, y: src.vTop };
         const P2 = { x: t.left, y: t.top };
         const P1 = { x: P0.x + (P2.x - P0.x) * 0.18, y: Math.min(P0.y, P2.y) - 140 }; // rise, then bank left
@@ -1748,8 +2067,9 @@
         const sc = 1 + ((t.height / src.h) - 1) * e;
         paint(px, py, sc, e * 100);
         // no fade: the gliding "SP" IS the logo until the instant it lands
-        const landed = p >= 0.985;
+        const landed = p >= 0.995;
         logo.style.opacity = landed ? 1 : 0;
+        logo.classList.toggle('framed', landed);
         clone.style.opacity = 1;
         if (landed) clone.style.display = 'none';
       } else {
@@ -1767,6 +2087,7 @@
         paint(px, py, sc, p * 100);
         const landed = p >= 0.985;
         logo.style.opacity = landed ? 1 : 0;
+        logo.classList.toggle('framed', landed);
         clone.style.opacity = 1;
         if (landed) clone.style.display = 'none';
       }
@@ -1819,8 +2140,11 @@
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const isDark = ()=> root.getAttribute('data-theme') === 'dark';
+    const label = document.getElementById('fabLabel');
+    const labelTxt = label ? label.querySelector('.txt') : null;
     const sync = ()=>{
       btn.setAttribute('title', isDark() ? 'Switch to light' : 'Switch to dark');
+      if (labelTxt) labelTxt.textContent = isDark() ? 'Light mode?' : 'Dark mode?';
     };
     sync();
 
@@ -1854,6 +2178,7 @@
       nudging = false;
       btn.classList.remove('nudge');
       if (tip) tip.classList.remove('show');
+      if (label) label.style.opacity = '';
       try { localStorage.setItem('themeSeen','1'); } catch(e){}
     }
 
@@ -1869,6 +2194,7 @@
       setTimeout(()=>{
         nudging = true;
         btn.classList.add('nudge');
+        if (label) label.style.opacity = '0';
         if (tip) tip.classList.add('show');
         setTimeout(stopNudge, 7000);
       }, 3200);
@@ -2138,6 +2464,153 @@
     tick();
     setInterval(tick, 30000);
   })();
+</script>
+<script>
+/* ===== case study modals + interactive dashboard ===== */
+(function(){
+  const backdrop = document.getElementById('caseBackdrop');
+  const modal = document.getElementById('caseModal');
+  const content = document.getElementById('cmContent');
+  const cmId = document.getElementById('cmId');
+  const closeBtn = document.getElementById('cmClose');
+  const tpl = { aces: document.getElementById('caseAces'), kgs: document.getElementById('caseKgs') };
+  const idLabel = { aces:'Case 01 / ACES Consulting', kgs:'Case 02 / KGS Technology Group' };
+  if (!modal || !content) return;
+
+  let lastFocus = null;
+
+  function open(key){
+    const t = tpl[key]; if (!t) return;
+    content.innerHTML = '';
+    content.appendChild(t.content.cloneNode(true));
+    cmId.textContent = idLabel[key] || 'Case study';
+    lastFocus = document.activeElement;
+    backdrop.classList.add('open');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modal.scrollTop = 0;
+    closeBtn.focus();
+    if (key === 'kgs') initDash();
+  }
+  function close(){
+    backdrop.classList.remove('open');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(()=>{ content.innerHTML = ''; }, 450);
+    if (lastFocus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('.case-trigger').forEach(b=>{
+    b.addEventListener('click', ()=> open(b.dataset.case));
+  });
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+
+  /* ---- dashboard engine (scoped to whatever is in the modal) ---- */
+  const STAGES = ['Submitted','Screened','Interviewed','Offer'];
+  const BASE = { before:[1.00,0.62,0.44,0.71], after:[1.00,0.74,0.58,0.76] };
+  const ROLE_MULT = { all:[1,1,1,1], data:[1,1.05,0.96,1.03], swe:[1,0.98,1.06,0.99], cloud:[1,0.92,1.02,1.05] };
+  const ACCT_MULT = { all:[1,1,1,1], a:[1,1.04,1.05,1.02], b:[1,0.95,0.93,0.98] };
+  const ROOT = {
+    before:{
+      all:[{k:'Resume / JD mismatch',v:38,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:29,c:'#e8a51f'},{k:'Screening drop-off',v:21,c:'#c77dbb'},{k:'Candidate withdrew',v:12,c:'#7c9ed9'}],
+      data:[{k:'Resume / JD mismatch',v:44,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:24,c:'#e8a51f'},{k:'Screening drop-off',v:20,c:'#c77dbb'},{k:'Candidate withdrew',v:12,c:'#7c9ed9'}],
+      swe:[{k:'Resume / JD mismatch',v:33,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:31,c:'#e8a51f'},{k:'Screening drop-off',v:24,c:'#c77dbb'},{k:'Candidate withdrew',v:12,c:'#7c9ed9'}],
+      cloud:[{k:'Resume / JD mismatch',v:41,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:27,c:'#e8a51f'},{k:'Screening drop-off',v:19,c:'#c77dbb'},{k:'Candidate withdrew',v:13,c:'#7c9ed9'}]
+    },
+    after:{
+      all:[{k:'Resume / JD mismatch',v:19,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:16,c:'#e8a51f'},{k:'Screening drop-off',v:18,c:'#c77dbb'},{k:'Candidate withdrew',v:14,c:'#7c9ed9'}],
+      data:[{k:'Resume / JD mismatch',v:21,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:14,c:'#e8a51f'},{k:'Screening drop-off',v:17,c:'#c77dbb'},{k:'Candidate withdrew',v:13,c:'#7c9ed9'}],
+      swe:[{k:'Resume / JD mismatch',v:17,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:18,c:'#e8a51f'},{k:'Screening drop-off',v:19,c:'#c77dbb'},{k:'Candidate withdrew',v:14,c:'#7c9ed9'}],
+      cloud:[{k:'Resume / JD mismatch',v:20,c:'#e0574a'},{k:'Hiring-manager feedback lag',v:15,c:'#e8a51f'},{k:'Screening drop-off',v:16,c:'#c77dbb'},{k:'Candidate withdrew',v:15,c:'#7c9ed9'}]
+    }
+  };
+
+  const state = { role:'all', acct:'all', ab:'before' };
+  const fmt = n => Math.round(n);
+
+  function computeFunnel(){
+    const base = BASE[state.ab], rm = ROLE_MULT[state.role], am = ACCT_MULT[state.acct];
+    let cum = 100; const rows = [];
+    for (let i=0;i<STAGES.length;i++){
+      let step = base[i];
+      if (i>0){ step = Math.min(0.99, base[i]*rm[i]*am[i]); cum = cum*step; }
+      rows.push({ stage:STAGES[i], pct:cum, step: i===0?null:step });
+    }
+    return rows;
+  }
+
+  function renderDash(){
+    const funnel = document.getElementById('funnel');
+    const rc = document.getElementById('rootcause');
+    const insEl = document.getElementById('insight');
+    if (!funnel || !rc || !insEl) return;
+
+    const rows = computeFunnel();
+    const maxPct = rows[0].pct;
+    funnel.innerHTML = '';
+    rows.forEach(r=>{
+      const leak = r.step!==null && r.step < 0.6;
+      const dropTxt = r.step===null ? '100 candidates enter'
+        : (((r.step*100).toFixed(0))+'% advanced, '+((100-r.step*100).toFixed(0))+'% lost');
+      const okClass = (r.step!==null && r.step>=0.7) ? ' ok' : '';
+      const el = document.createElement('div');
+      el.className='fn-row';
+      el.innerHTML =
+        '<div class="fn-top"><span class="fn-stage">'+r.stage+'</span><span class="fn-val">'+fmt(r.pct)+'</span></div>'+
+        '<div class="fn-track"><div class="fn-fill'+(leak?' leak':'')+'" style="width:0"></div></div>'+
+        '<div class="fn-drop'+okClass+'">'+(r.step===null?dropTxt:('<b>'+dropTxt+'</b>'))+'</div>';
+      funnel.appendChild(el);
+      requestAnimationFrame(()=>{ el.querySelector('.fn-fill').style.width = (r.pct/maxPct*100)+'%'; });
+    });
+
+    const data = ROOT[state.ab][state.role];
+    const max = Math.max.apply(null, data.map(d=>d.v));
+    rc.innerHTML = '';
+    data.forEach(d=>{
+      const el = document.createElement('div');
+      el.className='rc-row';
+      el.innerHTML =
+        '<div class="rc-top"><span>'+d.k+'</span><b>'+d.v+'%</b></div>'+
+        '<div class="rc-track"><div class="rc-fill" style="width:0;background:'+d.c+'"></div></div>';
+      rc.appendChild(el);
+      requestAnimationFrame(()=>{ el.querySelector('.rc-fill').style.width = (d.v/max*100)+'%'; });
+    });
+
+    const offer = rows[3].pct;
+    if (state.ab==='before'){
+      insEl.innerHTML = 'Of 100 submitted candidates, only <b>'+fmt(offer)+'</b> reach an offer. The steepest drop is <b>Submitted to Screened</b>, and root-cause tagging shows it\'s driven by <b>resume-to-JD mismatch and feedback lag</b>, both fixable operationally.';
+    } else {
+      const s = state.ab; state.ab='before'; const beforeOffer = computeFunnel()[3].pct; state.ab = s;
+      const lift = ((offer-beforeOffer)/beforeOffer*100);
+      insEl.innerHTML = 'After tightening feedback loops and restructuring profile-to-JD matching, <b>'+fmt(offer)+'</b> of 100 now reach an offer, a <b>+'+lift.toFixed(0)+'%</b> improvement, with the two largest leak causes cut by roughly half.';
+    }
+  }
+
+  function initDash(){
+    // reset state each open
+    state.role='all'; state.acct='all'; state.ab='before';
+    function wire(id, key, attr){
+      const seg = document.getElementById(id); if (!seg) return;
+      seg.addEventListener('click', (e)=>{
+        const b = e.target.closest('button'); if (!b) return;
+        seg.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+        b.classList.add('on');
+        state[key] = b.dataset[attr];
+        renderDash();
+      });
+    }
+    wire('segRole','role','role');
+    wire('segAcct','acct','acct');
+    wire('segAB','ab','ab');
+    requestAnimationFrame(renderDash);
+  }
+
+  // recolor charts if theme flips while modal is open
+  const tBtn = document.getElementById('themeToggle');
+  if (tBtn) tBtn.addEventListener('click', ()=>{ if (modal.classList.contains('open')) setTimeout(renderDash, 60); });
+})();
 </script>
 </body>
 </html>
