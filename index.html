@@ -747,7 +747,7 @@
   .contact{
     --wave-h:300px;
     background:transparent;color:var(--dk-text);
-    padding:190px 0 60px;position:relative;overflow:hidden;
+    padding:calc(var(--wave-h) + 80px) 0 60px;position:relative;overflow:hidden;
   }
   .contact::after{
     content:'';position:absolute;left:0;right:0;top:calc(var(--wave-h) - 4px);bottom:0;
@@ -871,7 +871,7 @@
     .stat{border-bottom:1px solid var(--rule);}
     .projects-grid,.edu-grid{grid-template-columns:1fr;}
     .p-thumb{height:170px;}
-    .contact{padding-top:140px;--wave-h:210px;}
+    .contact{--wave-h:210px;}
     .float-marks{height:130px;}
     .skill-grid{grid-template-columns:1fr;}
     .skill-card.wide{grid-column:span 1;}
