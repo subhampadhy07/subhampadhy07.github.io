@@ -46,6 +46,7 @@
     --wave-1:#d9481c;
     --wave-2:#8f3620;
     --wave-3:#3d241a;
+    --accent-rgb:217,72,28;
   }
   /* dark theme: plum, lavender, gold (palette and Fjalla One display inspired by aboutmonica.com) */
   html[data-theme="dark"]{
@@ -79,6 +80,7 @@
     --wave-1:#c2185b;
     --wave-2:#7b2e63;
     --wave-3:#3f2b52;
+    --accent-rgb:244,185,66;
   }
   /* Fjalla One is condensed and single-weight: relax tracking, normalize weight */
   :is(h1,h2,h3,.map-hello .name,.exp-role,.consult-num,.edu-card h3,.project-card h3){
@@ -172,14 +174,131 @@
     transition:transform .45s var(--ease);
   }
   header.hidden{transform:translateY(-100%);}
-  .theme-toggle{
-    width:36px;height:36px;border-radius:50%;border:1px solid var(--rule);
-    background:transparent;color:var(--ink);cursor:pointer;font-size:15px;line-height:1;
-    display:flex;align-items:center;justify-content:center;margin-left:18px;
-    transition:border-color .3s, color .3s, transform .4s var(--ease);
+  /* floating theme switch: always reachable, never scrolls away */
+  /* hand-drawn button frames: a wobbly ink circle instead of a CSS border */
+  .fab-frame{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
+  .fab-frame .ring{
+    fill:var(--paper);stroke:var(--ink);stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round;
+    transition:fill .25s ease, stroke .25s ease;
   }
-  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);transform:rotate(24deg);}
+  .fab-frame .ring2{
+    fill:none;stroke:var(--ink);stroke-width:1.2;opacity:.42;
+    stroke-linecap:round;transition:stroke .25s ease;
+  }
+  .theme-fab:hover .ring,#toTop:hover .ring{fill:var(--ink);}
+  .theme-fab:hover .ring2,#toTop:hover .ring2{stroke:var(--paper);opacity:.5;}
+
+  .theme-fab{
+    position:fixed;right:26px;bottom:98px;z-index:401;
+    width:58px;height:58px;border-radius:50%;
+    border:none;background:transparent;color:var(--ink);
+    cursor:pointer;font-size:17px;line-height:1;padding:0;
+    display:flex;align-items:center;justify-content:center;
+    transition:color .25s;
+    animation:fabSway 3.6s ease-in-out infinite, fabGlow 2.8s ease-out infinite;
+  }
+  .theme-fab:hover{
+    color:var(--paper);
+    animation:fabGlow 2.8s ease-out infinite;
+  }
+  .theme-fab:active .icon{transform:scale(.86);}
+  /* it sways and breathes so the corner never goes quiet */
+  @keyframes fabSway{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    30%{transform:translateY(-7px) rotate(-8deg);}
+    60%{transform:translateY(-2px) rotate(7deg);}
+    80%{transform:translateY(-4px) rotate(-3deg);}
+  }
+  @keyframes fabGlow{
+    0%{box-shadow:0 0 0 0 rgba(var(--accent-rgb),.40);}
+    70%{box-shadow:0 0 0 18px rgba(var(--accent-rgb),0);}
+    100%{box-shadow:0 0 0 0 rgba(var(--accent-rgb),0);}
+  }
+  /* first-visit pulse rings layer on top of the idle glow */
+  .theme-fab.nudge::before,.theme-fab.nudge::after{
+    content:'';position:absolute;inset:-2px;border-radius:50%;
+    border:1.5px solid var(--accent);pointer-events:none;
+    animation:fabPulse 2.4s ease-out infinite;
+  }
+  .theme-fab.nudge::after{animation-delay:1.2s;}
+  @keyframes fabPulse{
+    0%{transform:scale(1);opacity:.75;}
+    100%{transform:scale(1.85);opacity:0;}
+  }
+  /* hand-sketched sun <-> moon, drawn in on every switch */
+  .theme-fab .icon{width:29px;height:29px;display:block;overflow:visible;position:relative;z-index:1;}
+  .theme-fab .icon path,.theme-fab .icon line{
+    fill:none;stroke:var(--accent);stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round;
+    transition:stroke .25s ease;
+  }
+  /* the disc gets a soft wash of the accent, like a marker fill */
+  .theme-fab .g-moon .body,.theme-fab .g-sun .body{fill:rgba(var(--accent-rgb),.20);transition:fill .25s ease;}
+  /* on hover the button fills with ink, so the sketch flips to paper */
+  .theme-fab:hover .icon path,.theme-fab:hover .icon line{stroke:var(--paper);}
+  .theme-fab:hover .g-moon .body,.theme-fab:hover .g-sun .body{fill:rgba(var(--accent-rgb),.28);}
+  .theme-fab .g-moon,.theme-fab .g-sun{
+    transform-origin:12px 12px;
+    transition:opacity .4s ease, transform .7s var(--ease);
+  }
+  .theme-fab .g-sun{opacity:0;transform:scale(.35) rotate(-100deg);}
+  .theme-fab .g-moon{opacity:1;transform:none;}
+  html[data-theme="dark"] .theme-fab .g-moon{opacity:0;transform:scale(.35) rotate(100deg);}
+  html[data-theme="dark"] .theme-fab .g-sun{opacity:1;transform:none;}
+
+  /* the pen redraws whichever glyph is arriving */
+  @keyframes sketchIn{from{stroke-dashoffset:100;}to{stroke-dashoffset:0;}}
+  html:not([data-theme="dark"]) .theme-fab .g-moon path,
+  html:not([data-theme="dark"]) .theme-fab .g-moon line{
+    stroke-dasharray:100;animation:sketchIn .85s var(--ease) both;
+  }
+  html:not([data-theme="dark"]) .theme-fab .g-moon .d2{animation-delay:.18s;}
+  html:not([data-theme="dark"]) .theme-fab .g-moon .d3{animation-delay:.3s;}
+  html[data-theme="dark"] .theme-fab .g-sun path,
+  html[data-theme="dark"] .theme-fab .g-sun line{
+    stroke-dasharray:100;animation:sketchIn .8s var(--ease) both;
+  }
+  html[data-theme="dark"] .theme-fab .g-sun .ray{animation-delay:.28s;}
+  html[data-theme="dark"] .theme-fab .g-sun{animation:raySpin 22s linear infinite;}
+  @keyframes raySpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion: reduce){
+    .theme-fab,html[data-theme="dark"] .theme-fab .g-sun{animation:none;}
+    .theme-fab .icon *{animation:none !important;transition:none;stroke-dasharray:none;}
+  } /* first-visit pulse */
+  .theme-fab.nudge::before,.theme-fab.nudge::after{
+    content:'';position:absolute;inset:-2px;border-radius:50%;
+    border:1.5px solid var(--accent);pointer-events:none;
+    animation:fabPulse 2.4s ease-out infinite;
+  }
+  .theme-fab.nudge::after{animation-delay:1.2s;}
+  @keyframes fabPulse{
+    0%{transform:scale(1);opacity:.75;}
+    100%{transform:scale(1.85);opacity:0;}
+  }
+  .fab-tip{
+    position:fixed;right:96px;bottom:113px;z-index:401;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);padding:9px 14px;border-radius:6px;white-space:nowrap;
+    opacity:0;transform:translateX(8px);pointer-events:none;
+    transition:opacity .4s ease, transform .4s var(--ease);
+  }
+  .fab-tip::after{
+    content:'';position:absolute;right:-5px;top:50%;margin-top:-5px;
+    border:5px solid transparent;border-left-color:var(--ink);border-right:0;
+  }
+  .fab-tip.show{opacity:1;transform:translateX(0);}
+
   html, body{transition:background-color .45s ease, color .45s ease;}
+  /* circular sweep on switch (View Transitions API); no double-fade while it runs */
+  html.vt, html.vt body{transition:none;}
+  ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal;}
+  ::view-transition-old(root){z-index:1;}
+  ::view-transition-new(root){z-index:9999;}
+  @media (max-width:900px){
+    .theme-fab{right:20px;bottom:86px;width:52px;height:52px;}
+    .fab-tip{right:82px;bottom:100px;}
+  }
   .logo{font-family:var(--serif);font-weight:600;font-size:21px;}
   .logo em{font-style:italic;color:var(--accent);}
   #siteLogo{cursor:pointer;}
@@ -297,7 +416,7 @@
 
   /* stats */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--rule);}
-  .stat{padding:52px 24px;border-right:1px solid var(--rule);transition:background .35s;}
+  .stat{padding:52px 24px;border-right:1px solid var(--rule);transition:background .35s;text-align:center;}
   .stat:hover{background:var(--accent-soft);}
   .stat:last-child{border-right:none;}
   .stat .num{font-family:var(--serif);font-size:clamp(40px,5.5vw,68px);font-weight:600;letter-spacing:-2px;line-height:1;}
@@ -366,7 +485,10 @@
 
   /* sections */
   section{padding:110px 0;}
-  #skills{padding-top:56px;}
+  #skills{padding-top:10px;}
+  #about{padding-bottom:60px;}
+  #experience{padding-top:10px;}
+  #skills{padding-bottom:60px;}
   .sec-head{
     display:flex;align-items:baseline;justify-content:space-between;gap:30px;
     padding-bottom:22px;margin-bottom:60px;position:relative;
@@ -562,7 +684,7 @@
   .cv-link:hover .arr{transform:translate(3px,-3px);}
 
   /* consulting: one big stat + pitch */
-  .consult{background:transparent;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+  .consult{background:transparent;}
   .consult-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center;}
   .consult-num{
     font-family:var(--serif);font-weight:700;letter-spacing:-3px;line-height:.9;
@@ -695,14 +817,20 @@
 
   /* back to top */
   #toTop{
-    position:fixed;right:26px;bottom:26px;z-index:400;width:46px;height:46px;
-    border:1px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;font-size:17px;
+    position:fixed;right:26px;bottom:26px;z-index:400;width:58px;height:58px;
+    border:none;background:transparent;color:var(--ink);cursor:pointer;padding:0;
     display:flex;align-items:center;justify-content:center;
     opacity:0;transform:translateY(14px);pointer-events:none;
-    transition:opacity .35s, transform .35s var(--ease), background .25s, color .25s;
+    transition:opacity .35s, transform .35s var(--ease), color .25s;
   }
   #toTop.show{opacity:1;transform:translateY(0);pointer-events:auto;}
-  #toTop:hover{background:var(--ink);color:var(--paper);}
+  #toTop:hover{color:var(--paper);}
+  #toTop .arrow{
+    width:26px;height:26px;position:relative;z-index:1;overflow:visible;
+    fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+    transition:transform .35s var(--ease);
+  }
+  #toTop:hover .arrow{transform:translateY(-3px);}
 
   /* reveals */
   @keyframes riseIn{from{opacity:0;transform:translateY(28px) skewY(1.2deg);}}
@@ -807,7 +935,6 @@
     </ul>
   </nav>
   <div class="head-status">Open to opportunities</div>
-  <button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme">&#9790;</button>
   <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
@@ -871,7 +998,6 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <h2>From running the pipeline<br>to <em>analyzing it.</em></h2>
-      <div class="idx">( 01 / About )</div>
     </div>
     <div class="about-grid" data-reveal>
       <div>
@@ -915,7 +1041,6 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <h2>The analytics stack,<br><em>built from the ground up.</em></h2>
-      <div class="idx">( 02 / Expertise )</div>
     </div>
     <div class="skill-grid" data-reveal-stagger>
       <div class="skill-card">
@@ -968,7 +1093,6 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <h2>Five years of operations,<br><em>now read as data.</em></h2>
-      <div class="idx">( 03 / Experience )</div>
     </div>
 
     <div class="exp-list" id="expList">
@@ -1091,7 +1215,6 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <h2>Capstone work,<br><em>applied to real data.</em></h2>
-      <div class="idx">( 04 / Projects )</div>
     </div>
     <div class="projects-grid" data-reveal-stagger>
       <div class="project-card">
@@ -1145,7 +1268,6 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <h2>Formal training, on top of<br><em>on-the-job learning.</em></h2>
-      <div class="idx">( 05 / Education )</div>
     </div>
     <div class="edu-grid" data-reveal-stagger>
       <div class="edu-card">
@@ -1174,7 +1296,6 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <h2>Consulting,<br><em>on the side.</em></h2>
-      <div class="idx">( 06 / Consulting )</div>
     </div>
     <div class="consult-grid" data-reveal-stagger>
       <div>
@@ -1216,7 +1337,6 @@
     <span class="m6">&#9670;</span>
   </div>
   <div class="container">
-    <div class="idx" data-reveal>( 07 / Let's connect )</div>
     <h2 data-reveal>Ready to talk <em>data?</em></h2>
     <p class="sub" data-reveal>Actively seeking Data Analyst roles within a dedicated analytics team, remote or Bhubaneswar-area.</p>
     <div class="contact-links" data-reveal-stagger>
@@ -1257,7 +1377,41 @@
   </div>
 </section>
 
-<button id="toTop" aria-label="Back to top">&uarr;</button>
+<button class="theme-fab" id="themeToggle" aria-label="Switch theme" title="Switch to dark">
+  <svg class="fab-frame" viewBox="0 0 60 60" aria-hidden="true">
+    <path class="ring" d="M30 2.6 C 40.2 2.1, 50.6 8.9, 54.7 18.5 C 58.7 27.9, 56.6 39.9, 49.1 47.5 C 41.6 55.1, 29.3 58.5, 19.3 54.3 C 8.9 50.0, 2.1 39.2, 2.6 28.3 C 3.1 16.9, 11.7 6.3, 22.5 3.5 C 24.9 2.9, 27.4 2.6, 30 2.6 Z"/>
+    <path class="ring2" d="M31.2 4.0 C 41.0 4.4, 50.0 11.4, 53.4 20.6 C 56.9 30.0, 54.4 41.2, 47.0 47.9 C 39.6 54.6, 27.6 56.7, 18.4 52.4 C 9.2 48.1, 3.4 38.0, 4.2 27.8"/>
+  </svg>
+  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+    <g class="g-moon">
+      <path pathLength="100" class="body" d="M16.1 3.2 C 10.9 3.6, 6.7 8.0, 7.0 13.2 C 7.3 18.0, 11.7 21.6, 16.6 20.8 C 13.1 18.8, 11.2 15.1, 11.5 11.3 C 11.7 7.9, 13.5 5.0, 16.1 3.2 Z"/>
+      <path pathLength="100" class="d2" d="M18.4 6.8 c 0.9 0.6, 1.6 1.4, 2.1 2.4"/>
+      <path pathLength="100" class="d3" d="M19.2 3.1 l 0.1 2.2 M18.2 4.2 l 2.2 -0.1"/>
+    </g>
+    <g class="g-sun">
+      <path pathLength="100" class="body" d="M12.1 6.1 C 15.3 5.9, 18.1 8.5, 18.0 11.8 C 17.9 15.2, 15.0 17.9, 11.7 17.7 C 8.6 17.5, 6.1 14.8, 6.3 11.6 C 6.5 8.5, 9.0 6.2, 12.1 6.1 Z"/>
+      <path pathLength="100" class="ray" d="M12 1.6 c 0.2 0.8, 0.1 1.6, -0.1 2.3"/>
+      <path pathLength="100" class="ray" d="M12.1 20.1 c 0.2 0.8, 0.1 1.6, -0.1 2.3"/>
+      <path pathLength="100" class="ray" d="M1.7 12.1 c 0.8 0.2, 1.6 0.1, 2.3 -0.1"/>
+      <path pathLength="100" class="ray" d="M20.1 11.9 c 0.8 0.2, 1.6 0.1, 2.3 -0.1"/>
+      <path pathLength="100" class="ray" d="M4.5 4.3 c 0.7 0.4, 1.2 1.0, 1.6 1.6"/>
+      <path pathLength="100" class="ray" d="M18.0 17.9 c 0.7 0.4, 1.2 1.0, 1.6 1.6"/>
+      <path pathLength="100" class="ray" d="M19.6 4.4 c -0.5 0.6, -1.1 1.1, -1.7 1.5"/>
+      <path pathLength="100" class="ray" d="M6.1 18.0 c -0.5 0.6, -1.1 1.1, -1.7 1.5"/>
+    </g>
+  </svg>
+</button>
+<div class="fab-tip" id="fabTip" aria-hidden="true">Try dark mode</div>
+<button id="toTop" aria-label="Back to top">
+  <svg class="fab-frame" viewBox="0 0 60 60" aria-hidden="true">
+    <path class="ring" d="M30 2.6 C 40.2 2.1, 50.6 8.9, 54.7 18.5 C 58.7 27.9, 56.6 39.9, 49.1 47.5 C 41.6 55.1, 29.3 58.5, 19.3 54.3 C 8.9 50.0, 2.1 39.2, 2.6 28.3 C 3.1 16.9, 11.7 6.3, 22.5 3.5 C 24.9 2.9, 27.4 2.6, 30 2.6 Z"/>
+    <path class="ring2" d="M31.2 4.0 C 41.0 4.4, 50.0 11.4, 53.4 20.6 C 56.9 30.0, 54.4 41.2, 47.0 47.9 C 39.6 54.6, 27.6 56.7, 18.4 52.4 C 9.2 48.1, 3.4 38.0, 4.2 27.8"/>
+  </svg>
+  <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12.2 20.4 C 11.8 15.6, 12.0 9.4, 12.1 4.2"/>
+    <path d="M5.6 10.8 C 7.8 8.4, 10.0 6.0, 12.1 3.9 C 14.2 5.9, 16.5 8.3, 18.6 10.6"/>
+  </svg>
+</button>
 
 <script>
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1656,19 +1810,70 @@
   })();
 </script>
 <script>
-  // theme toggle
+  // theme switch: floating button, first-visit nudge, circular sweep on change
   (function(){
     const root = document.documentElement;
     const btn = document.getElementById('themeToggle');
+    const tip = document.getElementById('fabTip');
     if (!btn) return;
-    const sync = ()=>{ btn.innerHTML = root.getAttribute('data-theme')==='dark' ? '&#9728;' : '&#9790;'; };
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const isDark = ()=> root.getAttribute('data-theme') === 'dark';
+    const sync = ()=>{
+      btn.setAttribute('title', isDark() ? 'Switch to light' : 'Switch to dark');
+    };
     sync();
-    btn.addEventListener('click', ()=>{
-      const dark = root.getAttribute('data-theme')==='dark';
+
+    function flip(){
+      const dark = isDark();
       if (dark) root.removeAttribute('data-theme'); else root.setAttribute('data-theme','dark');
       try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch(e){}
       sync();
-    });
+    }
+
+    function sweep(){
+      // circular wipe radiating from the button (Chrome/Edge); plain fade elsewhere
+      if (reduced || !document.startViewTransition){ flip(); return; }
+      const r = btn.getBoundingClientRect();
+      const x = r.left + r.width/2, y = r.top + r.height/2;
+      const reach = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      root.classList.add('vt');
+      const t = document.startViewTransition(()=> flip());
+      t.ready.then(()=>{
+        root.animate(
+          { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+reach+'px at '+x+'px '+y+'px)'] },
+          { duration: 620, easing: 'cubic-bezier(.22,1,.36,1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      });
+      t.finished.finally(()=> root.classList.remove('vt'));
+    }
+
+    let nudging = false;
+    function stopNudge(){
+      if (!nudging) return;
+      nudging = false;
+      btn.classList.remove('nudge');
+      if (tip) tip.classList.remove('show');
+      try { localStorage.setItem('themeSeen','1'); } catch(e){}
+    }
+
+    btn.addEventListener('click', ()=>{ stopNudge(); sweep(); });
+
+    // first visit only: pulse the button and slide out a hint, then let it go
+    let seen = true, chosen = true;
+    try {
+      seen = !!localStorage.getItem('themeSeen');
+      chosen = !!localStorage.getItem('theme');
+    } catch(e){}
+    if (!seen && !chosen && !reduced){
+      setTimeout(()=>{
+        nudging = true;
+        btn.classList.add('nudge');
+        if (tip) tip.classList.add('show');
+        setTimeout(stopNudge, 7000);
+      }, 3200);
+      window.addEventListener('scroll', ()=>{ if (window.scrollY > 1200) stopNudge(); }, {passive:true});
+    }
   })();
 </script>
 <script>
