@@ -6,7 +6,7 @@
 <title>Subham Padhy | Data Analyst</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&family=Fjalla+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&family=Fjalla+One&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script>
   try { if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme','dark'); } catch(e){}
@@ -21,7 +21,7 @@
     --rule:#d8d2c4;
     --accent:#d9481c;
     --accent-soft:rgba(217,72,28,0.08);
-    --serif:'Fraunces',serif;
+    --serif:'Fjalla One','Fraunces',sans-serif;
     --mono:'Space Mono',monospace;
     --sans:'Inter',sans-serif;
     --ease:cubic-bezier(.22,1,.36,1);
@@ -43,6 +43,9 @@
     --sketch-stroke:rgba(22,20,16,0.24);
     --sketch-fill:rgba(22,20,16,0.28);
     --sketch-text:rgba(22,20,16,0.26);
+    --wave-1:#d9481c;
+    --wave-2:#8f3620;
+    --wave-3:#3d241a;
   }
   /* dark theme: plum, lavender, gold (palette and Fjalla One display inspired by aboutmonica.com) */
   html[data-theme="dark"]{
@@ -54,7 +57,7 @@
     --rule:#3d3357;
     --accent:#f4b942;
     --accent-soft:rgba(244,185,66,0.12);
-    --serif:'Fjalla One','Fraunces',sans-serif;
+    --sans:'Inter',sans-serif;
     --surface-dark:#1a1426;
     --dk-text:#efe9fb;
     --dk-muted:#b3a6d1;
@@ -73,12 +76,15 @@
     --sketch-fill:rgba(239,233,251,0.46);
     --sketch-text:rgba(239,233,251,0.44);
     --sketch-w:2.1;
+    --wave-1:#c2185b;
+    --wave-2:#7b2e63;
+    --wave-3:#3f2b52;
   }
   /* Fjalla One is condensed and single-weight: relax tracking, normalize weight */
-  html[data-theme="dark"] :is(h1,h2,h3,.map-hello .name,.exp-role,.consult-num,.edu-card h3,.project-card h3){
+  :is(h1,h2,h3,.map-hello .name,.exp-role,.consult-num,.edu-card h3,.project-card h3){
     letter-spacing:.4px;font-weight:400;
   }
-  html[data-theme="dark"] .role-rotator{font-weight:400;}
+  .role-rotator{font-weight:400;}
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -148,13 +154,13 @@
   }
   #preloader.hide{clip-path:inset(0 0 100% 0);pointer-events:none;}
   #preloader .pre-title{
-    font-family:var(--serif);font-size:clamp(30px,6vw,58px);font-weight:400;letter-spacing:-1px;
-    overflow:hidden;height:1.45em;line-height:1.35;
+    font-family:var(--serif);font-size:clamp(42px,8.5vw,86px);font-weight:400;letter-spacing:.4px;
+    overflow:hidden;height:1.7em;line-height:1.5;
   }
   #preloader .pre-title span{display:block;transform:translateY(110%);animation:rise .9s var(--ease) .1s forwards;}
   #preloader .pre-title em{font-style:italic;color:var(--accent);}
   @keyframes rise{to{transform:translateY(0);}}
-  #preloader .count{font-family:var(--mono);font-size:12px;letter-spacing:4px;color:var(--dk-faint);}
+  #preloader .count{font-family:var(--mono);font-size:clamp(18px,2.6vw,30px);font-weight:700;letter-spacing:6px;color:var(--dk-faint);}
 
   /* header */
   header{
@@ -174,8 +180,23 @@
   }
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent);transform:rotate(24deg);}
   html, body{transition:background-color .45s ease, color .45s ease;}
-  .logo{font-family:var(--serif);font-weight:700;font-size:21px;}
+  .logo{font-family:var(--serif);font-weight:600;font-size:21px;}
   .logo em{font-style:italic;color:var(--accent);}
+  #siteLogo{cursor:pointer;}
+  html.morph-on #siteLogo{opacity:0;}
+  .map-hello .im{display:inline-block;}
+  .morph-clone{
+    position:fixed;left:0;top:0;z-index:650;pointer-events:none;white-space:nowrap;
+    display:none;font-family:var(--serif);font-weight:600;line-height:1.05;letter-spacing:-1px;
+    transform-origin:left top;will-change:transform;
+  }
+  .morph-clone em{font-style:italic;color:var(--accent);}
+  .morph-clone .mf{
+    display:inline-block;overflow:hidden;white-space:nowrap;
+    vertical-align:bottom;will-change:width,opacity;
+  }
+  .morph-clone .mk{display:inline-block;vertical-align:bottom;}
+  .morph-clone{letter-spacing:.4px;}
   nav ul{display:flex;gap:2px;}
   nav a{
     font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;
@@ -284,8 +305,10 @@
   .stat .label{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-faint);margin-top:12px;}
 
   /* map banner (hirok-style intro strip) */
+  .morph-stage{position:relative;margin-top:64px;}
+  .morph-sticky{position:sticky;top:64px;z-index:5;}
   .map-banner{
-    position:relative;height:440px;margin-top:64px;overflow:hidden;
+    position:relative;height:440px;overflow:hidden;
     background:var(--banner-bg);
     background-image:radial-gradient(var(--banner-dot) 1px, transparent 1px);
     background-size:6px 6px;
@@ -318,7 +341,7 @@
   }
   .map-hello .name em{font-style:italic;color:var(--accent);}
   .map-photo{
-    position:absolute;right:48px;top:50%;z-index:3;
+    position:absolute;right:48px;top:58%;z-index:3;
     width:172px;height:206px;transform:translateY(-50%) rotate(2.5deg);
     border-radius:18px;overflow:hidden;
     border:3px solid var(--photo-border);
@@ -343,6 +366,7 @@
 
   /* sections */
   section{padding:110px 0;}
+  #skills{padding-top:56px;}
   .sec-head{
     display:flex;align-items:baseline;justify-content:space-between;gap:30px;
     padding-bottom:22px;margin-bottom:60px;position:relative;
@@ -406,24 +430,7 @@
   .fact-row .k{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-faint);padding-top:2px;}
   .fact-row .v{text-align:right;font-weight:500;}
 
-  /* skills bento */
-  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;}
-  .bento-card{
-    border:1px solid var(--ink);padding:30px;position:relative;overflow:hidden;
-    background:linear-gradient(var(--card-fill),var(--card-fill)) top / 100% 0% no-repeat;
-    transition:background-size .5s var(--ease), color .35s var(--ease);grid-column:span 3;
-  }
-  .bento-card.wide{grid-column:span 6;}
-  .bento-card:hover{background-size:100% 100%;color:var(--dk-text);}
-  .bento-card:hover .b-num{color:var(--accent);}
-  .bento-card:hover .tag{border-color:var(--dk-border);color:var(--dk-muted);}
-  .bento-card .b-num{
-    font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-faint);
-    margin-bottom:16px;display:block;transition:color .35s;
-  }
-  .bento-card h3{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:-.5px;margin-bottom:6px;}
-  .bento-card .desc{font-size:13.5px;color:var(--ink-faint);margin-bottom:20px;}
-  .bento-card:hover .desc{color:var(--dk-muted);}
+  /* (legacy bento removed; skills now use .skill-grid chip cards) */
   .tag-row{display:flex;flex-wrap:wrap;gap:8px;}
   .tag{
     font-family:var(--mono);font-size:11px;letter-spacing:.5px;
@@ -475,28 +482,52 @@
   .exp-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
 
   /* projects */
-  .projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
   .project-card{
-    border:1px solid var(--ink);padding:38px 32px;position:relative;overflow:hidden;
-    background:linear-gradient(var(--card-fill),var(--card-fill)) top / 100% 0% no-repeat;
-    transition:background-size .5s var(--ease), color .35s var(--ease), transform .35s var(--ease);
+    border:1px solid var(--rule);border-radius:12px;overflow:hidden;
+    background:rgba(255,255,255,0.55);display:flex;flex-direction:column;
+    transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s;
   }
-  .project-card:hover{background-size:100% 100%;color:var(--dk-text);transform:translateY(-6px);}
-  .project-card .p-idx{
-    font-family:var(--serif);font-style:italic;font-size:clamp(50px,7vw,84px);line-height:1;
-    color:transparent;-webkit-text-stroke:1px var(--rule);position:absolute;right:22px;top:18px;
-    transition:-webkit-text-stroke .35s;
+  html[data-theme="dark"] .project-card{background:rgba(239,233,251,0.05);}
+  .project-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 16px 34px rgba(0,0,0,.10);}
+  .p-thumb{
+    height:190px;background:var(--surface-dark);position:relative;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
   }
-  .project-card:hover .p-idx{-webkit-text-stroke:1px var(--accent);}
-  .project-tag{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
-  .project-card h3{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.5px;margin-bottom:12px;max-width:75%;}
-  .project-card p{font-size:14px;color:var(--ink-soft);margin-bottom:22px;transition:color .35s;}
-  .project-card:hover p{color:var(--dk-muted);}
-  .project-card:hover .tag{border-color:var(--dk-border);color:var(--dk-muted);}
+  .p-thumb::after{
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(var(--banner-dot) 1px, transparent 1px);background-size:14px 14px;
+  }
+  .p-thumb svg{width:118px;height:88px;position:relative;z-index:1;}
+  .p-thumb svg .ax{stroke:var(--dk-border);stroke-width:2;fill:none;stroke-linecap:round;}
+  .p-thumb svg .bar{fill:var(--accent);}
+  .p-thumb svg .ln{stroke:var(--accent);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .p-thumb svg .pt{fill:var(--dk-text);}
+  .p-thumb svg .fn{fill:var(--accent);opacity:.85;}
+  .p-thumb .p-idx{
+    position:absolute;top:14px;right:16px;z-index:2;
+    font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--dk-faint);
+  }
+  .p-body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1;}
+  .project-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  .project-card h3{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.4px;margin-bottom:9px;}
+  .project-card p{font-size:14px;color:var(--ink-soft);margin-bottom:16px;line-height:1.6;}
+  .p-metric{
+    display:inline-flex;align-items:baseline;gap:6px;align-self:flex-start;
+    font-family:var(--mono);font-size:11px;letter-spacing:1px;
+    border:1px solid var(--rule);padding:5px 10px;border-radius:6px;margin-bottom:16px;
+    color:var(--ink-faint);
+  }
+  .p-metric b{color:var(--accent);font-size:12.5px;font-weight:700;}
+  .p-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;}
+  .p-pill{
+    font-family:var(--sans);font-size:12.5px;font-weight:500;padding:5px 11px;border-radius:7px;
+    color:var(--ink-soft);background:var(--accent-soft);border:1px solid var(--rule);
+  }
+  html[data-theme="dark"] .p-pill{color:var(--ink-soft);}
   .note-strip{
-    grid-column:1/-1;border:1px dashed var(--ink-faint);padding:24px;text-align:center;
+    grid-column:1/-1;border:1px dashed var(--ink-faint);border-radius:12px;padding:24px;text-align:center;
     font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--ink-faint);text-transform:uppercase;
-    transition:border-color .3s, color .3s;
   }
   .note-strip:hover{border-color:var(--accent);color:var(--accent);}
 
@@ -531,7 +562,7 @@
   .cv-link:hover .arr{transform:translate(3px,-3px);}
 
   /* consulting: one big stat + pitch */
-  .consult{background:var(--paper-dim);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+  .consult{background:transparent;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
   .consult-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center;}
   .consult-num{
     font-family:var(--serif);font-weight:700;letter-spacing:-3px;line-height:.9;
@@ -556,8 +587,91 @@
   .connect-row a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-4px);}
   .connect-row svg{width:17px;height:17px;fill:currentColor;}
 
+  /* skills: compact category cards with colored chips */
+  .skill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .skill-card{
+    background:rgba(255,255,255,0.55);border:1px solid var(--rule);border-radius:12px;
+    padding:22px 24px 24px;
+  }
+  html[data-theme="dark"] .skill-card{background:rgba(239,233,251,0.05);}
+  .skill-card.wide{grid-column:span 2;}
+  .skill-card h3{
+    font-family:var(--sans);font-weight:600;font-size:16.5px;letter-spacing:0;
+    margin-bottom:14px;color:var(--ink);
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .chip{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 13px;border-radius:8px;border:1px solid;
+    font-family:var(--sans);font-size:13.5px;font-weight:600;line-height:1.3;
+    transition:transform .25s var(--ease);
+  }
+  .chip:hover{transform:translateY(-2px);}
+  .chip::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
+  .c-blue{color:#2a62a8;background:rgba(59,130,246,.10);border-color:rgba(59,130,246,.35);}
+  .c-green{color:#1e7a46;background:rgba(34,197,94,.10);border-color:rgba(34,197,94,.35);}
+  .c-amber{color:#96650b;background:rgba(234,179,8,.13);border-color:rgba(202,138,4,.4);}
+  .c-red{color:#ab3a30;background:rgba(239,68,68,.09);border-color:rgba(239,68,68,.32);}
+  .c-purple{color:#6547c0;background:rgba(139,92,246,.10);border-color:rgba(139,92,246,.35);}
+  .c-teal{color:#0f766e;background:rgba(20,184,166,.10);border-color:rgba(20,184,166,.35);}
+  html[data-theme="dark"] .c-blue{color:#93bdf5;}
+  html[data-theme="dark"] .c-green{color:#7fd6a4;}
+  html[data-theme="dark"] .c-amber{color:#e9c26a;}
+  html[data-theme="dark"] .c-red{color:#ef9a91;}
+  html[data-theme="dark"] .c-purple{color:#bda7f2;}
+  html[data-theme="dark"] .c-teal{color:#77d4cb;}
+
   /* contact */
-  .contact{background:var(--surface-dark);color:var(--dk-text);padding:130px 0 90px;}
+  .contact{
+    --wave-h:300px;
+    background:transparent;color:var(--dk-text);
+    padding:190px 0 60px;position:relative;overflow:hidden;
+  }
+  .contact::after{
+    content:'';position:absolute;left:0;right:0;top:calc(var(--wave-h) - 4px);bottom:0;
+    background:var(--surface-dark);z-index:0;
+  }
+  /* layered waves cresting into the section */
+  .waves{
+    position:absolute;top:0;left:0;width:100%;height:var(--wave-h);
+    pointer-events:none;background:transparent;z-index:1;
+  }
+  .waves svg{display:block;width:100%;height:100%;}
+  .waves .w1{fill:var(--wave-1);}
+  .waves .w2{fill:var(--wave-2);}
+  .waves .w3{fill:var(--surface-dark);}
+  .waves g{animation:waveDrift 26s ease-in-out infinite alternate;}
+  .waves g.b{animation-duration:34s;animation-direction:alternate-reverse;}
+  .waves g.c{animation-duration:42s;}
+  @keyframes waveDrift{from{transform:translateX(-26px);}to{transform:translateX(26px);}}
+
+  /* scattered floating marks above the crest */
+  .float-marks{position:absolute;top:0;left:0;width:100%;height:190px;pointer-events:none;z-index:2;}
+  .float-marks span{
+    position:absolute;color:var(--ink-faint);opacity:.5;
+    animation:markFloat 7s ease-in-out infinite alternate;
+  }
+  .float-marks .m1{left:8%;top:34%;font-size:26px;}
+  .float-marks .m2{left:27%;top:16%;font-size:15px;animation-delay:-2s;}
+  .float-marks .m3{left:46%;top:44%;font-size:12px;letter-spacing:3px;animation-delay:-4s;}
+  .float-marks .m4{left:64%;top:20%;font-size:19px;animation-delay:-1s;}
+  .float-marks .m5{left:82%;top:40%;font-size:30px;animation-delay:-3s;}
+  .float-marks .m6{left:92%;top:12%;font-size:14px;animation-delay:-5s;}
+  @keyframes markFloat{from{transform:translateY(-7px) rotate(-4deg);}to{transform:translateY(7px) rotate(4deg);}}
+
+  .contact .container{position:relative;z-index:3;}
+
+  /* handwritten closing note */
+  .quote-note{text-align:center;margin:70px auto 44px;max-width:640px;}
+  .quote-note .q{
+    font-family:'Caveat',cursive;font-size:clamp(24px,3vw,34px);line-height:1.45;color:var(--dk-text);
+  }
+  .quote-note .by{
+    font-family:'Caveat',cursive;font-size:clamp(18px,2vw,23px);color:var(--accent);margin-top:10px;
+  }
+  .sign-off{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:34px;}
+  .sign-off img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--dk-border);}
+  .sign-off .txt{font-family:'Caveat',cursive;font-size:26px;color:var(--dk-text);}
   .contact .idx{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--dk-faint);margin-bottom:26px;text-align:center;}
   .contact h2{
     font-family:var(--serif);font-weight:600;letter-spacing:-2px;line-height:1.02;text-align:center;
@@ -612,6 +726,9 @@
   [data-reveal-stagger].in > *:nth-child(5){animation-delay:.45s;}
   [data-reveal-stagger].in > *:nth-child(6){animation-delay:.55s;}
 
+  @media (max-width:1100px){
+    .projects-grid{grid-template-columns:repeat(2,1fr);}
+  }
   @media (max-width:900px){
     .map-banner{height:300px;}
     .map-time{left:20px;top:18px;font-size:11.5px;}
@@ -624,9 +741,12 @@
     .hero-cta{justify-content:flex-start;}
     .stats{grid-template-columns:repeat(2,1fr);}
     .stat{border-bottom:1px solid var(--rule);}
-    .bento{grid-template-columns:1fr;}
-    .bento-card,.bento-card.wide{grid-column:span 1;}
     .projects-grid,.edu-grid{grid-template-columns:1fr;}
+    .p-thumb{height:170px;}
+    .contact{padding-top:140px;--wave-h:210px;}
+    .float-marks{height:130px;}
+    .skill-grid{grid-template-columns:1fr;}
+    .skill-card.wide{grid-column:span 1;}
     .consult-grid{grid-template-columns:1fr;gap:36px;}
     .exp-item{grid-template-columns:1fr;gap:8px;}
     .exp-date{text-align:left;order:0;padding-top:0;}
@@ -674,7 +794,7 @@
 </div>
 
 <header>
-  <div class="logo">S<em>P.</em></div>
+  <div class="logo" id="siteLogo">S<em>P</em></div>
   <nav id="siteNav">
     <ul>
       <li><a href="#about">About</a></li>
@@ -691,13 +811,15 @@
   <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
+<div class="morph-stage" id="morphStage">
+<div class="morph-sticky" id="morphSticky">
 <div class="map-banner" id="mapBanner">
   <div id="bannerMap" aria-hidden="true"></div>
   <div class="map-veil"></div>
   <div class="map-time"><span class="ico" id="timeIco">&#9728;</span><span id="localTime">--:-- IST</span></div>
   <div class="map-hello">
     <div class="hi">Hello,</div>
-    <div class="name">I'm Subham <em>Padhy.</em></div>
+    <div class="name"><span class="im" id="imWord">I'm&nbsp;</span><span id="travelName">Subham <em>Padhy!</em></span></div>
   </div>
   <div class="map-photo">
     <img src="profile.jpg" alt="Subham Padhy">
@@ -722,6 +844,8 @@
     </div>
   </div>
 </section>
+</div>
+</div>
 
 <div class="ticker">
   <div class="ticker-track">
@@ -793,51 +917,47 @@
       <h2>The analytics stack,<br><em>built from the ground up.</em></h2>
       <div class="idx">( 02 / Expertise )</div>
     </div>
-    <div class="bento" data-reveal-stagger>
-      <div class="bento-card">
-        <span class="b-num">No. 01 &middot; Querying &amp; Spreadsheets</span>
+    <div class="skill-grid" data-reveal-stagger>
+      <div class="skill-card">
         <h3>SQL &amp; Advanced Excel</h3>
-        <div class="desc">Querying, joins, aggregations, and dashboard-ready spreadsheets</div>
-        <div class="tag-row">
-          <span class="tag">SQL (BigQuery)</span><span class="tag">Joins</span><span class="tag">Aggregations</span>
-          <span class="tag">Subqueries</span><span class="tag">Pivot Tables</span><span class="tag">Lookups</span>
-          <span class="tag">Conditional Logic</span>
+        <div class="chips">
+          <span class="chip c-blue">SQL (BigQuery)</span><span class="chip c-teal">Joins</span>
+          <span class="chip c-purple">Aggregations</span><span class="chip c-blue">Subqueries</span>
+          <span class="chip c-green">Pivot Tables</span><span class="chip c-amber">Lookups</span>
+          <span class="chip c-red">Conditional Logic</span>
         </div>
       </div>
-      <div class="bento-card">
-        <span class="b-num">No. 02 &middot; Visualization &amp; BI</span>
+      <div class="skill-card">
         <h3>Dashboards &amp; Reporting</h3>
-        <div class="desc">Data modeling and KPI reporting for stakeholders</div>
-        <div class="tag-row">
-          <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Tableau</span>
-          <span class="tag">Interactive Dashboards</span><span class="tag">KPI Reporting</span>
+        <div class="chips">
+          <span class="chip c-amber">Power BI</span><span class="chip c-purple">DAX</span>
+          <span class="chip c-blue">Tableau</span><span class="chip c-teal">Interactive Dashboards</span>
+          <span class="chip c-green">KPI Reporting</span>
         </div>
       </div>
-      <div class="bento-card">
-        <span class="b-num">No. 03 &middot; Programming &amp; Statistics</span>
+      <div class="skill-card">
         <h3>Python &amp; Statistics</h3>
-        <div class="desc">Analysis, hypothesis testing, and statistical modeling</div>
-        <div class="tag-row">
-          <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">NumPy</span>
-          <span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">Hypothesis Testing</span>
+        <div class="chips">
+          <span class="chip c-blue">Python</span><span class="chip c-purple">Pandas</span>
+          <span class="chip c-teal">NumPy</span><span class="chip c-amber">Matplotlib</span>
+          <span class="chip c-green">Seaborn</span><span class="chip c-red">Hypothesis Testing</span>
         </div>
       </div>
-      <div class="bento-card">
-        <span class="b-num">No. 04 &middot; Analytics Methods</span>
+      <div class="skill-card">
         <h3>Applied Analysis</h3>
-        <div class="desc">Turning raw data into decisions</div>
-        <div class="tag-row">
-          <span class="tag">Funnel Analysis</span><span class="tag">Cohort Analysis</span><span class="tag">A/B Testing</span>
-          <span class="tag">Segmentation</span><span class="tag">Root Cause Analysis</span><span class="tag">KPI Definition</span>
+        <div class="chips">
+          <span class="chip c-teal">Funnel Analysis</span><span class="chip c-purple">Cohort Analysis</span>
+          <span class="chip c-red">A/B Testing</span><span class="chip c-blue">Segmentation</span>
+          <span class="chip c-amber">Root Cause Analysis</span><span class="chip c-green">KPI Definition</span>
         </div>
       </div>
-      <div class="bento-card wide">
-        <span class="b-num">No. 05 &middot; AI &amp; Automation</span>
+      <div class="skill-card wide">
         <h3>AI-Assisted Analytics</h3>
-        <div class="desc">Applying GenAI tools to speed up analysis and reporting workflows</div>
-        <div class="tag-row">
-          <span class="tag">Prompt Engineering</span><span class="tag">ChatGPT</span><span class="tag">Claude</span>
-          <span class="tag">Gemini</span><span class="tag">Make</span><span class="tag">Zapier</span><span class="tag">n8n</span>
+        <div class="chips">
+          <span class="chip c-purple">Prompt Engineering</span><span class="chip c-green">ChatGPT</span>
+          <span class="chip c-amber">Claude</span><span class="chip c-blue">Gemini</span>
+          <span class="chip c-teal">Make</span><span class="chip c-red">Zapier</span>
+          <span class="chip c-purple">n8n</span>
         </div>
       </div>
     </div>
@@ -975,20 +1095,46 @@
     </div>
     <div class="projects-grid" data-reveal-stagger>
       <div class="project-card">
-        <div class="p-idx">01</div>
-        <div class="project-tag">SQL &middot; Excel &middot; E-commerce</div>
-        <div class="p-metric"><b>50K+</b> rows queried</div>
-        <h3>Flipkart Category Management</h3>
-        <p>Analyzed category-level sales trends using SQL and Excel to plan campaigns, inventory, and e-commerce strategy. SkilloVilla capstone project.</p>
-        <div class="tag-row"><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">Category Analysis</span></div>
+        <div class="p-thumb">
+          <div class="p-idx">01</div>
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <path class="ax" d="M14 8 V78 H110"/>
+            <rect class="bar" x="26" y="46" width="14" height="32" rx="2"/>
+            <rect class="bar" x="47" y="32" width="14" height="46" rx="2"/>
+            <rect class="bar" x="68" y="52" width="14" height="26" rx="2"/>
+            <rect class="bar" x="89" y="20" width="14" height="58" rx="2"/>
+          </svg>
+        </div>
+        <div class="p-body">
+          <div class="project-tag">SQL &middot; Excel &middot; E-commerce</div>
+          <h3>Flipkart Category Management</h3>
+          <p>Analyzed category-level sales trends using SQL and Excel to plan campaigns, inventory, and e-commerce strategy. SkilloVilla capstone project.</p>
+          <div class="p-metric"><b>50K+</b> rows queried</div>
+          <div class="p-tags">
+            <span class="p-pill">SQL</span><span class="p-pill">Excel</span><span class="p-pill">Category Analysis</span>
+          </div>
+        </div>
       </div>
       <div class="project-card">
-        <div class="p-idx">02</div>
-        <div class="project-tag">Digital Marketing &middot; Analytics</div>
-        <div class="p-metric"><b>12+</b> journey metrics evaluated</div>
-        <h3>HCL Digital Marketing Analytics</h3>
-        <p>Evaluated digital-acquisition strategy using website and user-journey metrics, surfacing customer-experience improvements. SkilloVilla capstone project.</p>
-        <div class="tag-row"><span class="tag">Web Analytics</span><span class="tag">User Journey</span><span class="tag">CX</span></div>
+        <div class="p-thumb">
+          <div class="p-idx">02</div>
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <path class="ax" d="M14 8 V78 H110"/>
+            <path class="fn" d="M26 18 h72 l-13 17 h-46 z"/>
+            <path class="fn" d="M41 41 h42 l-11 15 h-20 z" opacity="0.6"/>
+            <path class="ln" d="M26 70 L48 62 L70 66 L98 50"/>
+            <circle class="pt" cx="98" cy="50" r="3.4"/>
+          </svg>
+        </div>
+        <div class="p-body">
+          <div class="project-tag">Digital Marketing &middot; Analytics</div>
+          <h3>HCL Digital Marketing Analytics</h3>
+          <p>Evaluated digital-acquisition strategy using website and user-journey metrics, surfacing customer-experience improvements. SkilloVilla capstone project.</p>
+          <div class="p-metric"><b>12+</b> journey metrics evaluated</div>
+          <div class="p-tags">
+            <span class="p-pill">Web Analytics</span><span class="p-pill">User Journey</span><span class="p-pill">CX</span>
+          </div>
+        </div>
       </div>
       <div class="note-strip">More project detail and writeups available on request</div>
     </div>
@@ -1054,6 +1200,21 @@
 </section>
 
 <section class="contact" id="contact">
+  <div class="waves" aria-hidden="true">
+    <svg viewBox="0 0 1440 300" preserveAspectRatio="none">
+      <g class="a"><path class="w1" d="M-40 96 C 200 40, 420 30, 660 78 C 900 126, 1140 118, 1480 62 L1480 300 L-40 300 Z"/></g>
+      <g class="b"><path class="w2" d="M-40 150 C 240 96, 480 112, 720 152 C 960 192, 1200 176, 1480 128 L1480 300 L-40 300 Z"/></g>
+      <g class="c"><path class="w3" d="M-40 208 C 220 168, 460 190, 720 214 C 980 238, 1220 222, 1480 190 L1480 320 L-40 320 Z"/></g>
+    </svg>
+  </div>
+  <div class="float-marks" aria-hidden="true">
+    <span class="m1">&#10033;</span>
+    <span class="m2">&#9671;</span>
+    <span class="m3">&#8226;&#8226;&#8226;</span>
+    <span class="m4">&#9633;</span>
+    <span class="m5">&#10005;</span>
+    <span class="m6">&#9670;</span>
+  </div>
   <div class="container">
     <div class="idx" data-reveal>( 07 / Let's connect )</div>
     <h2 data-reveal>Ready to talk <em>data?</em></h2>
@@ -1068,6 +1229,14 @@
       <a href="#" class="contact-link">
         <div class="k">LinkedIn</div><div class="v">Add your profile URL</div>
       </a>
+    </div>
+    <div class="quote-note" data-reveal>
+      <div class="q">"Every messy spreadsheet has a story in it.<br>Someone just has to sit down and ask."</div>
+      <div class="by">&ndash; Subham</div>
+    </div>
+    <div class="sign-off" data-reveal>
+      <img src="profile.jpg" alt="Subham Padhy">
+      <span class="txt">Thanks for stopping by!</span>
     </div>
     <div class="connect-row" data-reveal>
       <a href="#" aria-label="LinkedIn" title="LinkedIn">
@@ -1142,13 +1311,19 @@
   const headerEl = document.querySelector('header');
   const heroTitle = document.getElementById('heroTitle');
   let lastY = 0;
+  // keep the header pinned through the banner morph and the intro, releasing at the About section
+  function pinLimit(){
+    const about = document.getElementById('about');
+    const aboutTop = about ? about.getBoundingClientRect().top + window.scrollY - 80 : 0;
+    return Math.max(320, window.__pinUntil || 0, aboutTop);
+  }
   window.addEventListener('scroll', ()=>{
     const y = window.scrollY;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
     toTop.classList.toggle('show', y > 600);
     if(!document.getElementById('siteNav').classList.contains('open')){
-      headerEl.classList.toggle('hidden', y > lastY && y > 320);
+      headerEl.classList.toggle('hidden', y > lastY && y > pinLimit());
     }
     lastY = y;
     if(!reducedMotion && heroTitle && y < window.innerHeight){
@@ -1275,7 +1450,7 @@
       ring.style.left = rx+'px'; ring.style.top = ry+'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a,button,.bento-card,.project-card,.fact-row,.exp-item,.portrait').forEach(el=>{
+    document.querySelectorAll('a,button,.skill-card,.chip,.project-card,.p-pill,.fact-row,.exp-item').forEach(el=>{
       el.addEventListener('mouseenter', ()=>ring.classList.add('hovering'));
       el.addEventListener('mouseleave', ()=>ring.classList.remove('hovering'));
     });
@@ -1307,6 +1482,179 @@
   }
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  // scroll-linked morph, bohler.dev style, in two clean beats on a pinned stage (desktop):
+  // beat 1: the name folds into "SP" in place. beat 2: "SP" arcs up into the header monogram.
+  // mobile keeps the simple short glide with no scroll pinning.
+  (function(){
+    const stage = document.getElementById('morphStage');
+    const sticky = document.getElementById('morphSticky');
+    const banner = document.getElementById('mapBanner');
+    const travel = document.getElementById('travelName');
+    const im = document.getElementById('imWord');
+    const logo = document.getElementById('siteLogo');
+    if (!stage || !banner || !travel || !im || !logo) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // static: logo stays visible
+
+    document.documentElement.classList.add('morph-on');
+    logo.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    const clamp = v => Math.min(1, Math.max(0, v));
+    const easeOut = v => 1 - Math.pow(1 - v, 3);
+    const easeInOut = v => v < .5 ? 4*v*v*v : 1 - Math.pow(-2*v + 2, 3)/2;
+    const supportsMix = window.CSS && CSS.supports && CSS.supports('color','color-mix(in srgb, red 50%, blue)');
+
+    let clone = null, folds = [], src = null, D = 1, pinned = false;
+
+    function buildClone(){
+      if (!clone){
+        clone = document.createElement('div');
+        clone.className = 'morph-clone';
+        clone.setAttribute('aria-hidden','true');
+        document.body.appendChild(clone);
+      }
+      clone.innerHTML =
+        '<span class="mk">S</span>' +
+        '<span class="mf">ubham&nbsp;</span>' +
+        '<em class="mk">P</em>' +
+        '<em class="mf">adhy!</em>';
+      folds = Array.from(clone.querySelectorAll('.mf')).map(elm => ({ el: elm, w: 0 }));
+    }
+
+    function measure(){
+      travel.style.visibility = 'visible';
+      buildClone();
+      pinned = window.innerWidth > 900;
+      const rT = travel.getBoundingClientRect();
+      const rB = banner.getBoundingClientRect();
+      if (pinned){
+        // pinned: banner and hero freeze together; the stage track sits behind them
+        const pinDist = Math.round(window.innerHeight * 0.85);
+        stage.style.height = (sticky.offsetHeight + pinDist) + 'px';
+        D = pinDist;
+        src = { left: rT.left, vTop: 64 + (rT.top - rB.top), h: rT.height };
+      } else {
+        // mobile: no pinning, short document-anchored glide
+        stage.style.height = '';
+        D = Math.max(140, banner.offsetHeight - 60);
+        src = { left: rT.left, docTop: rT.top + window.scrollY, h: rT.height };
+      }
+      window.__pinUntil = (pinned ? banner.offsetHeight + D : D) + 60;
+      clone.style.fontSize = getComputedStyle(travel).fontSize;
+      clone.style.display = 'block';
+      clone.style.visibility = 'hidden';
+      clone.style.transform = 'none';
+      folds.forEach(f => { f.el.style.width = 'auto'; f.el.style.opacity = 1; });
+      folds.forEach(f => { f.w = f.el.getBoundingClientRect().width; });
+      clone.style.visibility = 'visible';
+      clone.style.display = 'none';
+      cur = clamp(window.scrollY / D);
+      update(cur);
+    }
+
+    function paint(x, y, sc, mixPct){
+      clone.style.transform = 'translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+sc.toFixed(3)+')';
+      if (supportsMix){
+        clone.style.color = 'color-mix(in srgb, var(--ink) '+Math.round(mixPct)+'%, var(--dk-text))';
+      } else {
+        clone.style.color = mixPct > 50 ? 'var(--ink)' : 'var(--dk-text)';
+      }
+    }
+
+    function update(p){
+      if (!src) return;
+      if (p <= 0.002){
+        clone.style.display = 'none';
+        travel.style.visibility = 'visible';
+        logo.style.opacity = 0;
+        im.style.opacity = 1;
+        return;
+      }
+      travel.style.visibility = 'hidden';
+      clone.style.display = 'block';
+      const t = logo.getBoundingClientRect();
+
+      if (pinned){
+        // "I'm" bows out immediately
+        im.style.opacity = Math.max(0, 1 - p / 0.06);
+        // beat 1 (0 to 0.12): a snappy fold in place, done in about one scroll notch
+        const fold = easeOut(clamp(p / 0.12));
+        folds.forEach(f => {
+          f.el.style.width = (f.w * (1 - fold)).toFixed(1) + 'px';
+          f.el.style.opacity = Math.max(0, 1 - fold * 1.8);
+        });
+        // beat 2 (0.17 to 0.94): arced flight from rest to the monogram
+        const e = easeInOut(clamp((p - 0.17) / 0.77));
+        const P0 = { x: src.left, y: src.vTop };
+        const P2 = { x: t.left, y: t.top };
+        const P1 = { x: P0.x + (P2.x - P0.x) * 0.18, y: Math.min(P0.y, P2.y) - 140 }; // rise, then bank left
+        const u = 1 - e;
+        const px = u*u*P0.x + 2*u*e*P1.x + e*e*P2.x;
+        const py = u*u*P0.y + 2*u*e*P1.y + e*e*P2.y;
+        const sc = 1 + ((t.height / src.h) - 1) * e;
+        paint(px, py, sc, e * 100);
+        // no fade: the gliding "SP" IS the logo until the instant it lands
+        const landed = p >= 0.985;
+        logo.style.opacity = landed ? 1 : 0;
+        clone.style.opacity = 1;
+        if (landed) clone.style.display = 'none';
+      } else {
+        // mobile: fold and glide together over a short straight path
+        im.style.opacity = Math.max(0, 1 - p * 2.8);
+        const fold = easeOut(clamp((p - 0.10) / 0.58));
+        folds.forEach(f => {
+          f.el.style.width = (f.w * (1 - fold)).toFixed(1) + 'px';
+          f.el.style.opacity = Math.max(0, 1 - fold * 1.5);
+        });
+        const srcVT = src.docTop - window.scrollY;
+        const px = src.left + (t.left - src.left) * p;
+        const py = srcVT + (t.top - srcVT) * p;
+        const sc = 1 + ((t.height / src.h) - 1) * p;
+        paint(px, py, sc, p * 100);
+        const landed = p >= 0.985;
+        logo.style.opacity = landed ? 1 : 0;
+        clone.style.opacity = 1;
+        if (landed) clone.style.display = 'none';
+      }
+    }
+
+    // time-based critically damped spring: identical feel at any refresh rate, and it
+    // carries velocity between wheel notches so discrete steps chain into one glide
+    let cur = 0, vel = 0, lastT = 0, animating = false;
+    function goal(){ return clamp(window.scrollY / D); }
+    function loop(now){
+      const dt = Math.min(0.032, (now - lastT) / 1000 || 0.016);
+      lastT = now;
+      const g = goal();
+      const omega = pinned ? 7 : 12;            // stiffness: higher = tighter tracking
+      vel += (omega*omega*(g - cur) - 2*omega*vel) * dt;
+      cur += vel * dt;
+      if (Math.abs(g - cur) < 0.0006 && Math.abs(vel) < 0.002){
+        cur = g; vel = 0;
+        update(cur);
+        animating = false;
+        return;
+      }
+      update(cur);
+      requestAnimationFrame(loop);
+    }
+    function kick(){
+      if (!animating){
+        animating = true;
+        lastT = performance.now();
+        requestAnimationFrame(loop);
+      }
+    }
+    window.addEventListener('scroll', kick, {passive:true});
+
+    let rz;
+    window.addEventListener('resize', ()=>{ clearTimeout(rz); rz = setTimeout(measure, 350); });
+    const tBtn = document.getElementById('themeToggle');
+    if (tBtn) tBtn.addEventListener('click', ()=> setTimeout(measure, 150)); // fonts change per theme
+    window.addEventListener('load', ()=> setTimeout(measure, 450));
+    setTimeout(()=>{ if (!src) measure(); }, 2000); // fallback
+  })();
+</script>
 <script>
   // theme toggle
   (function(){
@@ -1444,9 +1792,39 @@
         n.style.opacity = 1;
         delay += 0.08;
       });
+      return delay; // total pen time in seconds
+    }
+
+    // continuous notebook: after lingering, a sketch fades and a new one draws nearby
+    let gen = 0;
+    function scheduleCycle(d, drawSecs){
+      if (reduced) return;
+      const myGen = gen;
+      const linger = rnd(9000, 17000);
+      setTimeout(()=> fadeOut(d, myGen), drawSecs*1000 + linger);
+    }
+    function fadeOut(d, myGen){
+      if (myGen !== gen || !d.g.isConnected) return;
+      if (document.hidden){ setTimeout(()=> fadeOut(d, myGen), 5000); return; }
+      d.g.style.transition = 'opacity 2s ease';
+      d.g.style.opacity = 0;
+      setTimeout(()=> respawn(d, myGen), 2100);
+    }
+    function respawn(d, myGen){
+      if (myGen !== gen) return;
+      d.g.remove();
+      const g = el('g', {});
+      const x = rnd(30, Math.max(190, W-190));
+      const y = d.band.y0 + rnd(0, d.band.span);
+      g.setAttribute('transform','translate('+x.toFixed(0)+' '+y.toFixed(0)+') rotate('+rnd(-6,6).toFixed(1)+')');
+      pick(TYPES)(g);
+      svg.appendChild(g);
+      d.g = g; d.y = y; d.drawn = false;
+      check(); // if it's on screen, the pen starts right away
     }
 
     function build(){
+      gen++;
       svg.innerHTML = '';
       doodles.length = 0;
       W = document.documentElement.clientWidth;
@@ -1463,7 +1841,7 @@
         g.setAttribute('transform','translate('+x.toFixed(0)+' '+y.toFixed(0)+') rotate('+rnd(-6,6).toFixed(1)+')');
         pick(TYPES)(g);
         svg.appendChild(g);
-        doodles.push({g, y, drawn:false});
+        doodles.push({g, y, drawn:false, band:{y0: yStart + band*i, span: band*0.7}});
       }
       check();
     }
@@ -1476,7 +1854,9 @@
         if (d.drawn) return;
         if (d.y < bottom - 40){
           d.drawn = true;
-          draw(d.g, d.y < top);           // already scrolled past: appear instantly
+          const instant = d.y < top;      // already scrolled past: appear instantly
+          const secs = draw(d.g, instant) || 0;
+          scheduleCycle(d, instant ? 0 : secs);
         }
       });
       ticking = false;
