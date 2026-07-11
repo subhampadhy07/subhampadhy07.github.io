@@ -681,10 +681,7 @@
   html[data-theme="dark"] .exp-toggle:hover{color:var(--surface-dark);}
   .exp-toggle .et-arr{transition:transform .35s var(--ease);}
   .exp-toggle[aria-expanded="true"] .et-arr{transform:rotate(180deg);}
-  .exp-collapse{
-    overflow:hidden;transition:max-height .5s var(--ease),opacity .4s ease;
-    max-height:0;opacity:0;
-  }
+  .exp-collapse{overflow:hidden;height:0;opacity:0;}
   .exp-collapse.open{opacity:1;}
   @media (max-width:760px){ .exp-toggle{margin-left:0;} }
   .exp-item:first-of-type{padding-top:0;}
@@ -1451,11 +1448,6 @@
 
     <div class="exp-group" data-reveal>Early Career &amp; Entrepreneurship</div>
 
-    <button class="exp-toggle" id="expToggle" aria-expanded="false" aria-controls="earlyCareer">
-      <span class="et-txt">Show early career &amp; internships</span>
-      <span class="et-arr">&#8595;</span>
-    </button>
-
     <div class="exp-collapse" id="earlyCareer" data-collapsed="true">
     <div class="exp-item" data-reveal>
       <div class="exp-body">
@@ -1506,6 +1498,11 @@
       <div class="exp-date">Apr 2020 &ndash; Jun 2020</div>
     </div>
     </div>
+
+    <button class="exp-toggle" id="expToggle" aria-expanded="false" aria-controls="earlyCareer">
+      <span class="et-txt">Show early career &amp; internships</span>
+      <span class="et-arr">&#8595;</span>
+    </button>
     </div>
   </div>
 </section>
@@ -2734,34 +2731,46 @@
 })();
 </script>
 <script>
-/* early-career collapse toggle: button rides to the bottom when expanded */
+/* early-career collapse: button sits below the panel and glides with the height animation */
 (function(){
   const btn = document.getElementById('expToggle');
   const panel = document.getElementById('earlyCareer');
   if (!btn || !panel) return;
   const txt = btn.querySelector('.et-txt');
-  let open = false;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE = 'cubic-bezier(.22,1,.36,1)';
+  let open = false, animating = false;
+
   btn.addEventListener('click', ()=>{
+    if (animating) return;
     open = !open;
+    animating = true;
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (open){
-      panel.classList.add('open');
-      panel.style.maxHeight = panel.scrollHeight + 'px';
-      txt.textContent = 'Hide early career & internships';
-      // move the button below the list, and release height to auto once expanded
-      setTimeout(()=>{
-        if (!open) return;
-        panel.style.maxHeight = 'none';
-        panel.after(btn);
-      }, 520);
-    } else {
-      panel.before(btn);
-      panel.style.maxHeight = panel.scrollHeight + 'px';
-      requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; }); });
-      panel.classList.remove('open');
-      txt.textContent = 'Show early career & internships';
-      btn.scrollIntoView({block:'nearest', behavior:'smooth'});
+    txt.textContent = open ? 'Hide early career & internships' : 'Show early career & internships';
+
+    if (open) panel.classList.add('open');
+    const from = open ? 0 : panel.scrollHeight;
+    const to   = open ? panel.scrollHeight : 0;
+
+    if (reduced){
+      panel.style.height = open ? 'auto' : '0px';
+      panel.style.opacity = open ? 1 : 0;
+      if (!open) panel.classList.remove('open');
+      animating = false;
+      return;
     }
+
+    panel.style.height = from + 'px';
+    const anim = panel.animate(
+      [{ height: from+'px', opacity: open?0:1 }, { height: to+'px', opacity: open?1:0 }],
+      { duration: 560, easing: EASE, fill: 'forwards' }
+    );
+    anim.onfinish = ()=>{
+      panel.style.height = open ? 'auto' : '0px';
+      panel.style.opacity = open ? 1 : 0;
+      if (!open) panel.classList.remove('open');
+      animating = false;
+    };
   });
 })();
 </script>
