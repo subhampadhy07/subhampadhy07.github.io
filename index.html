@@ -157,9 +157,9 @@
   #preloader.hide{clip-path:inset(0 0 100% 0);pointer-events:none;}
   #preloader .pre-title{
     font-family:var(--serif);font-size:clamp(42px,8.5vw,86px);font-weight:400;letter-spacing:.4px;
-    overflow:hidden;height:1.7em;line-height:1.5;
+    overflow:hidden;height:2em;line-height:1.75;padding:0 .12em;
   }
-  #preloader .pre-title span{display:block;transform:translateY(110%);animation:rise .9s var(--ease) .1s forwards;}
+  #preloader .pre-title span{display:block;transform:translateY(110%);animation:rise .9s var(--ease) .1s forwards;line-height:1.75;}
   #preloader .pre-title em{font-style:italic;color:var(--accent);}
   @keyframes rise{to{transform:translateY(0);}}
   #preloader .count{font-family:var(--mono);font-size:clamp(18px,2.6vw,30px);font-weight:700;letter-spacing:6px;color:var(--dk-faint);}
@@ -323,10 +323,16 @@
   ::view-transition-old(root){z-index:1;}
   ::view-transition-new(root){z-index:9999;}
   @media (max-width:900px){
-    .theme-fab{right:20px;bottom:84px;width:52px;height:52px;}
+    .theme-fab{right:20px;bottom:82px;width:52px;height:52px;}
     #toTop{right:20px;bottom:22px;width:52px;height:52px;font-size:19px;}
-    #toTop .arrow{width:23px;height:23px;}
+    #toTop .arrow{width:27px;height:27px;}
     .fab-tip,.fab-label{right:82px;bottom:100px;}
+    /* smaller glow on mobile so the halo doesn't dwarf the toTop button */
+    @keyframes fabGlow{
+      0%{box-shadow:0 0 0 0 rgba(var(--accent-rgb),.34);}
+      70%{box-shadow:0 0 0 10px rgba(var(--accent-rgb),0);}
+      100%{box-shadow:0 0 0 0 rgba(var(--accent-rgb),0);}
+    }
   }
   /* premium monogram: boxed serif mark shared by logo and the morph clone */
   .logo{
@@ -389,7 +395,23 @@
   .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
   /* hero */
-  .hero{display:flex;flex-direction:column;justify-content:center;padding:64px 0 56px;position:relative;}
+  .hero{display:flex;flex-direction:column;justify-content:flex-start;padding:88px 0 70px;position:relative;}
+  .hero-grid{display:block;max-width:1180px;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;gap:40px;} }
+  .hero-title{
+    font-family:var(--serif);font-weight:400;letter-spacing:.5px;line-height:1.1;
+    font-size:clamp(34px,5.2vw,76px);margin-bottom:34px;color:var(--ink);
+  }
+  .hero-title .l1,.hero-title .l2{display:block;white-space:nowrap;}
+  @media (max-width:900px){
+    .hero-title .l1,.hero-title .l2{white-space:normal;display:inline;}
+    .hero-title{font-size:clamp(34px,9vw,52px);}
+  }
+  .hero-title em{font-style:italic;color:var(--accent);}
+  .hero-lead2{
+    font-size:clamp(18px,2.2vw,23px);color:var(--ink-soft);max-width:68ch;margin-bottom:36px;line-height:1.7;
+  }
+  .hero-lead2 .role-rotator{color:var(--accent);min-width:0;}
   .hero-kicker{
     font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-faint);
     display:flex;align-items:center;gap:14px;margin-bottom:30px;
@@ -402,12 +424,8 @@
   .hero-visual .stamp{right:auto;top:auto;left:-58px;bottom:-42px;}
   body.loaded .hero-visual .portrait{animation:unveil 1.2s var(--ease) .9s backwards;}
   .hero h1{
-    font-family:var(--serif);font-weight:600;letter-spacing:-2.5px;line-height:.98;
-    font-size:clamp(52px,8.5vw,118px);margin-bottom:0;
+    font-family:var(--serif);font-weight:400;letter-spacing:.5px;line-height:1.02;
   }
-  .hero h1 .line{display:block;overflow:hidden;padding-bottom:.16em;margin-bottom:-.16em;}
-  .hero h1 .line > span{display:block;transform:translateY(112%);}
-  .hero h1 .ch{display:inline-block;transform:translateY(118%) rotate(7deg);transform-origin:0 100%;will-change:transform;}
   .hero h1 em{font-style:italic;font-weight:400;color:var(--accent);}
   .hero-sub{
     display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:end;
@@ -423,7 +441,7 @@
     vertical-align:-0.15em;margin-left:2px;animation:blink 1s step-end infinite;
   }
   @keyframes blink{50%{opacity:0;}}
-  .hero-cta{display:flex;gap:14px;justify-content:flex-end;flex-wrap:wrap;}
+  .hero-cta{display:flex;gap:14px;justify-content:flex-start;flex-wrap:wrap;align-items:center;}
   .btn{
     font-family:var(--mono);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;
     padding:16px 26px;border:1px solid var(--ink);position:relative;overflow:hidden;
@@ -558,6 +576,27 @@
   .sec-head .idx{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--ink-faint);white-space:nowrap;}
 
   /* about */
+  .about-kicker{
+    font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--accent);margin-bottom:38px;display:flex;align-items:center;gap:12px;
+  }
+  .about-kicker span{color:var(--ink-faint);}
+  .about-copy p.big{
+    font-size:clamp(19px,2.3vw,25px);line-height:1.62;color:var(--ink);margin-bottom:26px;max-width:34ch;
+  }
+  .about-copy p.big.dim{color:var(--ink-soft);font-size:clamp(16px,1.9vw,19px);line-height:1.72;}
+  .op-lessons{display:flex;flex-direction:column;gap:26px;margin:36px 0 10px;}
+  .op-lesson{
+    position:relative;padding-left:26px;max-width:60ch;
+  }
+  .op-lesson::before{
+    content:'';position:absolute;left:0;top:.55em;width:12px;height:2px;background:var(--accent);
+  }
+  .op-lesson strong{
+    display:block;font-weight:600;color:var(--ink);font-size:clamp(16px,1.9vw,19px);line-height:1.55;margin-bottom:6px;
+  }
+  .op-lesson span{display:block;color:var(--ink-soft);font-size:15px;line-height:1.7;}
+
   .about-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:70px;align-items:start;}
   .about-grid .lead-line{
     font-family:var(--serif);font-size:clamp(20px,2.6vw,27px);line-height:1.45;font-weight:400;
@@ -886,14 +925,32 @@
 
   /* ===== case study modal (full narrative deep-dive) ===== */
   .case-trigger{
-    display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    --ct:#ff2d78;--ct-rgb:255,45,120;
+    display:inline-flex;align-items:center;gap:9px;margin-top:16px;
     font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
-    color:var(--accent);background:none;border:none;cursor:pointer;padding:0;
-    transition:gap .3s var(--ease);
+    color:var(--ct);background:rgba(var(--ct-rgb),.12);border:1.5px solid var(--ct);
+    border-radius:9px;cursor:pointer;padding:9px 15px;position:relative;
+    transition:background .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
+    animation:ctPulse 2.6s ease-out infinite;
   }
-  .case-trigger:hover{gap:13px;}
-  .case-trigger .cs-arr{transition:transform .3s var(--ease);}
-  .case-trigger:hover .cs-arr{transform:translateX(2px);}
+  .case-trigger::before{
+    content:'';width:7px;height:7px;border-radius:50%;background:var(--ct);flex:none;
+    animation:ctBlink 1.5s ease-in-out infinite;
+  }
+  .case-trigger:hover{background:var(--ct);color:#fff;transform:translateY(-2px);animation:none;}
+  .case-trigger:hover::before{background:#fff;animation:none;}
+  .case-trigger .cs-arr{animation:ctArrow 1.6s var(--ease) infinite;font-size:16px;line-height:1;font-weight:700;}
+  .case-trigger:hover .cs-arr{animation:none;transform:translateX(3px);}
+  @keyframes ctPulse{
+    0%{box-shadow:0 0 0 0 rgba(var(--ct-rgb),.65), 0 0 14px 0 rgba(var(--ct-rgb),.45);}
+    70%{box-shadow:0 0 0 16px rgba(var(--ct-rgb),0), 0 0 14px 0 rgba(var(--ct-rgb),.15);}
+    100%{box-shadow:0 0 0 0 rgba(var(--ct-rgb),0), 0 0 14px 0 rgba(var(--ct-rgb),0);}
+  }
+  @keyframes ctBlink{0%,100%{opacity:1;}50%{opacity:.25;}}
+  @keyframes ctArrow{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
+  @media (prefers-reduced-motion: reduce){
+    .case-trigger,.case-trigger::before,.case-trigger .cs-arr{animation:none;}
+  }
   .exp-metric{
     display:inline-flex;align-items:baseline;gap:6px;margin-right:14px;
     font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--ink-faint);
@@ -1129,18 +1186,21 @@
 
 <section class="hero">
   <div class="container">
-    <div class="hero-kicker hero-stagger d1">Data Analyst &middot; Bhubaneswar, Odisha &middot; Est. 2021</div>
-    <div class="hero-sub hero-stagger d2">
-      <p>
-        <b>5 years</b> across sales, marketing, and service delivery, now applying
-        <span class="role-rotator"><span id="roleText">SQL</span><span class="caret"></span></span><br>
-        to the problems I once owned as an operator. Currently building
-        the analytics layer for a US talent placement pipeline at <b>KGS Technology Group</b>.
-      </p>
-      <div class="hero-cta hero-stagger d3">
-        <a href="mailto:subhampadhy07@gmail.com" class="btn solid" data-magnetic>Get in touch</a>
-        <a href="#" class="btn" data-magnetic>LinkedIn</a>
-        <a href="resume.pdf" class="cv-link" target="_blank" rel="noopener">Read my CV <span class="arr">&#8599;</span></a>
+    <div class="hero-kicker hero-stagger d1">Data Analyst &middot; Business Operations Background</div>
+    <div class="hero-grid">
+      <div class="hero-stagger d2">
+        <h1 class="hero-title"><span class="l1">I came to analytics <em>backwards.</em></span><span class="l2">That's the advantage.</span></h1>
+        <p class="hero-lead2">
+          I ran the business before I learned to analyze it. Five years owning targets, budgets, and the
+          Monday meetings where someone asks why the numbers moved.<br>
+          Now applying <span class="role-rotator"><span id="roleText">SQL</span><span class="caret"></span></span>
+          to the problems I once owned as an operator.
+        </p>
+        <div class="hero-cta hero-stagger d3">
+          <a href="mailto:subhampadhy07@gmail.com" class="btn solid" data-magnetic>Get in touch</a>
+          <a href="#" class="btn" data-magnetic>LinkedIn</a>
+          <a href="resume.pdf" class="cv-link" target="_blank" rel="noopener">Read my CV <span class="arr">&#8599;</span></a>
+        </div>
       </div>
     </div>
   </div>
@@ -1170,33 +1230,29 @@
 
 <section id="about">
   <div class="container">
-    <div class="sec-head" data-reveal>
-      <h2>From running the pipeline<br>to <em>analyzing it.</em></h2>
-    </div>
+    <div class="about-kicker" data-reveal>How I think <span>/ what the other side taught me</span></div>
     <div class="about-grid" data-reveal>
-      <div>
-        <div class="lead-line">
-          A Data Analyst who spent five years <em>inside</em> the funnel before learning to measure it.
+      <div class="about-copy">
+        <p class="big">
+          Most analysts have to learn the business context on the job. I brought it with me. Five years as an
+          operator converts into three things you can't get from a certification:
+        </p>
+        <div class="op-lessons" data-reveal-stagger>
+          <div class="op-lesson">
+            <strong>Owning a sales target taught me which numbers people are actually judged on.</strong>
+            <span>So my dashboards lead with the metrics someone's job depends on, not the ones that are easiest to chart.</span>
+          </div>
+          <div class="op-lesson">
+            <strong>Sitting through budget meetings taught me that every chart must survive a "so what?"</strong>
+            <span>If a visual doesn't point at an action, it's decoration. I cut it.</span>
+          </div>
+          <div class="op-lesson">
+            <strong>Running delivery taught me where data gets dirty, because I was the one entering it.</strong>
+            <span>I don't trust a clean-looking table. I know what shortcuts, workarounds, and Friday-evening entries look like from the inside, and I check for them first.</span>
+          </div>
         </div>
-        <p>
-          I'm a <b>Data Analyst</b> based in Bhubaneswar, Odisha, with 5 years across sales, marketing, and
-          service delivery, now applying SQL, Power BI, Advanced Excel, and Python to the problems I once owned
-          as an operator.
-        </p>
-        <p>
-          Most recently, I built the analytics layer for a US talent placement pipeline at
-          <b>KGS Technology Group</b>, where SQL-driven bottleneck analysis lifted interview conversion by 18%
-          in one quarter. Before that, I co-founded and ran an analytics practice at ACES Consulting, and led
-          growth analytics for education programs reaching over 22 lakh students.
-        </p>
-        <p>
-          I'm self-taught on live business problems, and formalized that with a NASSCOM-accredited Data
-          Analytics and Generative AI certification. I'm now seeking an analyst role within a dedicated
-          analytics team.
-        </p>
         <blockquote data-reveal>
-          I've spent 5 years owning the outcomes analysts usually just report on. Now I build the reporting
-          that gets those outcomes right.
+          I don't just crunch numbers. I help solve problems.
         </blockquote>
       </div>
       <div class="fact-table" data-reveal-stagger>
@@ -1997,7 +2053,7 @@
     function measure(){
       travel.style.visibility = 'visible';
       buildClone();
-      pinned = window.innerWidth > 900;
+      pinned = false; // pinned stage retired: page scrolls freely during the morph everywhere
       const rT = travel.getBoundingClientRect();
       const rB = banner.getBoundingClientRect();
       if (pinned){
