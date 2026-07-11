@@ -577,24 +577,18 @@
 
   /* about */
   .about-kicker{
-    font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;
-    color:var(--accent);margin-bottom:38px;display:flex;align-items:center;gap:12px;
+    font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+    color:var(--accent);margin-bottom:38px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
   }
-  .about-kicker span{color:var(--ink-faint);}
+  .about-kicker span{color:var(--ink-faint);font-weight:400;}
   .about-copy p.big{
     font-size:clamp(19px,2.3vw,25px);line-height:1.62;color:var(--ink);margin-bottom:26px;max-width:34ch;
   }
   .about-copy p.big.dim{color:var(--ink-soft);font-size:clamp(16px,1.9vw,19px);line-height:1.72;}
   .op-lessons{display:flex;flex-direction:column;gap:26px;margin:36px 0 10px;}
-  .op-lesson{
-    position:relative;padding-left:26px;max-width:60ch;
-  }
-  .op-lesson::before{
-    content:'';position:absolute;left:0;top:.55em;width:12px;height:2px;background:var(--accent);
-  }
-  .op-lesson strong{
-    display:block;font-weight:600;color:var(--ink);font-size:clamp(16px,1.9vw,19px);line-height:1.55;margin-bottom:6px;
-  }
+  .op-lesson{position:relative;padding-left:26px;max-width:62ch;}
+  .op-lesson::before{content:'';position:absolute;left:0;top:.55em;width:12px;height:2px;background:var(--accent);}
+  .op-lesson strong{display:block;font-weight:600;color:var(--ink);font-size:clamp(16px,1.9vw,19px);line-height:1.55;margin-bottom:6px;}
   .op-lesson span{display:block;color:var(--ink-soft);font-size:15px;line-height:1.7;}
 
   .about-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:70px;align-items:start;}
@@ -677,6 +671,22 @@
     font-size:11px;font-weight:400;letter-spacing:2.5px;
     color:var(--ink-faint);margin-bottom:6px;
   }
+  .exp-toggle{
+    margin:20px 0 0 240px;display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);border:1.5px solid var(--accent);
+    border-radius:9px;padding:9px 15px;cursor:pointer;transition:background .3s var(--ease),color .3s var(--ease);
+  }
+  .exp-toggle:hover{background:var(--accent);color:var(--paper);}
+  html[data-theme="dark"] .exp-toggle:hover{color:var(--surface-dark);}
+  .exp-toggle .et-arr{transition:transform .35s var(--ease);}
+  .exp-toggle[aria-expanded="true"] .et-arr{transform:rotate(180deg);}
+  .exp-collapse{
+    overflow:hidden;transition:max-height .5s var(--ease),opacity .4s ease;
+    max-height:0;opacity:0;
+  }
+  .exp-collapse.open{opacity:1;}
+  @media (max-width:760px){ .exp-toggle{margin-left:0;} }
   .exp-item:first-of-type{padding-top:0;}
   .exp-item:first-of-type::before{top:8px;}
   .exp-date{
@@ -784,8 +794,9 @@
   .consult-num em{font-style:italic;color:var(--accent);}
   .consult-num-label{
     font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;
-    color:var(--ink-faint);margin-top:14px;
+    color:#5a9e00;margin-top:14px;font-weight:700;
   }
+  html[data-theme="dark"] .consult-num-label{color:#ff2d78;}
   .consult-body p{color:var(--ink-soft);font-size:15px;max-width:520px;margin-bottom:14px;}
   .consult-body p b{color:var(--ink);}
   .consult-cta{margin-top:28px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
@@ -801,26 +812,31 @@
   .connect-row svg{width:17px;height:17px;fill:currentColor;}
 
   /* skills: compact category cards with colored chips */
-  .skill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .skill-band{
+    font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--ink-faint);margin:26px 0 14px;display:flex;align-items:center;gap:14px;
+  }
+  .skill-band::after{content:'';flex:1;height:1px;background:var(--rule);}
   .skill-card{
-    background:rgba(255,255,255,0.55);border:1px solid var(--rule);border-radius:12px;
-    padding:22px 24px 24px;
+    background:rgba(255,255,255,0.55);border:1px solid var(--rule);border-radius:11px;
+    padding:16px 17px 18px;
   }
   html[data-theme="dark"] .skill-card{background:rgba(239,233,251,0.05);}
-  .skill-card.wide{grid-column:span 2;}
+  .skill-card.wide{grid-column:span 3;}
   .skill-card h3{
-    font-family:var(--sans);font-weight:600;font-size:16.5px;letter-spacing:0;
-    margin-bottom:14px;color:var(--ink);
+    font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:0;
+    margin-bottom:11px;color:var(--ink);
   }
-  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
   .chip{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:6px 13px;border-radius:8px;border:1px solid;
-    font-family:var(--sans);font-size:13.5px;font-weight:600;line-height:1.3;
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 10px;border-radius:7px;border:1px solid;
+    font-family:var(--sans);font-size:12px;font-weight:600;line-height:1.25;
     transition:transform .25s var(--ease);
   }
   .chip:hover{transform:translateY(-2px);}
-  .chip::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
+  .chip::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;}
   .c-blue{color:#2a62a8;background:rgba(59,130,246,.10);border-color:rgba(59,130,246,.35);}
   .c-green{color:#1e7a46;background:rgba(34,197,94,.10);border-color:rgba(34,197,94,.35);}
   .c-amber{color:#96650b;background:rgba(234,179,8,.13);border-color:rgba(202,138,4,.4);}
@@ -933,6 +949,8 @@
     transition:background .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
     animation:ctPulse 2.6s ease-out infinite;
   }
+  /* light mode gets a more saturated pink; the dimmer tone read weak on cream paper */
+  html:not([data-theme="dark"]) .case-trigger{--ct:#5a9e00;--ct-rgb:132,204,22;}
   .case-trigger::before{
     content:'';width:7px;height:7px;border-radius:50%;background:var(--ct);flex:none;
     animation:ctBlink 1.5s ease-in-out infinite;
@@ -1087,6 +1105,8 @@
 
   @media (max-width:1100px){
     .projects-grid{grid-template-columns:repeat(2,1fr);}
+    .skill-grid{grid-template-columns:repeat(2,1fr);}
+    .skill-card.wide{grid-column:span 2;}
   }
   @media (max-width:900px){
     .map-banner{height:300px;}
@@ -1234,8 +1254,8 @@
     <div class="about-grid" data-reveal>
       <div class="about-copy">
         <p class="big">
-          Most analysts have to learn the business context on the job. I brought it with me. Five years as an
-          operator converts into three things you can't get from a certification:
+          Most analysts have to learn the business context on the job. I brought it with me. A few things
+          I bring to the table that a straight analytics background wouldn't:
         </p>
         <div class="op-lessons" data-reveal-stagger>
           <div class="op-lesson">
@@ -1248,7 +1268,7 @@
           </div>
           <div class="op-lesson">
             <strong>Running delivery taught me where data gets dirty, because I was the one entering it.</strong>
-            <span>I don't trust a clean-looking table. I know what shortcuts, workarounds, and Friday-evening entries look like from the inside, and I check for them first.</span>
+            <span>I don't trust a clean-looking table, and I know what shortcuts and Friday-evening entries look like from the inside.</span>
           </div>
         </div>
         <blockquote data-reveal>
@@ -1306,13 +1326,47 @@
           <span class="chip c-amber">Root Cause Analysis</span><span class="chip c-green">KPI Definition</span>
         </div>
       </div>
-      <div class="skill-card wide">
+      <div class="skill-card">
+        <h3>Data Prep &amp; Modeling</h3>
+        <div class="chips">
+          <span class="chip c-blue">Data Cleaning</span><span class="chip c-teal">ETL Basics</span>
+          <span class="chip c-purple">Data Modeling</span><span class="chip c-green">Star Schema</span>
+          <span class="chip c-amber">Feature Engineering</span>
+        </div>
+      </div>
+      <div class="skill-card">
         <h3>AI-Assisted Analytics</h3>
         <div class="chips">
           <span class="chip c-purple">Prompt Engineering</span><span class="chip c-green">ChatGPT</span>
           <span class="chip c-amber">Claude</span><span class="chip c-blue">Gemini</span>
           <span class="chip c-teal">Make</span><span class="chip c-red">Zapier</span>
           <span class="chip c-purple">n8n</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-band" data-reveal>Beyond the tools</div>
+
+    <div class="skill-grid" data-reveal-stagger>
+      <div class="skill-card">
+        <h3>Business Strategy</h3>
+        <div class="chips">
+          <span class="chip c-blue">Product Thinking</span><span class="chip c-teal">Funnel Optimisation</span>
+          <span class="chip c-purple">Customer Journey Mapping</span><span class="chip c-amber">Go-to-Market Strategy</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Operations</h3>
+        <div class="chips">
+          <span class="chip c-green">Process Improvement</span><span class="chip c-red">Delivery Accountability</span>
+          <span class="chip c-blue">Agile Methodologies</span><span class="chip c-purple">Cross-functional Leadership</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Soft Skills</h3>
+        <div class="chips">
+          <span class="chip c-amber">Strategic Storytelling</span><span class="chip c-teal">Stakeholder Management</span>
+          <span class="chip c-red">Decision-making under Ambiguity</span><span class="chip c-green">Negotiation</span>
         </div>
       </div>
     </div>
@@ -1397,6 +1451,12 @@
 
     <div class="exp-group" data-reveal>Early Career &amp; Entrepreneurship</div>
 
+    <button class="exp-toggle" id="expToggle" aria-expanded="false" aria-controls="earlyCareer">
+      <span class="et-txt">Show early career &amp; internships</span>
+      <span class="et-arr">&#8595;</span>
+    </button>
+
+    <div class="exp-collapse" id="earlyCareer" data-collapsed="true">
     <div class="exp-item" data-reveal>
       <div class="exp-body">
         <div class="exp-role">Co-Founder</div>
@@ -1444,6 +1504,7 @@
         </ul>
       </div>
       <div class="exp-date">Apr 2020 &ndash; Jun 2020</div>
+    </div>
     </div>
     </div>
   </div>
@@ -1547,7 +1608,11 @@
           across data, engineering, and business roles.
         </p>
         <p>
-          The same skill set drives both: reading messy inputs, finding the signal,
+          I also <b>design and build websites</b>, from portfolios to business and personal sites,
+          handling everything from layout and content to interaction and polish. This site is one of them.
+        </p>
+        <p>
+          The same instinct drives all of it: reading messy inputs, finding the signal,
           and structuring it so the right people act on it.
         </p>
         <div class="consult-cta">
@@ -2666,6 +2731,38 @@
   // recolor charts if theme flips while modal is open
   const tBtn = document.getElementById('themeToggle');
   if (tBtn) tBtn.addEventListener('click', ()=>{ if (modal.classList.contains('open')) setTimeout(renderDash, 60); });
+})();
+</script>
+<script>
+/* early-career collapse toggle: button rides to the bottom when expanded */
+(function(){
+  const btn = document.getElementById('expToggle');
+  const panel = document.getElementById('earlyCareer');
+  if (!btn || !panel) return;
+  const txt = btn.querySelector('.et-txt');
+  let open = false;
+  btn.addEventListener('click', ()=>{
+    open = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open){
+      panel.classList.add('open');
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      txt.textContent = 'Hide early career & internships';
+      // move the button below the list, and release height to auto once expanded
+      setTimeout(()=>{
+        if (!open) return;
+        panel.style.maxHeight = 'none';
+        panel.after(btn);
+      }, 520);
+    } else {
+      panel.before(btn);
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; }); });
+      panel.classList.remove('open');
+      txt.textContent = 'Show early career & internships';
+      btn.scrollIntoView({block:'nearest', behavior:'smooth'});
+    }
+  });
 })();
 </script>
 </body>
