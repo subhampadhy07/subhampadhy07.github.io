@@ -955,7 +955,7 @@
   .contact{
     --wave-h:300px;
     background:transparent;color:var(--dk-text);
-    padding:calc(var(--wave-h) + 80px) 0 60px;position:relative;overflow:hidden;
+    padding:calc(var(--wave-h) + 80px) 0 8px;position:relative;overflow:hidden;
   }
   .contact::after{
     content:'';position:absolute;left:0;right:0;top:calc(var(--wave-h) - 4px);bottom:0;
@@ -1022,11 +1022,48 @@
     display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
     font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dk-faint);
   }
+  /* ===== thanks-for-stopping-by sign-off (Monica-style, right corner) ===== */
+  .foot-signature{
+    margin-top:44px;padding-top:0;
+    display:flex;justify-content:space-between;align-items:flex-start;gap:32px;flex-wrap:wrap;
+  }
+  .foot-thanks{
+    display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:14px;margin-left:auto;
+  }
+  .foot-thanks .ft-row{display:flex;align-items:center;gap:14px;}
+  .foot-thanks .ft-avatar{
+    position:relative;width:52px;height:52px;border-radius:50%;overflow:hidden;
+    border:2px solid var(--dk-border);flex:none;
+  }
+  .foot-thanks .ft-avatar img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    transition:opacity .45s ease;
+  }
+  .foot-thanks .ft-img-dark{opacity:0;}
+  html[data-theme="dark"] .foot-thanks .ft-img-dark{opacity:1;}
+  html[data-theme="dark"] .foot-thanks .ft-img-light{opacity:0;}
+  .foot-thanks .ft-msg{
+    font-family:'Caveat',cursive;font-weight:600;font-size:clamp(26px,3vw,34px);color:var(--dk-text);letter-spacing:.5px;
+  }
+  .foot-thanks .ft-copy{
+    font-family:var(--mono);font-size:15px;letter-spacing:.2px;color:var(--dk-faint);padding-right:14px;
+  }
+  .foot-thanks .ft-copy .cpy{font-size:1.25em;vertical-align:-.06em;}
+  @media (min-width:901px){
+    .foot-thanks .ft-copy{padding-right:0;white-space:nowrap;}
+    .contact{padding-bottom:0;}
+    .foot-signature{margin-bottom:0;}
+  }
+  @media (max-width:900px){
+    .foot-signature{flex-direction:column;align-items:center;gap:36px;}
+    .foot-thanks{align-items:center;text-align:center;margin-left:0;}
+    .foot-thanks .ft-copy{font-size:10px;padding-right:0;}
+  }
 
   /* ===== "made with heart by Subham" signature (draws in on scroll) ===== */
   .made-with{
     --name-ink:#84cc16; /* light mode: lime green */
-    margin:84px 0 0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+    margin:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;
     width:fit-content;text-align:left;line-height:1;overflow:visible;
     transform:rotate(-5.5deg);transform-origin:left center;
   }
@@ -1869,6 +1906,7 @@
         <svg viewBox="0 0 24 24"><path d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm10 8.36L3.5 6.2v11.6h17V6.2L12 12.36zM4.7 6l7.3 5.14L19.3 6H4.7z"/></svg>
       </a>
     </div>
+    <div class="foot-signature">
     <div class="made-with" data-reveal aria-label="made with love by Subham">
       <div class="mw-script">
         <span class="mw-write mw-made">made with</span>
@@ -1881,10 +1919,16 @@
         <span class="mw-write mw-name-txt">&mdash; Subham</span>
       </span>
     </div>
-    <div class="foot">
-      <span>Subham Padhy &middot; Analytics &middot; Strategy &middot; Operations</span>
-      <span>Bhubaneswar, Odisha</span>
-      <span>&copy; 2026</span>
+      <div class="foot-thanks" data-reveal>
+        <div class="ft-row">
+          <span class="ft-avatar">
+            <img class="ft-img-light" src="footer-photo-light.jpg" alt="Subham Padhy">
+            <img class="ft-img-dark" src="footer-photo-dark.jpg" alt="" aria-hidden="true">
+          </span>
+          <span class="ft-msg">Thanks for stopping by!</span>
+        </div>
+        <div class="ft-copy"><span class="cpy">&copy;</span> Subham Padhy 2026. All rights reserved.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -3082,6 +3126,29 @@
   }
   lockHeight();
   let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(lockHeight, 150); });
+})();
+</script>
+<script>
+(function(){
+  /* desktop: scale the copyright line so its width matches the
+     "photo + Thanks for stopping by!" row exactly, edges aligned */
+  const row  = document.querySelector('.foot-thanks .ft-row');
+  const copy = document.querySelector('.foot-thanks .ft-copy');
+  if(!row || !copy) return;
+  function fitCopy(){
+    if(window.innerWidth <= 900){ copy.style.fontSize=''; return; }
+    copy.style.fontSize = '15px'; /* reset, then measure */
+    const target = row.offsetWidth;
+    const actual = copy.offsetWidth;
+    if(actual > 0 && target > 0){
+      let fs = 15 * (target / actual);
+      fs = Math.max(11, Math.min(17, fs));
+      copy.style.fontSize = fs.toFixed(2) + 'px';
+    }
+  }
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitCopy); } else { fitCopy(); }
+  window.addEventListener('load', fitCopy);
+  let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(fitCopy, 150); });
 })();
 </script>
 </body>
