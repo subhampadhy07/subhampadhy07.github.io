@@ -522,6 +522,7 @@
     display:inline-block;min-width:190px;
     font-family:var(--serif);font-style:italic;font-weight:600;font-size:1.1em;color:var(--accent);
   }
+  .role-rotator .rr-sizer{display:none;}
   .role-rotator .caret{
     display:inline-block;width:2px;height:1em;background:var(--accent);
     vertical-align:-0.15em;margin-left:2px;animation:blink 1s step-end infinite;
@@ -1336,6 +1337,11 @@
     .map-hello{z-index:4;right:12px;}
     .map-hello .name{white-space:nowrap;text-shadow:0 2px 14px rgba(0,0,0,.55);}
     .map-hello .hi{text-shadow:0 1px 8px rgba(0,0,0,.5);}
+    /* rotator reserves the exact width of "Root Cause Analysis" at all times,
+       so the surrounding sentence never re-wraps or moves */
+    .hero-lead2 .role-rotator{display:inline-grid;min-width:0;white-space:nowrap;vertical-align:baseline;}
+    .hero-lead2 .rr-live{grid-area:1/1;}
+    .hero-lead2 .rr-sizer{grid-area:1/1;visibility:hidden;display:inline;}
   }
   /* ===== dp lightbox: click photo to pop open ===== */
   .map-photo{cursor:zoom-in;}
@@ -1418,7 +1424,7 @@
         <p class="hero-lead2">
           I ran the business before I learned to analyze it. Five years owning targets, budgets, and the
           Monday meetings where someone asks why the numbers moved.<br>
-          Now applying <span class="role-rotator"><span id="roleText">SQL</span><span class="caret"></span></span>
+          Now applying <span class="role-rotator"><span class="rr-live"><span id="roleText">SQL</span><span class="caret"></span></span><span class="rr-sizer" aria-hidden="true">Root Cause Analysis</span></span>
           to the problems I once owned as an operator.
         </p>
         <div class="hero-cta hero-stagger d3">
@@ -3058,6 +3064,24 @@
   dp.addEventListener('click', openLB);
   lb.addEventListener('click', (e)=>{ if(e.target !== lb.querySelector('img')) closeLB(); });
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && lb.classList.contains('open')) closeLB(); });
+})();
+</script>
+<script>
+(function(){
+  /* lock the hero paragraph's height to its tallest state (longest rotating word)
+     so the typewriter never shifts the layout below it */
+  const lead = document.querySelector('.hero-lead2');
+  const word = document.getElementById('roleText');
+  if(!lead || !word) return;
+  function lockHeight(){
+    lead.style.minHeight = '';
+    const original = word.textContent;
+    word.textContent = 'Root Cause Analysis'; /* longest entry in the rotation */
+    lead.style.minHeight = lead.offsetHeight + 'px';
+    word.textContent = original;
+  }
+  lockHeight();
+  let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(lockHeight, 150); });
 })();
 </script>
 </body>
