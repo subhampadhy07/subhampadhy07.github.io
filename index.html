@@ -221,9 +221,9 @@
     display:flex;align-items:center;justify-content:center;
     transition:color .25s;
     animation:
-      fabFade .6s ease 7.8s both,
-      fabSway 3.6s ease-in-out 9.6s infinite,
-      fabGlow 2.8s ease-out 9.6s infinite;
+      fabFade .6s ease 0s both,
+      fabSway 3.6s ease-in-out 2s infinite,
+      fabGlow 2.8s ease-out 2s infinite;
   }
   /* load entrance: quiet fade only; the big spin is saved for after the map zoom */
   @keyframes fabFade{
@@ -1337,6 +1337,28 @@
     .map-hello .name{white-space:nowrap;text-shadow:0 2px 14px rgba(0,0,0,.55);}
     .map-hello .hi{text-shadow:0 1px 8px rgba(0,0,0,.5);}
   }
+  /* ===== dp lightbox: click photo to pop open ===== */
+  .map-photo{cursor:zoom-in;}
+  #dpLightbox{
+    position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;
+    background:rgba(12,11,9,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    opacity:0;pointer-events:none;transition:opacity .35s var(--ease);cursor:zoom-out;
+  }
+  #dpLightbox.open{opacity:1;pointer-events:auto;}
+  #dpLightbox img{
+    max-width:min(86vw,520px);max-height:80vh;display:block;
+    border-radius:18px;border:3px solid #111;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+    transform:scale(.85) rotate(4.5deg);transition:transform .45s var(--ease);
+  }
+  #dpLightbox.open img{transform:scale(1) rotate(0deg);}
+  #dpLightbox .dp-close{
+    position:absolute;top:22px;right:22px;width:44px;height:44px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.35);background:transparent;color:#f4f1ea;
+    font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:background .3s,transform .3s;
+  }
+  #dpLightbox .dp-close:hover{background:rgba(255,255,255,.14);transform:rotate(90deg);}
 </style>
 </head>
 <body>
@@ -3020,6 +3042,22 @@
       animating = false;
     };
   });
+})();
+</script>
+<div id="dpLightbox" role="dialog" aria-modal="true" aria-label="Profile photo enlarged">
+  <button class="dp-close" aria-label="Close">&#10005;</button>
+  <img src="profile.jpg" alt="Subham Padhy">
+</div>
+<script>
+(function(){
+  const dp = document.querySelector('.map-photo');
+  const lb = document.getElementById('dpLightbox');
+  if(!dp || !lb) return;
+  const openLB = ()=>{ lb.classList.add('open'); document.body.style.overflow='hidden'; };
+  const closeLB = ()=>{ lb.classList.remove('open'); document.body.style.overflow=''; };
+  dp.addEventListener('click', openLB);
+  lb.addEventListener('click', (e)=>{ if(e.target !== lb.querySelector('img')) closeLB(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && lb.classList.contains('open')) closeLB(); });
 })();
 </script>
 </body>
