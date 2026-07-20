@@ -27,8 +27,8 @@
 </script>
 <style>
   :root{
-    --paper:#f6f4f0;
-    --paper-dim:#edebe5;
+    --paper:#f8f4ea;
+    --paper-dim:#f0eadd;
     --ink:#161410;
     --ink-soft:#4c4840;
     --ink-faint:#8d877b;
@@ -656,6 +656,10 @@
   #about{padding-bottom:60px;}
   #experience{padding-top:46px;}
   #skills{padding-bottom:40px;}
+  /* tighten the large gaps before the Education and Consulting headings */
+  #projects{padding-bottom:52px;}
+  #education{padding-top:52px;padding-bottom:52px;}
+  #consulting{padding-top:52px;}
   .sec-head{
     display:flex;align-items:baseline;justify-content:space-between;gap:30px;
     padding-bottom:22px;margin-bottom:38px;position:relative;
@@ -795,6 +799,30 @@
   .exp-role{font-family:var(--serif);font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.5px;margin-bottom:4px;}
   .exp-meta{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--accent);margin-bottom:16px;}
   .exp-company{font-size:15px;}
+  /* internal promotion: two stacked roles under one company (LinkedIn-style transition) */
+  .exp-promo-company{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--accent);margin-bottom:20px;}
+  .exp-promo-company .epc-tenure{color:var(--ink-faint);}
+  .exp-promo{position:relative;padding-left:26px;}
+  .exp-promo::before{
+    content:'';position:absolute;left:4px;top:9px;bottom:11px;width:1.5px;
+    background:linear-gradient(to bottom,var(--accent) 0%,var(--accent) 55%,var(--rule) 100%);
+    opacity:.7;
+  }
+  .epr{position:relative;margin-bottom:26px;}
+  .epr:last-child{margin-bottom:0;}
+  .epr::before{
+    content:'';position:absolute;left:-25.5px;top:9px;width:9px;height:9px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 0 3px var(--paper);
+  }
+  .epr.epr-start::before{background:var(--rule);}
+  .epr-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px;}
+  .epr-title{font-family:var(--sans);font-size:clamp(17px,2vw,20px);font-weight:600;letter-spacing:-.2px;}
+  .epr-date{font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--ink-faint);white-space:nowrap;text-align:right;}
+  .epr-promo-badge{
+    display:inline-block;font-family:var(--mono);font-size:8.5px;font-weight:400;letter-spacing:1px;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);border-radius:20px;padding:2px 8px;margin-left:10px;
+    vertical-align:middle;position:relative;top:-1px;opacity:.85;
+  }
   .exp-summary{color:var(--ink-soft);font-size:14.5px;margin-bottom:16px;max-width:640px;}
   .exp-bullets li{
     color:var(--ink-soft);font-size:14px;padding-left:22px;position:relative;margin-bottom:10px;max-width:680px;
@@ -805,7 +833,7 @@
   .exp-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
 
   /* projects */
-  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .projects-grid{display:grid;grid-template-columns:repeat(2,minmax(0,330px));gap:22px;justify-content:center;}
   .project-card{
     border:1px solid var(--rule);border-radius:12px;overflow:hidden;
     background:rgba(255,255,255,0.55);display:flex;flex-direction:column;
@@ -814,14 +842,14 @@
   html[data-theme="dark"] .project-card{background:rgba(239,233,251,0.05);}
   .project-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 16px 34px rgba(0,0,0,.10);}
   .p-thumb{
-    height:190px;background:var(--surface-dark);position:relative;
+    height:150px;background:var(--surface-dark);position:relative;
     display:flex;align-items:center;justify-content:center;overflow:hidden;
   }
   .p-thumb::after{
     content:'';position:absolute;inset:0;
     background-image:radial-gradient(var(--banner-dot) 1px, transparent 1px);background-size:14px 14px;
   }
-  .p-thumb svg{width:118px;height:88px;position:relative;z-index:1;}
+  .p-thumb svg{width:190px;height:130px;position:relative;z-index:1;}
   .p-thumb svg .ax{stroke:var(--dk-border);stroke-width:2;fill:none;stroke-linecap:round;}
   .p-thumb svg .bar{fill:var(--accent);}
   .p-thumb svg .ln{stroke:var(--accent);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;}
@@ -831,10 +859,10 @@
     position:absolute;top:14px;right:16px;z-index:2;
     font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--dk-faint);
   }
-  .p-body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1;}
-  .project-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-  .project-card h3{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.4px;margin-bottom:9px;}
-  .project-card p{font-size:14px;color:var(--ink-soft);margin-bottom:16px;line-height:1.6;}
+  .p-body{padding:16px 20px 18px;display:flex;flex-direction:column;flex:1;}
+  .project-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+  .project-card h3{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.4px;margin-bottom:6px;}
+  .project-card p{font-size:13.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.5;}
   .p-metric{
     display:inline-flex;align-items:baseline;gap:6px;align-self:flex-start;
     font-family:var(--mono);font-size:11px;letter-spacing:1px;
@@ -844,7 +872,7 @@
   .p-metric b{color:var(--accent);font-size:12.5px;font-weight:700;}
   .p-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;}
   .p-pill{
-    font-family:var(--sans);font-size:12.5px;font-weight:500;padding:5px 11px;border-radius:7px;
+    font-family:var(--sans);font-size:11px;font-weight:500;padding:3px 9px;border-radius:6px;
     color:var(--ink-soft);background:var(--accent-soft);border:1px solid var(--rule);
   }
   html[data-theme="dark"] .p-pill{color:var(--ink-soft);}
@@ -865,12 +893,12 @@
 
   /* project metric badge (borrowed structure: hirok-style stat badge) */
   .p-metric{
-    display:inline-flex;align-items:baseline;gap:6px;
-    font-family:var(--mono);font-size:11.5px;letter-spacing:1px;
-    border:1px solid var(--rule);padding:6px 12px;margin-bottom:20px;
+    display:inline-flex;align-items:baseline;gap:5px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.5px;
+    border:1px solid var(--rule);padding:4px 9px;margin-bottom:10px;
     color:var(--ink-soft);transition:border-color .35s, color .35s;
   }
-  .p-metric b{color:var(--accent);font-size:13px;font-weight:700;}
+  .p-metric b{color:var(--accent);font-size:11px;font-weight:700;}
   .project-card:hover .p-metric{border-color:var(--dk-border);color:var(--dk-muted);}
 
   /* quiet CV link */
@@ -1678,14 +1706,32 @@
 
     <div class="exp-item" data-reveal>
       <div class="exp-body">
-        <div class="exp-role">Business Development Manager</div>
-        <div class="exp-meta"><span class="exp-company">JAG Educate</span> &middot; Bhubaneswar</div>
-        <div class="exp-summary">Institutional partnerships and structured application strategy.</div>
-        <ul class="exp-bullets">
-          <li>Built partnerships with 10+ educational institutions, generating recurring revenue through multi-year contracts.</li>
-          <li>Guided 6 candidates into Global Top 30 MBA programs through structured profile analysis and application strategy.</li>
-        </ul>
-        <div class="exp-tags"><span class="tag">Profile Analysis</span><span class="tag">Partnerships</span></div>
+        <div class="exp-promo-company"><span class="exp-company">JAG Educate</span> &middot; Bhubaneswar &middot; <span class="epc-tenure">2 yrs 6 mos</span></div>
+        <div class="exp-promo">
+          <div class="epr">
+            <div class="epr-head">
+              <span class="epr-title">Business Development Manager<span class="epr-promo-badge">Promoted</span></span>
+              <span class="epr-date">May 2022 &ndash; Jul 2023</span>
+            </div>
+            <div class="exp-summary">Institutional partnerships and structured application strategy.</div>
+            <ul class="exp-bullets">
+              <li>Built partnerships with 10+ educational institutions, generating recurring revenue through multi-year contracts.</li>
+              <li>Guided 6 candidates into Global Top 30 MBA programs through structured profile analysis and application strategy.</li>
+            </ul>
+          </div>
+          <div class="epr epr-start">
+            <div class="epr-head">
+              <span class="epr-title">Business Development Executive</span>
+              <span class="epr-date">Feb 2021 &ndash; May 2022</span>
+            </div>
+            <div class="exp-summary">Ground-level pipeline building and candidate counseling.</div>
+            <ul class="exp-bullets">
+              <li>Generated and qualified inbound leads from 200+ prospective candidates, building the pipeline that later converted into institutional contracts.</li>
+              <li>Ran first-round profile assessments and counseling sessions, tracking stage-wise conversion to sharpen the qualification criteria.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-tags"><span class="tag">Profile Analysis</span><span class="tag">Partnerships</span><span class="tag">Lead Qualification</span></div>
       </div>
       <div class="exp-date">Feb 2021 &ndash; Jul 2023</div>
     </div>
