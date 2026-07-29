@@ -20,7 +20,7 @@
 <title>Subham Padhy | Analytics &middot; Strategy &middot; Operations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&family=Fjalla+One&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Fjalla+One&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script>
   try { if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme','dark'); } catch(e){}
@@ -133,19 +133,54 @@
   /* scroll progress */
   #scrollProgress{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--accent);z-index:600;}
 
-  /* cursor: dot with trailing ring */
-  .cursor-dot,.cursor-ring{
-    position:fixed;top:0;left:0;pointer-events:none;z-index:9000;border-radius:50%;
-    transform:translate(-50%,-50%);
+  /* cursor: elastic label blob (squash-stretch + element wrap + contextual labels) */
+  .blob-dot,.blob-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9000;}
+  .blob-dot{
+    width:5px;height:5px;background:var(--accent);border-radius:50%;
+    transform:translate(-50%,-50%);transition:opacity .25s ease;
   }
-  .cursor-dot{width:6px;height:6px;background:var(--accent);}
-  .cursor-ring{
-    width:34px;height:34px;border:1px solid rgba(217,72,28,.55);
-    transition:width .3s var(--ease), height .3s var(--ease), border-color .3s, background .3s;
+  .blob-ring{
+    width:34px;height:34px;border:1.5px solid var(--accent);border-radius:50%;
+    background:rgba(217,72,28,.06);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    transform:translate(-50%,-50%);will-change:transform,width,height,border-radius;
+    transition:width .26s var(--ease),height .26s var(--ease),border-radius .26s var(--ease),background .3s;
   }
-  .cursor-ring.hovering{width:58px;height:58px;background:rgba(217,72,28,.08);border-color:var(--accent);}
+  html[data-theme="dark"] .blob-ring{background:rgba(244,185,66,.07);}
+  .blob-ring.stuck{background:rgba(217,72,28,.08);}
+  html[data-theme="dark"] .blob-ring.stuck{background:rgba(244,185,66,.10);}
+  .blob-ring.labeled{background:var(--accent);border-color:var(--accent);}
+  /* light theme: crisp rounded-square outline that morphs into wrap + label */
+  html:not([data-theme="dark"]) .blob-dot{opacity:0;}
+  html:not([data-theme="dark"]) .blob-ring{
+    width:24px;height:24px;background:rgba(217,72,28,.05);
+    border:1.5px solid var(--accent);box-shadow:0 2px 8px rgba(217,72,28,.14);
+  }
+  html:not([data-theme="dark"]) .blob-ring.stuck{
+    background:rgba(217,72,28,.08);box-shadow:none;
+  }
+  html:not([data-theme="dark"]) .blob-ring.labeled{
+    background:var(--accent);border-color:var(--accent);box-shadow:0 6px 18px rgba(217,72,28,.28);
+  }
+  .xline,.xcoords{display:none;}
+  /* dark theme: glowing warm orb */
+  html[data-theme="dark"] .blob-dot{box-shadow:0 0 8px rgba(244,185,66,.85);}
+  html[data-theme="dark"] .blob-ring{
+    border-color:rgba(244,185,66,.9);
+    box-shadow:0 0 14px rgba(244,185,66,.35), inset 0 0 9px rgba(244,185,66,.18);
+  }
+  html[data-theme="dark"] .blob-ring.labeled{background:var(--paper);border-color:var(--accent);box-shadow:0 0 22px rgba(244,185,66,.5);}
+  html[data-theme="dark"] .blob-ring.labeled .blob-label{color:var(--accent);}
+  .blob-label{
+    font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+    color:#fff;opacity:0;transform:scale(.55);white-space:nowrap;
+    text-shadow:0 1px 2px rgba(0,0,0,.28);
+    transition:opacity .2s ease .18s,transform .2s var(--ease) .18s;
+  }
+  .blob-ring.labeled .blob-label{opacity:1;transform:scale(1);}
+  .blob-label.hide-fast{transition:opacity .12s ease,transform .12s var(--ease);}
   body.no-cursor, body.no-cursor *{cursor:none !important;}
-  @media (hover:none), (pointer:coarse){.cursor-dot,.cursor-ring{display:none;}}
+  @media (hover:none), (pointer:coarse){.blob-dot,.blob-ring{display:none;}}
 
   /* backdrop: bullet-journal dot grid + hand-drawn analyst sketches */
   .bg-layer{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;}
@@ -798,7 +833,7 @@
   }
   .exp-role{font-family:var(--serif);font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.5px;margin-bottom:4px;}
   .exp-meta{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--accent);margin-bottom:16px;}
-  .exp-company{font-size:15px;}
+  .exp-company{font-family:var(--sans);font-weight:700;font-size:15.5px;letter-spacing:0;color:var(--accent);}
   /* internal promotion: two stacked roles under one company (LinkedIn-style transition) */
   .exp-promo-company{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--accent);margin-bottom:20px;}
   .exp-promo-company .epc-tenure{color:var(--ink-faint);}
@@ -825,10 +860,12 @@
   }
   .exp-summary{color:var(--ink-soft);font-size:14.5px;margin-bottom:16px;max-width:640px;}
   .exp-bullets li{
-    color:var(--ink-soft);font-size:14px;padding-left:22px;position:relative;margin-bottom:10px;max-width:680px;
+    font-family:'IBM Plex Sans',var(--sans);
+    color:var(--ink-soft);font-size:14px;padding-left:1.7em;position:relative;margin-bottom:10px;max-width:680px;
   }
   .exp-bullets li::before{
-    content:'\2192';position:absolute;left:0;top:0;color:var(--accent);font-size:13px;
+    content:'\2192';position:absolute;left:0;top:0;line-height:inherit;
+    color:var(--accent);font-size:1.05em;font-weight:700;
   }
   .exp-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
 
@@ -1441,8 +1478,11 @@
 <div id="sketchField" aria-hidden="true"><svg id="sketchLayer" xmlns="http://www.w3.org/2000/svg"></svg></div>
 
 <div id="scrollProgress"></div>
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<span class="xline" id="xline1" aria-hidden="true"></span>
+<span class="xline" id="xline2" aria-hidden="true"></span>
+<div class="xcoords" id="xcoords" aria-hidden="true">x 0  y 0</div>
+<div class="blob-dot" id="blobDot" aria-hidden="true"></div>
+<div class="blob-ring" id="blobRing" aria-hidden="true"><span class="blob-label" id="blobLabel"></span></div>
 
 <div id="preloader">
   <div class="pre-title"><span>Subham <em>Padhy</em></span></div>
@@ -2332,21 +2372,86 @@
   // pointer effects
   const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
   if(finePointer && !reducedMotion){
-    // custom cursor with trailing ring
+    // elastic label blob: squash-stretch when free, wrap small elements, label key targets
     document.body.classList.add('no-cursor');
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    let mx=-100,my=-100,rx=-100,ry=-100;
+    const dot = document.getElementById('blobDot');
+    const ring = document.getElementById('blobRing');
+    const label = document.getElementById('blobLabel');
+    const xl1 = document.getElementById('xline1');
+    const xl2 = document.getElementById('xline2');
+    const xco = document.getElementById('xcoords');
+    let mx=-100,my=-100,rx=-100,ry=-100,prx=-100,pry=-100;
+    let mode='free', stuckEl=null;
+    document.body.classList.add('xfree');
     document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
     (function loop(){
-      rx += (mx-rx)*0.16; ry += (my-ry)*0.16;
-      dot.style.left = mx+'px'; dot.style.top = my+'px';
-      ring.style.left = rx+'px'; ring.style.top = ry+'px';
+      dot.style.left=mx+'px'; dot.style.top=my+'px';
+      if(mode==='wrap' && stuckEl){
+        const r=stuckEl.getBoundingClientRect();
+        const cxT=r.left+r.width/2, cyT=r.top+r.height/2;
+        rx += (cxT-rx)*0.22; ry += (cyT-ry)*0.22;
+        ring.style.left=rx+'px'; ring.style.top=ry+'px';
+        ring.style.width=(r.width+8)+'px'; ring.style.height=(r.height+8)+'px';
+        ring.style.transform='translate(-50%,-50%)';
+      } else if(mode==='label' && stuckEl){
+        const r=stuckEl.getBoundingClientRect();
+        const cxT=r.left+r.width/2, cyT=r.top+r.height/2;
+        rx += (cxT-rx)*0.22; ry += (cyT-ry)*0.22;
+        ring.style.left=rx+'px'; ring.style.top=ry+'px';
+        ring.style.width=(r.width+10)+'px'; ring.style.height=(r.height+10)+'px';
+        ring.style.transform='translate(-50%,-50%)';
+      } else {
+        rx += (mx-rx)*0.2; ry += (my-ry)*0.2;
+        const vx=rx-prx, vy=ry-pry;
+        const speed=Math.hypot(vx,vy);
+        const s=Math.min(speed*0.006,0.34);
+        const ang=Math.atan2(vy,vx)*180/Math.PI;
+        ring.style.left=rx+'px'; ring.style.top=ry+'px';
+        ring.style.transform='translate(-50%,-50%) rotate('+ang+'deg) scale('+(1+s)+','+(1-s)+')';
+        ring.style.borderRadius = (document.documentElement.getAttribute('data-theme')==='dark') ? '50%' : '8px';
+      }
+      prx=rx; pry=ry;
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a,button,.skill-card,.chip,.project-card,.p-pill,.fact-row,.exp-item').forEach(el=>{
-      el.addEventListener('mouseenter', ()=>ring.classList.add('hovering'));
-      el.addEventListener('mouseleave', ()=>ring.classList.remove('hovering'));
+    function release(){
+      mode='free'; stuckEl=null;
+      label.classList.add('hide-fast');
+      label.textContent='';
+      ring.classList.remove('stuck','labeled');
+      ring.style.width=''; ring.style.height=''; ring.style.borderRadius='50%';
+      dot.style.opacity='';
+      document.body.classList.add('xfree');
+      setTimeout(()=>label.classList.remove('hide-fast'), 150);
+    }
+    // contextual label targets (morph into a labeled disc)
+    const labelMap=[['.case-trigger','Read'],['[href^="mailto"]','Say Hi'],['.connect-row a','Say Hi'],['.btn.solid','Say Hi'],['.project-card','View']];
+    const labeled=new Set();
+    labelMap.forEach(([sel,txt])=>{
+      document.querySelectorAll(sel).forEach(el=>{
+        labeled.add(el);
+        el.addEventListener('mouseenter', ()=>{
+          mode='label'; stuckEl=el; label.textContent=txt;
+          const br=getComputedStyle(el).borderRadius;
+          ring.style.borderRadius=(br && br!=='0px') ? br : '10px';
+          ring.classList.remove('stuck'); ring.classList.add('labeled');
+          dot.style.opacity='0'; document.body.classList.remove('xfree');
+        });
+        el.addEventListener('mouseleave', release);
+      });
+    });
+    // wrap targets (elastic wrap), skipping labeled ones
+    document.querySelectorAll('a,button,.chip,.p-pill,.skill-card,.fact-row').forEach(el=>{
+      if(labeled.has(el)) return;
+      el.addEventListener('mouseenter', ()=>{
+        const r=el.getBoundingClientRect();
+        if(r.width>360 || r.height>200) return;
+        mode='wrap'; stuckEl=el;
+        const br=getComputedStyle(el).borderTopLeftRadius;
+        ring.style.borderRadius=(br && br!=='0px') ? br : '8px';
+        ring.classList.remove('labeled'); ring.classList.add('stuck');
+        dot.style.opacity='0'; document.body.classList.remove('xfree');
+      });
+      el.addEventListener('mouseleave', release);
     });
 
     // magnetic buttons
