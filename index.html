@@ -146,31 +146,31 @@
     transform:translate(-50%,-50%);will-change:transform,width,height,border-radius;
     transition:width .26s var(--ease),height .26s var(--ease),border-radius .26s var(--ease),background .3s;
   }
-  html[data-theme="dark"] .blob-ring{background:rgba(244,185,66,.07);}
   .blob-ring.stuck{background:rgba(217,72,28,.08);}
-  html[data-theme="dark"] .blob-ring.stuck{background:rgba(244,185,66,.10);}
   .blob-ring.labeled{background:var(--accent);border-color:var(--accent);}
-  /* light theme: crisp rounded-square outline that morphs into wrap + label */
-  html:not([data-theme="dark"]) .blob-dot{opacity:0;}
-  html:not([data-theme="dark"]) .blob-ring{
+  /* crisp rounded-square outline that morphs into wrap + label, same in light and dark */
+  .blob-dot{opacity:0;}
+  .blob-ring{
     width:24px;height:24px;background:rgba(217,72,28,.05);
     border:1.5px solid var(--accent);box-shadow:0 2px 8px rgba(217,72,28,.14);
   }
-  html:not([data-theme="dark"]) .blob-ring.stuck{
+  .blob-ring.stuck{
     background:rgba(217,72,28,.08);box-shadow:none;
   }
-  html:not([data-theme="dark"]) .blob-ring.labeled{
+  .blob-ring.labeled{
     background:var(--accent);border-color:var(--accent);box-shadow:0 6px 18px rgba(217,72,28,.28);
   }
   .xline,.xcoords{display:none;}
-  /* dark theme: glowing warm orb */
-  html[data-theme="dark"] .blob-dot{box-shadow:0 0 8px rgba(244,185,66,.85);}
+  /* dark theme: same shape and motion, with a warm glow added */
   html[data-theme="dark"] .blob-ring{
-    border-color:rgba(244,185,66,.9);
-    box-shadow:0 0 14px rgba(244,185,66,.35), inset 0 0 9px rgba(244,185,66,.18);
+    box-shadow:0 2px 8px rgba(217,72,28,.14), 0 0 14px rgba(244,185,66,.35), inset 0 0 9px rgba(244,185,66,.18);
   }
-  html[data-theme="dark"] .blob-ring.labeled{background:var(--paper);border-color:var(--accent);box-shadow:0 0 22px rgba(244,185,66,.5);}
-  html[data-theme="dark"] .blob-ring.labeled .blob-label{color:var(--accent);}
+  html[data-theme="dark"] .blob-ring.stuck{
+    box-shadow:0 0 14px rgba(244,185,66,.4), inset 0 0 9px rgba(244,185,66,.22);
+  }
+  html[data-theme="dark"] .blob-ring.labeled{
+    box-shadow:0 6px 18px rgba(217,72,28,.28), 0 0 22px rgba(244,185,66,.5);
+  }
   .blob-label{
     font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
     color:#fff;opacity:0;transform:scale(.55);white-space:nowrap;
@@ -2408,7 +2408,7 @@
         const ang=Math.atan2(vy,vx)*180/Math.PI;
         ring.style.left=rx+'px'; ring.style.top=ry+'px';
         ring.style.transform='translate(-50%,-50%) rotate('+ang+'deg) scale('+(1+s)+','+(1-s)+')';
-        ring.style.borderRadius = (document.documentElement.getAttribute('data-theme')==='dark') ? '50%' : '8px';
+        ring.style.borderRadius = '8px';
       }
       prx=rx; pry=ry;
       requestAnimationFrame(loop);
