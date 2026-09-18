@@ -2952,7 +2952,10 @@
       touchZoom:false, tap:false,
       zoomAnimation:true, fadeAnimation:true
     });
-    const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    // CARTO now requires a free key on its basemap tiles: get one at https://carto.com/basemaps/apikey/
+    const CARTO_KEY = 'cb1_3py4_1_6b14cd397ca9e58dcceae227';
+    const cartoKey = CARTO_KEY && CARTO_KEY.indexOf('PASTE_') !== 0 ? '?key=' + CARTO_KEY : '';
+    const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png' + cartoKey, {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: 'abcd', maxZoom: 19
     }).addTo(map);
@@ -2969,7 +2972,7 @@
     labelsPane.style.pointerEvents = 'none';
     labelsPane.style.opacity = '0';
     labelsPane.style.transition = 'opacity 1s ease';
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png' + cartoKey, {
       subdomains: 'abcd', maxZoom: 19, pane: 'labelsPane'
     }).addTo(map);
 
