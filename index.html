@@ -143,6 +143,58 @@ nav.top{display:flex;justify-content:center;padding-block:150px 34px}
 @keyframes qrun{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
 .qwin .run{transform-box:fill-box;transform-origin:center}
 .pj .label{--d:.9s}
+/* nav bar that slides back in when you scroll up */
+.navbar{position:fixed;left:0;right:0;top:0;z-index:50;display:flex;justify-content:center;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;
+  background:rgba(31,29,28,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1.5px solid rgba(242,227,210,.14);
+  transform:translateY(-110%);transition:transform .45s cubic-bezier(.3,1.2,.45,1),box-shadow .3s;pointer-events:none}
+.navbar.show{transform:none;pointer-events:auto;box-shadow:0 14px 30px -18px #000}
+.navbar .nav{height:44px}
+.navbar .pop,.navbar .badge,.navbar .qwin,.navbar .social{display:none}
+.navbar .nav>li.face{--fx:-50px!important;--fy:0px!important;--fs:.55!important;--fr:0deg!important;animation:none}
+.navbar .nav>li.face svg{animation:none!important}
+section[id],header[id]{scroll-margin-top:84px}
+@media (max-width:720px){.navbar .nav>li.face{--fx:-36px!important;--fs:.5!important}}
+@media (prefers-reduced-motion: reduce){.navbar{transition:none}}
+/* ---------- side nav: past the hero the left rail stops and four stamps flip into the nav ---------- */
+html.side-on .rail .rail-track{animation-play-state:paused}
+.side{position:fixed;left:0;top:0;width:var(--rail);height:100%;z-index:45;pointer-events:none}
+html.side-on .pj-doodle,html.side-on .d-flow{opacity:0;transition:opacity .3s}
+.si{position:absolute;left:2px;top:0;width:54px;height:54px;perspective:420px;visibility:hidden}
+.si.placed{visibility:visible}
+.si.ready{pointer-events:auto}
+.si .card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.3,1.35,.45,1) var(--d,0s)}
+.si.flipped .card{transform:rotateY(180deg)}
+.si .fr,.si .nv{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.si .fr .stamp{width:54px;height:54px}
+.si .nv{display:grid;place-items:center;border-radius:8px;border:2px solid var(--red);background:var(--ink);color:var(--red);text-decoration:none;
+  transform:rotateY(180deg);transition:transform .45s cubic-bezier(.3,1.8,.5,1),background .25s,color .25s}
+.si .nv svg{width:28px;height:28px;overflow:visible}
+.si.on .nv{background:var(--red);color:var(--ink)}
+.si.ready:hover .nv,.si.ready:focus-within .nv{transform:rotateY(180deg) rotate(8deg) scale(1.08)}
+.si.ready:nth-child(odd):hover .nv{transform:rotateY(180deg) rotate(-7deg) scale(1.08)}
+/* the baby face rides next to the active stamp and jumps to the one you hover */
+.side-face{position:absolute;left:calc(100% + 4px);top:0;width:28px;height:28px;pointer-events:none;opacity:0;
+  transform:translateY(var(--fy,0px)) rotate(var(--fr,0deg));transition:transform .6s cubic-bezier(.3,1.5,.45,1),opacity .3s}
+.side-face svg{width:100%;height:100%;display:block}
+/* paper tag that slides out to the right on hover */
+.stag{position:absolute;left:calc(100% + 44px);top:50%;min-width:150px;padding:14px 16px 12px;background:#f4ebe1;color:var(--ink);border-radius:4px;
+  box-shadow:0 16px 26px -14px rgba(0,0,0,.85);font-family:var(--hand);pointer-events:none;opacity:0;
+  transform:translate(-18px,-50%) rotate(-6deg) scale(.85);transform-origin:0 50%;transition:opacity .15s,transform .25s ease-in}
+.stag::before{content:"";position:absolute;left:-10px;top:50%;width:34px;height:14px;margin-top:-7px;background:rgba(224,80,60,.6);transform:rotate(-8deg)}
+.stag::after{content:"";position:absolute;right:100%;top:0;bottom:0;width:40px}
+.stag b{display:block;font-weight:400;font-size:24px;line-height:1;color:var(--red)}
+.stag small{display:block;font-size:15px;color:#5b534d;margin-top:3px}
+.si.ready:hover .stag,.si.ready:focus-within .stag{opacity:1;pointer-events:auto;transform:translate(0,-50%) rotate(-2deg);transition:opacity .18s,transform .55s cubic-bezier(.3,1.6,.45,1)}
+.si.ready:nth-child(odd):hover .stag{transform:translate(0,-50%) rotate(2deg)}
+.stag .links{display:flex;gap:8px;margin-top:8px}
+.stag .links a{display:grid;place-items:center;width:32px;height:32px;border:1.8px solid var(--ink);border-radius:7px;color:var(--ink);transition:transform .3s cubic-bezier(.3,1.8,.5,1),background .2s,color .2s}
+.stag .links a:hover{background:var(--red);border-color:var(--red);color:#f4ebe1;transform:rotate(-8deg)}
+.stag .links svg{width:18px;height:18px}
+@media (max-width:899px),(hover:none){.side{display:none}}
+html[data-look="mono"] .stag{background:var(--m-paper)}
+html[data-look="mono"] .stag b{color:var(--ink)}
+html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
+@media (prefers-reduced-motion: reduce){.si .card,.side-face{transition:none}}
 /* the face: one doodle that travels to whichever word you hover */
 .nav>li.face{display:block;position:absolute;left:0;top:0;width:46px;height:46px;z-index:3;pointer-events:none;color:var(--chalk);
   transform:translate(var(--fx),var(--fy)) scale(var(--fs)) rotate(var(--fr));
@@ -836,7 +888,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
   </nav>
 
   <!-- HERO -->
-  <header class="hero-wrap">
+  <header class="hero-wrap" id="top">
     <div class="doodle d1" aria-hidden="true"><svg filter="url(#wob2)"><use href="#s-chai"/></svg></div>
     <div class="doodle d2" aria-hidden="true"><svg filter="url(#wob2)"><use href="#s-turtle"/></svg></div>
     <div class="doodle d3" aria-hidden="true"><svg filter="url(#wob2)"><use href="#s-fish"/></svg></div>
@@ -1306,6 +1358,13 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
     </div>
     <p class="fine">© 2026 Subham Padhy • made by hand in Bhubaneswar</p>
   </footer>
+  <nav class="side" id="side" aria-label="Sections">
+    <div class="si" data-sec="about" style="--d:0.00s"><div class="card"><span class="fr" aria-hidden="true"></span><a class="nv" href="#think" aria-label="about" tabindex="-1"><svg viewBox="0 0 26 26" filter="url(#wob)"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h18v11H12l-5 4v-4H4Z"/><path d="M8 10h10M8 13.5h6"/></g></svg></a></div><span class="stag" aria-hidden="true"><b>about</b><small>the backstory</small></span></div>
+    <div class="si" data-sec="work" style="--d:0.08s"><div class="card"><span class="fr" aria-hidden="true"></span><a class="nv" href="#work" aria-label="work" tabindex="-1"><svg viewBox="0 0 26 26" filter="url(#wob)"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2 12 7M15 2l-1 5"/><rect x="5" y="7" width="16" height="17" rx="2.5"/><circle cx="13" cy="13.5" r="3"/><path d="M9 20h8"/></g></svg></a></div><span class="stag" aria-hidden="true"><b>work</b><small>the path so far</small></span></div>
+    <div class="si" data-sec="projects" style="--d:0.16s"><div class="card"><span class="fr" aria-hidden="true"></span><a class="nv" href="#projects" aria-label="projects" tabindex="-1"><svg viewBox="0 0 26 26" filter="url(#wob)"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="21" height="18" rx="2.5"/><path d="M2.5 9h21M6.5 13.5l3 2-3 2M12 18h6"/></g></svg></a></div><span class="stag" aria-hidden="true"><b>projects</b><small>run a query</small></span></div>
+    <div class="si" data-sec="connect" style="--d:0.24s"><div class="card"><span class="fr" aria-hidden="true"></span><a class="nv" href="#connect" aria-label="connect" tabindex="-1"><svg viewBox="0 0 26 26" filter="url(#wob)"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="20" height="14" rx="2.5"/><path d="M4 7.5l9 6.5 9-6.5"/></g></svg></a></div><span class="stag" aria-hidden="true"><b>connect</b><small>let's chat</small><span class="links"><a href="mailto:subhampadhy07@gmail.com" aria-label="Email"><svg viewBox="0 0 36 36"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="26" height="19" rx="3"/><path d="M6 11l12 9 12-9"/></g></svg></a><a href="tel:+918093245994" aria-label="Call"><svg viewBox="0 0 36 36"><path d="M12 5c-3 1-6 4-5 9 2 8 8 14 16 16 4 1 7-1 8-4l-6-5-3 3c-4-2-7-5-9-9l3-3-4-7Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></a><a href="https://subhampadhy07.github.io/resume.pdf" target="_blank" rel="noopener" aria-label="Resume"><svg viewBox="0 0 36 36"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h13l6 6v22H9Z"/><path d="M22 4v6h6M13 16h11M13 21h11M13 26h7"/></g></svg></a></span></span></div>
+    <span class="side-face" id="sideFace" aria-hidden="true"><svg viewBox="0 0 46 46"><use href="#babyHair"/><g fill="none" stroke="var(--ink)" stroke-linecap="round" stroke-linejoin="round"><path d="M16 26.7Q19.3 24.4 22.5 26.5M29.7 26.3Q32.5 24.2 35.4 26.1" stroke-width="1.1"/><path d="M17.3 31.8Q20.1 28.3 23 31.8M29.6 31.6Q32.4 28.1 35.3 31.6" stroke-width="1.7"/><path d="M27.2 33.1q1.1.1 1 1.1" stroke-width=".9"/><path d="M20.4 36.1Q25.8 35 31.3 35.6Q30 40.9 25.9 41Q21.6 40.9 20.4 36.1Z" fill="var(--ink)" stroke-width=".8"/></g></svg></span>
+  </nav>
   <button class="look" id="lookBtn" type="button" aria-pressed="false" aria-label="Switch to monochrome look"><span class="sw" aria-hidden="true"><i></i></span><span class="t" id="lookTxt">red</span></button>
 
   <div class="sk" id="sk" aria-hidden="true" data-s="arrow">
@@ -1729,6 +1788,88 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
       var m=root.getAttribute('data-look')!=='mono'; apply(m,true);
       try{ localStorage.setItem('look',m?'mono':'red'); }catch(e){}
     });
+  })();
+
+
+  // nav bar: reappears when scrolling up, hides when scrolling down
+  (function(){
+    var src=document.querySelector('nav.top .nav'); if(!src) return;
+    var bar=document.createElement('nav'); bar.className='navbar'; bar.setAttribute('aria-label','Sections');
+    var ul=src.cloneNode(true); ul.querySelectorAll('[id]').forEach(function(e){e.removeAttribute('id')});
+    bar.appendChild(ul); document.body.appendChild(bar);
+    bar.addEventListener('focusin',function(){bar.classList.add('show')});
+    var last=window.scrollY, tick=false, wide=window.matchMedia('(min-width:900px) and (hover:hover)');
+    function limit(){ var r=src.getBoundingClientRect(); return r.bottom+window.scrollY; }
+    function upd(){
+      tick=false; var y=window.scrollY, d=y-last;
+      if(y<limit()||wide.matches) bar.classList.remove('show');
+      else if(d<-4) bar.classList.add('show');
+      else if(d>4 && !bar.contains(document.activeElement)) bar.classList.remove('show');
+      last=y;
+    }
+    window.addEventListener('scroll',function(){ if(!tick){tick=true;requestAnimationFrame(upd);} },{passive:true});
+    ul.querySelectorAll('a.w').forEach(function(a){ a.addEventListener('click',function(){ setTimeout(function(){bar.classList.remove('show');a.blur();},50); }); });
+  })();
+
+
+  // side nav: past the hero the left rail freezes and four of its stamps flip into the nav
+  (function(){
+    var side=document.getElementById('side'), face=document.getElementById('sideFace'), hero=document.getElementById('hero');
+    var rail=document.querySelector('.rail.l'), wide=window.matchMedia('(min-width:900px) and (hover:hover)');
+    if(!side||!hero||!rail) return;
+    var items=[].slice.call(side.querySelectorAll('.si'));
+    var map=[['think','about'],['work','work'],['path','work'],['projects','projects'],['connect','connect']];
+    var on=false, hidden=[], timer=0, active=null, hover=null;
+    function place(){
+      var k=hover||active, el=k&&side.querySelector('.si[data-sec="'+k+'"]');
+      if(!on||!el){ face.style.opacity='0'; return; }
+      face.style.opacity='1';
+      face.style.setProperty('--fy',(parseFloat(el.style.top)+13)+'px');
+      face.style.setProperty('--fr',hover?'-12deg':'6deg');
+    }
+    function enter(){
+      clearTimeout(timer); on=true;
+      document.documentElement.classList.add('side-on');
+      var st=[].slice.call(rail.querySelectorAll('.stamp')), vh=window.innerHeight, target=vh/2-87, best=-1, bd=1e9;
+      st.forEach(function(e,i){ var r=e.getBoundingClientRect(); var d=Math.abs(r.top-target); if(d<bd&&i+3<st.length){bd=d;best=i;} });
+      if(best<0) return;
+      hidden.forEach(function(e){e.style.visibility='';}); hidden=st.slice(best,best+4);
+      items.forEach(function(it,i){
+        var src=hidden[i], r=src.getBoundingClientRect();
+        it.style.top=r.top+'px';
+        it.querySelector('.fr').innerHTML=src.outerHTML;
+        it.classList.add('placed');
+        src.style.visibility='hidden';
+      });
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        items.forEach(function(it){ it.classList.add('flipped','ready'); it.querySelector('.nv').tabIndex=0; });
+        place();
+      }); });
+    }
+    function leave(){
+      on=false; face.style.opacity='0';
+      items.forEach(function(it){ it.classList.remove('flipped','ready'); it.querySelector('.nv').tabIndex=-1; });
+      timer=setTimeout(function(){
+        items.forEach(function(it){ it.classList.remove('placed'); });
+        hidden.forEach(function(e){e.style.visibility='';}); hidden=[];
+        document.documentElement.classList.remove('side-on');
+      },reduce?0:1000);
+    }
+    function upd(){
+      var want=wide.matches && hero.getBoundingClientRect().bottom<80;
+      if(want&&!on) enter(); else if(!want&&on) leave();
+      var mid=window.innerHeight*.4, cur=null;
+      map.forEach(function(m){ var e=document.getElementById(m[0]); if(e&&e.getBoundingClientRect().top<mid) cur=m[1]; });
+      if((window.innerHeight+window.scrollY)>=document.documentElement.scrollHeight-4) cur='connect';
+      if(cur!==active){ active=cur; items.forEach(function(i){ i.classList.toggle('on',i.getAttribute('data-sec')===cur); }); place(); }
+    }
+    items.forEach(function(i){
+      i.addEventListener('mouseenter',function(){ if(!on) return; hover=i.getAttribute('data-sec'); place(); });
+      i.addEventListener('mouseleave',function(){ hover=null; place(); });
+    });
+    var t=false; window.addEventListener('scroll',function(){ if(!t){t=true;requestAnimationFrame(function(){t=false;upd();});} },{passive:true});
+    window.addEventListener('resize',function(){ if(on){ leave(); clearTimeout(timer); items.forEach(function(it){it.classList.remove('placed');}); hidden.forEach(function(e){e.style.visibility='';}); hidden=[]; document.documentElement.classList.remove('side-on'); } upd(); });
+    upd();
   })();
 
   // board row numbers
