@@ -163,8 +163,10 @@ nav.top{display:flex;justify-content:center;padding-block:150px 34px}
 .hero-copy{padding:clamp(28px,5vw,64px);padding-bottom:clamp(40px,6vw,96px);align-self:center}
 .sig{font-family:var(--hand);font-size:52px;line-height:1;display:inline-flex;align-items:flex-start;gap:4px;transform:rotate(-3deg);margin:0 0 6px}
 .sig svg{width:20px;height:20px;margin-top:4px}
-.role{font-family:var(--serif);font-size:25px;letter-spacing:.06em;margin:0 0 10px}
+.role{font-family:var(--serif);font-size:25px;letter-spacing:.06em;margin:0 0 10px;color:var(--ink)}
 .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(46px,6vw,74px);line-height:.95;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.hero h1{margin-bottom:8px}
+.h1-sub{font-family:var(--display);font-style:normal;font-weight:400;color:var(--red);font-size:46px;line-height:1;letter-spacing:-.02em;margin:0 0 22px;white-space:nowrap;display:inline-block}
 .hero h1 .hand{font-family:var(--hand);font-size:1.05em;letter-spacing:0;display:inline-block;transform:rotate(-2deg) translateY(4px)}
 .meta{font-family:var(--serif);font-weight:300;font-size:19px;letter-spacing:-.02em;margin:0;font-variant-numeric:tabular-nums}
 .hero-art{align-self:end;width:100%;height:auto;display:block}
@@ -524,10 +526,38 @@ footer{text-align:center;margin-top:120px;display:grid;justify-items:center;gap:
 .laptop{width:170px;height:130px;color:var(--chalk)}
 .foot-sig{font-family:var(--hand);color:var(--red);font-size:64px;line-height:1;transform:rotate(-3deg);display:inline-flex;gap:6px;align-items:flex-start}
 .foot-sig svg{width:24px;height:24px;margin-top:6px}
+.sign-off{position:relative;display:grid;justify-items:center;gap:2px}
+.sign-off .foot-sig{margin:0}
+.so-pre,.so-post,.so-aside{font-family:var(--hand);color:#f7f3ee;margin:0;line-height:1.1}
+.so-pre{font-size:24px;transform:rotate(-4deg) translateX(-70px)}
+.so-post{font-size:26px;transform:rotate(-2deg) translateX(48px);margin-top:6px}
+.so-aside{position:absolute;left:calc(50% + 140px);top:-18px;font-size:18px;color:rgba(247,243,238,.72);text-align:left;transform:rotate(5deg);white-space:nowrap}
+.so-aside svg{display:block;width:52px;height:38px;margin:0 0 2px -10px;color:rgba(247,243,238,.72)}
+@media (max-width:720px){
+  .so-pre{transform:rotate(-4deg) translateX(-50px);font-size:21px}
+  .so-post{transform:rotate(-2deg) translateX(30px);font-size:22px}
+  .so-aside{position:static;margin-top:14px;font-size:16px;text-align:center;transform:rotate(-2deg)}
+  .so-aside svg{display:none}
+  .so-aside br{display:none}
+}
 .hi-note{background:var(--paper);color:var(--red);border-radius:30px;padding:26px 36px 0;max-width:380px;font-family:var(--hand);font-size:19px;line-height:1.3;text-align:left;overflow:hidden}
 .hi-note p{margin:0 0 14px}
 .hi-note svg{display:block;width:100%;height:auto;margin-top:6px;color:var(--red)}
 .fine{font-family:var(--mono);font-size:12px;color:var(--chalk-dim);margin:10px 0 0}
+
+/* ---------- hand-drawn cursor ---------- */
+html.sk-cursor, html.sk-cursor *{cursor:none!important}
+.sk{position:fixed;left:0;top:0;width:27px;height:27px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .2s;will-change:transform}
+.sk.on{opacity:1}
+.sk-in{width:100%;height:100%;transform-origin:var(--ox,4px) var(--oy,3px);transition:transform .35s cubic-bezier(.3,1.8,.5,1)}
+.sk.down .sk-in{transform:scale(.8) rotate(-6deg);transition-duration:.08s}
+.sk svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0;transform:scale(.6) rotate(-10deg);transition:opacity .12s,transform .3s cubic-bezier(.3,1.8,.5,1)}
+.sk[data-s="arrow"] .c-arrow,.sk[data-s="point"] .c-point,.sk[data-s="grab"] .c-grab,.sk[data-s="grabbing"] .c-grabbing{opacity:1;transform:none}
+.sk-burst{position:fixed;left:0;top:0;width:56px;height:56px;margin:-28px 0 0 -28px;z-index:9998;pointer-events:none;overflow:visible}
+.sk-burst .ray{fill:none;stroke:#e0503c;stroke-width:2.3;stroke-linecap:round;stroke-dasharray:.55 1.45;stroke-dashoffset:.55;animation:skRay .55s cubic-bezier(.2,.65,.35,1) forwards}
+.sk-burst .ring{fill:none;stroke:#e0503c;stroke-width:1.8;stroke-linecap:round;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;animation:skRing .55s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes skRay{to{stroke-dashoffset:-1.05}}
+@keyframes skRing{from{transform:scale(.25) rotate(-30deg);opacity:1}70%{opacity:.8}to{transform:scale(1.35) rotate(10deg);opacity:0}}
 
 /* ---------- responsive ---------- */
 @media (max-width: 980px){
@@ -696,7 +726,8 @@ footer{text-align:center;margin-top:120px;display:grid;justify-items:center;gap:
         <div class="hero-copy">
           <p class="sig">Subham<svg aria-hidden="true"><use href="#s-smile"/></svg></p>
           <p class="role">Data Analyst</p>
-          <h1>I came to analytics <span class="hand">backwards.</span></h1>
+          <h1>I came to analytics <span class="hand" id="bw">backwards.</span></h1>
+          <p class="h1-sub" id="h1sub">That's the advantage.</p>
           <p class="meta">Bhubaneswar • IST +5:30 • <span id="clock">--:--</span></p>
           <p class="tagline">Five years running sales, growth and operations taught me which questions matter. SQL, Power BI and Python are how I answer them now.</p>
         </div>
@@ -1097,7 +1128,12 @@ footer{text-align:center;margin-top:120px;display:grid;justify-items:center;gap:
       <path d="M68 58c8 10 26 10 34 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
       <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M122 70v-8M116 70v-4M128 70v-12"/></g>
     </svg>
-    <p class="foot-sig">Subham<svg aria-hidden="true"><use href="#s-smile"/></svg></p>
+    <div class="sign-off">
+      <p class="so-pre">that was</p>
+      <p class="foot-sig">Subham<svg aria-hidden="true"><use href="#s-smile"/></svg></p>
+      <p class="so-post">Padhy, for you.</p>
+      <p class="so-aside"><svg viewBox="0 0 70 50" aria-hidden="true"><path d="M8 44C22 42 40 34 50 12M50 12l-9 5M50 12l2 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>yes, the baby in <br>the polaroid too.</p>
+    </div>
     <div class="hi-note">
       <p>Hi! Thanks for visiting my site.</p>
       <p>If you've scrolled this far, you probably have a messy spreadsheet somewhere that nobody trusts.</p>
@@ -1120,6 +1156,16 @@ footer{text-align:center;margin-top:120px;display:grid;justify-items:center;gap:
     </div>
     <p class="fine">© 2026 Subham Padhy • made by hand in Bhubaneswar</p>
   </footer>
+
+  <div class="sk" id="sk" aria-hidden="true" data-s="arrow">
+    <div class="sk-in">
+      <svg class="c-arrow" viewBox="0 0 34 34"><g filter="url(#skboil)"><path d="M4 3 4.4 25.5 10.2 20 14.8 29.4 19 27.4 14.6 18.3 22.6 18Z" fill="url(#skHatch)" stroke="#e0503c" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M7.5 9.5 7.7 17" stroke="#e0503c" stroke-width="1.3" stroke-linecap="round" opacity=".55"/></g></svg>
+      <svg class="c-point" viewBox="0 0 34 34"><g filter="url(#skboil)" stroke="#e0503c" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c1.6 0 2.6 1.1 2.6 2.6v7.6l1-.2c1.4 0 2.3.9 2.4 2l.9-.1c1.3 0 2.2.8 2.3 1.9l.8-.1c1.4 0 2.4 1 2.4 2.4v4.8c0 3.8-3 6.6-6.8 6.6h-2.6c-2.4 0-4.2-1-5.6-2.9L5.4 20.6c-.8-1.1-.5-2.5.6-3.2 1-.6 2.2-.3 2.9.6l.5.6V6.1c0-1.5 1-2.6 2.6-2.6Z" fill="url(#skHatch)"/><path d="M15.6 13.8v4M18.9 15.8v3M22 17.8v2.6" fill="none"/></g></svg>
+      <svg class="c-grab" viewBox="0 0 34 34"><g filter="url(#skboil)" stroke="#e0503c" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15.5V8.6a1.8 1.8 0 0 1 3.6 0V6.4a1.8 1.8 0 0 1 3.6 0v1a1.8 1.8 0 0 1 3.6 0v3.1a1.8 1.8 0 0 1 3.6 0v9.2c0 5-3.3 8.6-8 8.6h-1c-3 0-4.9-1.3-6.5-3.6l-3.3-4.9c-.8-1.1-.6-2.4.5-3.1 1-.6 2.2-.4 2.9.5Z" fill="url(#skHatch)"/><path d="M12.6 8.6v6.2M16.2 7.4v7M19.8 10.5v4.6" fill="none"/></g></svg>
+      <svg class="c-grabbing" viewBox="0 0 34 34"><g filter="url(#skboil)" stroke="#e0503c" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 14.6c0-1.6 1.2-2.8 2.7-2.8h10.4c2 0 3.6 1.6 3.6 3.6v5.3c0 4.4-3.4 7.7-7.7 7.7h-1.6c-3 0-5-1.4-6.4-3.6l-2-3.2c-.6-1-.3-2.2.7-2.8Z" fill="url(#skHatch)"/><path d="M11.8 11.9v3.4M15.3 11.8v3.6M18.8 11.8v3.6M22.2 12.3v3.2" fill="none"/></g></svg>
+    </div>
+  </div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><pattern id="skHatch" patternUnits="userSpaceOnUse" width="3.4" height="3.4" patternTransform="rotate(40)"><line x1="0" y1="0" x2="0" y2="3.4" stroke="#e0503c" stroke-width="1.15"/></pattern></defs><filter id="skboil" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence id="skT" type="fractalNoise" baseFrequency="0.08" numOctaves="1" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 
   <div class="xp" id="xp" role="dialog" aria-modal="true" aria-labelledby="xpTitle" hidden>
     <article class="xp-sheet" id="xpSheet">
@@ -1447,6 +1493,73 @@ footer{text-align:center;margin-top:120px;display:grid;justify-items:center;gap:
       if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){ e.preventDefault(); select(current); }
     });
     select('all',true);
+  })();
+
+
+  // hand-drawn cursor: arrow, pointing hand on links, open hand over draggables, fist while dragging
+  (function(){
+    if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var sk=document.getElementById('sk'), T=document.getElementById('skT'); if(!sk) return;
+    document.documentElement.classList.add('sk-cursor');
+    var HOT={arrow:[3.2,2.4],point:[9.5,3.2],grab:[12.6,12.6],grabbing:[12.6,12.6]};
+    var POINT='a,button,[role="button"],label,summary,select,.xp-tile,tr.row,.copy,.av,input[type="checkbox"]';
+    var x=-100,y=-100,px=-100,tilt=0,state='arrow',down=false,raf=0;
+    function pick(t){
+      if(!t||!t.closest) return 'arrow';
+      var pol=t.closest('.polaroid');
+      if(pol) return (down||pol.classList.contains('drag'))?'grabbing':'grab';
+      return t.closest(POINT)?'point':'arrow';
+    }
+    function set(st){ if(st===state) return; state=st; sk.setAttribute('data-s',st);
+      var h=HOT[st]; sk.firstElementChild.style.setProperty('--ox',h[0]+'px'); sk.firstElementChild.style.setProperty('--oy',h[1]+'px'); }
+    function frame(){
+      tilt+=((x-px)*.6-tilt)*.25; tilt=Math.max(-14,Math.min(14,tilt)); px=x;
+      var h=HOT[state];
+      sk.style.transform='translate3d('+(x-h[0])+'px,'+(y-h[1])+'px,0) rotate('+(reduce?0:tilt).toFixed(2)+'deg)';
+      sk.style.transformOrigin=h[0]+'px '+h[1]+'px';
+      raf=Math.abs(tilt)>.05?requestAnimationFrame(frame):0;
+    }
+    document.addEventListener('pointermove',function(e){
+      if(e.pointerType!=='mouse') return;
+      x=e.clientX; y=e.clientY; sk.classList.add('on');
+      set(pick(e.target));
+      if(!raf) raf=requestAnimationFrame(frame);
+    },{passive:true});
+    document.addEventListener('pointerdown',function(e){
+      if(e.pointerType!=='mouse') return;
+      down=true; sk.classList.add('down'); set(pick(e.target));
+      if(reduce) return;
+      var b=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      b.setAttribute('class','sk-burst'); b.setAttribute('viewBox','-28 -28 56 56');
+      var base=Math.random()*60, g='<g filter="url(#skboil)">';
+      g+='<path class="ring" d="M1 -8C6 -8 9 -4 8.5 .5 8 5 4 8.4 -.5 8.3-5 8.2-8.4 4.6-8.2 0-8 -4.6-4.6-8 1-8.2 3-8.2 5-7.6 6.4-6.6"/>';
+      for(var i=0;i<6;i++){
+        var ang=base+i*60+(Math.random()*24-12), r0=7+Math.random()*2, r1=19+Math.random()*6;
+        g+='<path class="ray" pathLength="1" transform="rotate('+ang.toFixed(1)+')" d="M0 '+(-r0).toFixed(1)+'L'+(Math.random()*1.6-.8).toFixed(1)+' '+(-r1).toFixed(1)+'" style="animation-delay:'+(i%2?30:0)+'ms"/>';
+      }
+      b.innerHTML=g+'</g>';
+      b.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)';
+      document.body.appendChild(b); setTimeout(function(){b.remove()},700);
+    });
+    document.addEventListener('pointerup',function(e){ down=false; sk.classList.remove('down'); set(pick(e.target)); });
+    document.addEventListener('mouseleave',function(){ sk.classList.remove('on'); });
+    document.addEventListener('mouseenter',function(){ sk.classList.add('on'); });
+    if(T&&!reduce){ var seed=2; setInterval(function(){ if(sk.classList.contains('on')){ seed=seed%4+1; T.setAttribute('seed',seed);} },150); }
+  })();
+
+
+  // keep "That's the advantage." on one line, never wider than "backwards."
+  (function(){
+    var bw=document.getElementById('bw'), sub=document.getElementById('h1sub'); if(!bw||!sub) return;
+    function fit(){
+      sub.style.fontSize='';
+      var h1=bw.closest('h1'), limit=bw.getBoundingClientRect().right-h1.getBoundingClientRect().left;
+      var w=sub.getBoundingClientRect().width, fs=parseFloat(getComputedStyle(sub).fontSize);
+      if(w>limit-2) sub.style.fontSize=(fs*(limit-2)/w).toFixed(2)+'px';
+    }
+    fit();
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fit);
+    window.addEventListener('resize',fit);
   })();
 
   // board row numbers
