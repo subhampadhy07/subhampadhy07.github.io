@@ -129,20 +129,20 @@ nav.top{display:flex;justify-content:center;padding-block:150px 34px}
 .social a:hover .ic{transform:translateY(-2px) scale(1.12) rotate(0)!important;transition-delay:0s!important}
 
 /* projects: a tiny query window pops up and runs, the face peeks over it */
-.nav:has(>li.pj:hover,>li.pj:focus-within) .face{--fx:252px;--fy:-106px;--fs:.78;--fr:-4deg;transition-delay:.18s}
+.nav:has(>li.pj:hover,>li.pj:focus-within) .face{--fx:252px;--fy:-106px;--fs:.78;--fr:-4deg;transition-delay:.04s}
 .qwin{position:absolute;left:50%;bottom:50px;width:96px;margin-left:-48px;pointer-events:none;color:var(--chalk);opacity:0;
   transform:translateY(18px) scale(.5) rotate(-8deg);transform-origin:50% 100%;transition:opacity .14s ease-in,transform .2s ease-in}
-.nav>li:hover .qwin,.nav>li:focus-within .qwin{opacity:1;transform:rotate(3deg);transition:opacity .18s ease-out,transform .6s cubic-bezier(.3,1.7,.45,1)}
+.nav>li:hover .qwin,.nav>li:focus-within .qwin{opacity:1;transform:rotate(3deg);transition:opacity .12s ease-out,transform .45s cubic-bezier(.3,1.7,.45,1)}
 .qwin svg{display:block;width:100%;height:auto;overflow:visible}
 .qwin .ln{stroke-dasharray:1 1;stroke-dashoffset:1}
-.nav>li:hover .qwin .ln,.nav>li:focus-within .qwin .ln{animation:qtype .35s linear forwards}
-.nav>li:hover .qwin .ln:nth-of-type(2){animation-delay:.3s}
-.nav>li:hover .qwin .ln:nth-of-type(3){animation-delay:.55s}
-.nav>li:hover .qwin .run{animation:qrun .5s cubic-bezier(.3,1.8,.5,1) .85s both}
+.nav>li:hover .qwin .ln,.nav>li:focus-within .qwin .ln{animation:qtype .18s linear forwards}
+.nav>li:hover .qwin .ln:nth-of-type(2){animation-delay:.12s}
+.nav>li:hover .qwin .ln:nth-of-type(3){animation-delay:.22s}
+.nav>li:hover .qwin .run{animation:qrun .4s cubic-bezier(.3,1.8,.5,1) .34s both}
 @keyframes qtype{to{stroke-dashoffset:0}}
 @keyframes qrun{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
 .qwin .run{transform-box:fill-box;transform-origin:center}
-.pj .label{--d:.9s}
+.pj .label{--d:.25s}
 /* nav bar that slides back in when you scroll up */
 .navbar{position:fixed;left:0;right:0;top:0;z-index:50;display:flex;justify-content:center;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;
   background:rgba(31,29,28,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1.5px solid rgba(242,227,210,.14);
