@@ -376,9 +376,13 @@ html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
 
 /* ---------- beliefs + work ---------- */
 .section-title{font-family:var(--display);font-size:clamp(28px,3vw,36px);color:var(--red);margin:0;font-weight:400;letter-spacing:-.01em}
-.work{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:clamp(28px,5vw,72px);margin-top:120px;max-width:1180px;margin-inline:auto}
+.work{display:grid;grid-template-columns:minmax(260px,350px) 1fr;column-gap:clamp(28px,5vw,72px);gap:clamp(28px,5vw,72px);margin-top:120px;max-width:1180px;margin-inline:auto}
 .notes{position:sticky;top:60px;align-self:start;display:grid;gap:0;padding-top:6px}
-.notes .section-title{margin-bottom:26px}
+.cf-head{grid-column:1/-1;display:flex;flex-wrap:nowrap;align-items:baseline;gap:16px;white-space:nowrap;margin-bottom:34px}
+.cf-head .hand{font-family:var(--hand);font-size:22px;color:var(--chalk-dim)}
+.notes-cap{display:flex;align-items:center;gap:6px;margin:0 0 16px;font-family:var(--hand);font-size:20px;color:var(--pop);transform:rotate(-2deg)}
+.notes-cap svg{width:26px;height:18px}
+.file-stamp{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--pop);border:1.5px solid var(--pop);border-radius:4px;padding:2px 7px;margin-right:8px;transform:rotate(-3deg);vertical-align:3px}
 .note{position:relative;padding:34px 26px 26px;color:var(--text-on-paper);box-shadow:0 18px 30px -18px rgba(0,0,0,.8);transition:transform .35s cubic-bezier(.3,.7,.3,1.3)}
 .note:hover{transform:rotate(0) translateY(-6px) scale(1.02)!important;z-index:3}
 .n1{
@@ -399,10 +403,17 @@ html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
 .note p{margin:0}
 
 .cases{display:grid;gap:90px;padding-bottom:40px;min-width:0}
-.case .screen{max-width:600px;padding:10px;border-radius:24px}
-.case .ui{padding:14px;font-size:12px}
-.case .kpi{font-size:28px}
-.case .vbars{height:110px}
+.case .screen{max-width:500px;padding:8px;border-radius:20px}
+.case .ui{padding:12px;font-size:11px;border-radius:14px}
+.case .ui-bar{margin-bottom:12px;font-size:11px}
+.case .panel{padding:11px;border-radius:12px}
+.case .panel h4{font-size:11px;margin-bottom:9px}
+.case .kpi{font-size:24px}
+.case .vbars{height:88px}
+.case .donut svg{width:78px;height:78px}
+.case .chip{font-size:11px;padding:4px 9px}
+.case .sql{font-size:10.5px}
+.cases{gap:70px}
 .work>*,.case,.screen,.ui,.ui-grid>*,.hero-in>*,.tiles>*,.connect>*{min-width:0}
 .case{display:grid;gap:28px}
 .screen{background:var(--screen);border-radius:28px;padding:12px;box-shadow:0 30px 50px -30px rgba(0,0,0,.9);transition:transform .45s cubic-bezier(.3,.7,.3,1)}
@@ -468,7 +479,8 @@ html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
 /* ---------- board ---------- */
 .board-zone{position:relative;margin-top:120px;max-width:1260px;margin-inline:auto}
 .board-head{display:flex;align-items:baseline;justify-content:center;gap:14px;margin-bottom:34px}
-.board-head .hand{font-family:var(--hand);font-size:30px;color:var(--chalk)}
+.board-head .hand{font-family:var(--hand);font-size:34px;color:var(--chalk)}
+.board-head .section-title{font-size:clamp(32px,3.4vw,42px)}
 .board-tab{position:absolute;left:14%;right:10%;top:60px;height:80px;background:var(--red);border-radius:20px 20px 0 0;transform:rotate(-.8deg)}
 .board{position:relative;background:var(--ink-2);border:2px solid var(--chalk);border-radius:36px;padding:40px 40px 54px 60px;box-shadow:0 30px 60px -30px #000;z-index:3}
 .board-grid{position:relative;border:2px solid rgba(242,227,210,.75);border-radius:22px;padding:32px 28px;
@@ -524,6 +536,7 @@ html[data-look="mono"] .reb-note::before{background:rgba(150,146,142,.55)}
 .care{position:absolute;right:30px;bottom:0;height:54px;display:flex;align-items:center;margin:0;line-height:1.2;font-family:var(--hand);font-size:20px;color:var(--chalk)}
 
 .board-wrap{position:relative}
+@media (min-width:900px){.board-wrap{zoom:.9}}
 .under-strip{position:absolute;left:10%;right:2%;bottom:-17px;height:40px;background:var(--red);border-radius:0 0 14px 14px;transform:rotate(-.7deg);transform-origin:100% 0;z-index:2;box-shadow:0 10px 18px -10px rgba(0,0,0,.7)}
 
 /* polaroid: tucked under the board, drag it anywhere */
@@ -755,7 +768,8 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
   .hero-art{max-width:560px;margin-inline:auto}
   .work{grid-template-columns:1fr}
   .notes{position:static;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
-  .notes .section-title{grid-column:1/-1;margin-bottom:6px}
+  .notes .notes-cap{grid-column:1/-1;margin-bottom:0}
+  .cf-head{margin-bottom:4px;flex-wrap:wrap;white-space:normal;gap:6px 16px}
   .n2,.n3{margin:0}
   .tiles{grid-template-columns:repeat(2,1fr)}
   .d-bird,.d-flow{display:none}
@@ -1042,9 +1056,10 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
   </section>
 
   <!-- BELIEFS + WORK -->
-  <section class="work" id="work" aria-labelledby="believe-t">
+  <section class="work" id="work" aria-labelledby="cf-t">
     <aside class="notes">
-      <h2 class="section-title" id="believe-t">3 things I strongly believe in</h2>
+      <div class="cf-head"><h2 class="section-title" id="cf-t">Case files</h2><span class="hand">open one, read the numbers</span></div>
+      <p class="notes-cap"><svg viewBox="0 0 26 18" aria-hidden="true"><path d="M2 4c8 0 16 3 20 11M22 15l-6-1M22 15l1-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>what I believe</p>
       <div class="note n1"><p>context before code.</p></div>
       <div class="note n2"><span class="clip" aria-hidden="true"></span><p>Measure what moves the business.</p></div>
       <div class="note n3"><p>A chart should end in a decision.</p></div>
@@ -1080,7 +1095,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
           </div>
         </div>
         <div class="caption">
-          <p class="eyebrow">Case 01 • ACES Consulting</p>
+          <p class="eyebrow"><span class="file-stamp">FILE 01</span>ACES Consulting</p>
           <h3>Marketing spend was leaking</h3>
           <dl>
             <dt>problem</dt><dd>Nobody could say which channels produced qualified leads, and site visitors weren't converting.</dd>
@@ -1120,7 +1135,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
           </div>
         </div>
         <div class="caption">
-          <p class="eyebrow">Case 02 • KGS Technology Group</p>
+          <p class="eyebrow"><span class="file-stamp">FILE 02</span>KGS Technology Group</p>
           <h3>Finding the bottleneck in a talent pipeline</h3>
           <dl>
             <dt>problem</dt><dd>Placements stalled somewhere between submission and offer, and nobody knew where.</dd>
@@ -1138,7 +1153,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
             <div class="ui-grid">
               <div class="panel">
                 <h4>Students reached by programs</h4>
-                <div class="kpi" style="font-size:44px">22+ lakh</div>
+                <div class="kpi" style="font-size:32px">22+ lakh</div>
                 <div class="note-ui">Across partner schools and institutions in Odisha</div>
               </div>
               <div class="panel">
@@ -1151,7 +1166,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
           </div>
         </div>
         <div class="caption">
-          <p class="eyebrow">Case 03 • Career Map</p>
+          <p class="eyebrow"><span class="file-stamp">FILE 03</span>Career Map</p>
           <h3>Growth that could defend itself with numbers</h3>
           <dl>
             <dt>role</dt><dd>Head of Growth. I ran the lead funnel and wrote funding proposals that leaned on conversion data instead of adjectives.</dd>
@@ -1160,40 +1175,6 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
         </div>
       </article>
 
-      <!-- Case 4 -->
-      <article class="case">
-        <div class="screen">
-          <div class="ui">
-            <div class="ui-bar"><i></i><i></i><i></i><b>resume_practice</b><span class="pill">side practice</span></div>
-            <div class="ui-grid">
-              <div class="panel">
-                <h4>Resumes rebuilt for the US market</h4>
-                <div class="resume-mini">
-                  <div class="page-mini"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  <div class="page-mini"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  <div class="page-mini"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  <span class="stamp-ok">ATS OK</span>
-                </div>
-                <div class="kpi" style="margin-top:14px">300+</div>
-              </div>
-              <div class="panel">
-                <h4>Also on the bench</h4>
-                <div class="cause"><i></i>Portfolio and business websites</div>
-                <div class="cause"><i></i>Synthetic-data Power BI dashboards</div>
-                <div class="cause"><i></i>Prompt workflows for recruiting ops</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="caption">
-          <p class="eyebrow">Case 04 • Consulting</p>
-          <h3>300+ resumes, one pattern</h3>
-          <dl>
-            <dt>what I did</dt><dd>Rebuilt and ATS-optimized resumes for candidates entering the US job market, and design sites for people who need a portfolio.</dd>
-            <dt>what it taught me</dt><dd>A recruiter reads a resume the way a manager reads a dashboard. <strong>Lead with the number.</strong></dd>
-          </dl>
-        </div>
-      </article>
     </div>
   </section>
 
