@@ -301,16 +301,19 @@ html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
 .xp-in{padding:4px clamp(20px,5vw,44px) 30px}
 .xp-place{font-family:var(--hand);color:var(--red);font-size:20px;margin:0}
 .xp-in h3{font-family:var(--display);font-weight:400;font-size:clamp(36px,6vw,56px);line-height:1;letter-spacing:-.02em;margin:2px 0 16px;color:var(--text-on-paper);text-wrap:balance}
+.xp-link{display:inline-block;margin:-6px 0 16px;font-family:var(--hand);font-size:19px;color:var(--pop);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.xp-story{margin:0 0 20px;font-family:var(--serif);font-size:16.5px;line-height:1.6;color:#3a3430;max-width:62ch}
+.xp-story p{margin:0 0 10px}
 .xp-roles{display:grid;gap:6px;margin:0 0 22px;padding:12px 0;border-top:1.5px solid var(--red);border-bottom:1.5px solid var(--red)}
 .xp-role{display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:var(--ui)}
 .xp-role b{font-weight:600;font-size:15px;color:var(--red-deep)}
 .xp-role b small{display:block;font-weight:400;font-size:12.5px;color:#7a716a;margin-top:1px}
 .xp-role span{font-family:var(--mono);font-size:12.5px;color:#5b534d;white-space:nowrap;text-align:right;margin-left:auto}
-.xp-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 24px}
+.xp-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:12px;margin:0 0 24px}
 .xp-metric{background:#fff;border:1px solid #e6ddd3;border-radius:14px;padding:14px 16px;font-family:var(--ui)}
 .xp-metric strong{display:block;font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1;color:var(--text-on-paper);font-variant-numeric:tabular-nums}
 .xp-metric strong::after{content:"";display:block;width:38px;height:3px;border-radius:3px;background:var(--red);margin:8px 0 8px}
-.xp-metric span{font-size:12.5px;color:#6b625b;line-height:1.35}
+.xp-metric span{display:block;font-size:12.5px;color:#6b625b;line-height:1.35}
 .xp-group h4{font-family:var(--hand);font-weight:400;font-size:21px;color:var(--red);margin:14px 0 2px}
 .xp-group h4 small{font-family:var(--mono);font-size:11.5px;color:#8a7d72;margin-left:8px;letter-spacing:.02em}
 .xp-list{list-style:none;margin:0 0 6px;padding:6px 0 6px 40px;font-family:var(--serif);font-size:16.5px;line-height:30px;
@@ -385,21 +388,17 @@ html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
 .file-stamp{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--pop);border:1.5px solid var(--pop);border-radius:4px;padding:2px 7px;margin-right:8px;transform:rotate(-3deg);vertical-align:3px}
 .note{position:relative;padding:34px 26px 26px;color:var(--text-on-paper);box-shadow:0 18px 30px -18px rgba(0,0,0,.8);transition:transform .35s cubic-bezier(.3,.7,.3,1.3)}
 .note:hover{transform:rotate(0) translateY(-6px) scale(1.02)!important;z-index:3}
-.n1{
-  background-color:#f1dfc6;
-  background-image:linear-gradient(90deg,transparent 30px,#e06a5a 30px,#e06a5a 32px,transparent 32px),repeating-linear-gradient(transparent 0 33px,var(--line-blue) 33px 35px);
-  background-position:0 0,0 12px;
-  font-family:var(--hand);font-size:34px;line-height:34px;padding-left:44px;transform:rotate(-3deg);
-  -webkit-mask:radial-gradient(9px at 50% 0,#0000 98%,#000) 0 0/22px 100%;mask:radial-gradient(9px at 50% 0,#0000 98%,#000) 0 0/22px 100%;
-}
-.n2{background:#cfb39a;font-family:var(--display);font-style:italic;font-size:34px;line-height:1.02;transform:rotate(2.5deg);margin-top:-14px;margin-left:24px;border-radius:2px}
-.n2 .clip{position:absolute;top:-16px;left:26px;width:22px;height:48px;border:3px solid #6f6a66;border-radius:12px;border-bottom-color:transparent}
-.n3{
-  background-color:#e7dccd;
-  background-image:linear-gradient(#b9ae9f 1px,transparent 1px),linear-gradient(90deg,#b9ae9f 1px,transparent 1px);
-  background-size:18px 18px;font-family:var(--mono);font-size:22px;line-height:1.2;transform:rotate(-1.5deg);margin-top:-10px;margin-right:14px;
-  clip-path:polygon(0 3%,8% 0,20% 2%,33% 0,47% 3%,60% 0,74% 2%,88% 0,100% 2%,100% 100%,0 100%);
-}
+.n1{background:#f1dfc6;font-family:var(--hand);font-size:24px;line-height:1.1;transform:rotate(-3deg)}
+.n2{background:#cfb39a;font-family:var(--display);font-style:italic;font-size:24px;line-height:1.05;transform:rotate(2.5deg);margin-left:16px}
+.n3{background-color:#e7dccd;background-image:linear-gradient(#c9bfb1 1px,transparent 1px),linear-gradient(90deg,#c9bfb1 1px,transparent 1px);background-size:18px 18px;
+  font-family:var(--mono);font-size:15px;line-height:1.35;transform:rotate(-1.5deg)}
+.notes .note{padding:18px 62px 14px 18px;margin-bottom:14px}
+.note .pin{position:absolute;top:-9px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a73,var(--pop) 55%,#9b2e20);box-shadow:0 3px 5px rgba(0,0,0,.5)}
+.note .ndood{position:absolute;right:12px;top:12px;width:40px;height:40px;color:var(--pop);overflow:visible}
+.note .aside{display:block;margin-top:6px;font-family:var(--hand);font-style:normal;font-size:16px;line-height:1.1;color:var(--pop);transform:rotate(-2deg);transform-origin:0 50%}
+.note .ncirc{position:relative;display:inline-block}
+.note .ncirc svg{position:absolute;left:-7px;top:-4px;width:calc(100% + 14px);height:calc(100% + 8px);overflow:visible;color:var(--pop)}
+.note .nul{background:linear-gradient(transparent 68%,rgba(224,80,60,.35) 68%)}
 .note p{margin:0}
 
 .cases{display:grid;gap:90px;padding-bottom:40px;min-width:0}
@@ -500,7 +499,12 @@ html[data-look="mono"] .stag::before{background:rgba(150,146,142,.55)}
 .tile .date{font-family:var(--hand);font-size:16px;line-height:1.1;color:var(--pop);white-space:nowrap;text-align:right;margin-left:auto}
 .circled{position:relative;display:inline-block;padding:0 3px;margin-left:3px;color:var(--pop)}
 .circled svg{position:absolute;left:-7px;top:-6px;width:calc(100% + 14px);height:calc(100% + 12px);overflow:visible;color:var(--pop);pointer-events:none}
-.tile:has(.reb-note){z-index:3}
+.tile:has(.reb-note),.tile:has(.aces-note){z-index:3}
+.aces-note{position:absolute;right:-14px;bottom:-34px;width:150px;background:#f1dfc6;color:var(--ink);font-family:var(--hand);font-size:16px;line-height:1.15;padding:17px 12px 10px;transform:rotate(3.5deg);box-shadow:0 14px 22px -12px rgba(0,0,0,.85);pointer-events:none}
+.aces-note::before{content:"";position:absolute;top:-8px;left:50%;width:50px;height:16px;margin-left:-25px;background:rgba(224,80,60,.55);transform:rotate(4deg)}
+html[data-look="mono"] .aces-note{background-color:#e4e2df}
+html[data-look="mono"] .aces-note::before{background:rgba(150,146,142,.55)}
+.tile-in:has(.aces-note) .tile-open,.tile-in:has(.aces-note)::after{left:14px;right:auto}
 .tile .ttl.reb-ttl{line-height:1.7;font-size:min(13px,4.3cqw);margin-top:12px}
 .reb-ttl .strike{font-size:.93em}
 .tile-in:has(.reb-note){container-type:inline-size}
@@ -743,7 +747,7 @@ html[data-look="mono"] .stamp.line{border-color:var(--m-light);color:var(--m-lig
 html[data-look="mono"] .sticky::before,html[data-look="mono"] .pj-note::before,html[data-look="mono"] .xp-tape,html[data-look="mono"] .dp-tape{background:rgba(150,146,142,.55)}
 html[data-look="mono"] .polaroid,html[data-look="mono"] .xp-sheet,html[data-look="mono"] .dp-card{background:var(--m-paper)}
 html[data-look="mono"] .xp-top{background:linear-gradient(var(--m-paper) 75%,rgba(236,234,231,0))}
-html[data-look="mono"] .n1{background-color:#e4e2df;background-image:linear-gradient(90deg,transparent 30px,#9a9692 30px,#9a9692 32px,transparent 32px),repeating-linear-gradient(transparent 0 33px,var(--line-blue) 33px 35px)}
+html[data-look="mono"] .n1{background-color:#e4e2df}
 html[data-look="mono"] .n2{background:#bdb9b5}
 html[data-look="mono"] .n3{background-color:#dedbd7}
 html[data-look="mono"] .sticky,html[data-look="mono"] .pj-note{background-color:#e4e2df}
@@ -1060,9 +1064,9 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
     <aside class="notes">
       <div class="cf-head"><h2 class="section-title" id="cf-t">Case files</h2><span class="hand">open one, read the numbers</span></div>
       <p class="notes-cap"><svg viewBox="0 0 26 18" aria-hidden="true"><path d="M2 4c8 0 16 3 20 11M22 15l-6-1M22 15l1-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>what I believe</p>
-      <div class="note n1"><p>context before code.</p></div>
-      <div class="note n2"><span class="clip" aria-hidden="true"></span><p>Measure what moves the business.</p></div>
-      <div class="note n3"><p>A chart should end in a decision.</p></div>
+      <div class="note n1"><svg class="ndood" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="11"/><path d="M26 26l12 12"/><path d="M13 18h10M18 13v10" opacity=".6"/></g></svg><p><span class="ncirc">context<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M54 4C82 3 98 11 97 21S79 37 50 37 3 31 3 20 27 4 57 3c8 0 14 1 20 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span> before code.</p><span class="aside">ask why before SELECT *</span></div>
+      <div class="note n2"><svg class="ndood" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32a16 16 0 0 1 32 0"/><path d="M22 32 31 18"/><circle cx="22" cy="32" r="2.4" fill="currentColor"/><path d="M8 26l3 1M36 26l-3 1M22 14v3"/></g></svg><p>Measure what <span class="nul">moves the business.</span></p><span class="aside">not what's easy to count</span></div>
+      <div class="note n3"><svg class="ndood" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 36V8M5 36h22"/><path d="M9 30l6-7 5 3 7-9"/><path d="M27 17l9 9M36 26l2-7M36 26l-7 1"/><rect x="31" y="28" width="10" height="10" rx="2"/><path d="M33 33l2 2 4-4"/></g></svg><p>A chart should end in a <span class="nul">decision.</span></p><span class="aside">or it's just decoration</span></div>
     </aside>
 
     <div class="cases">
@@ -1098,6 +1102,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
           <p class="eyebrow"><span class="file-stamp">FILE 01</span>ACES Consulting</p>
           <h3>Marketing spend was leaking</h3>
           <dl>
+            <dt>context</dt><dd>My own start-up. I built the site these numbers came from.</dd>
             <dt>problem</dt><dd>Nobody could say which channels produced qualified leads, and site visitors weren't converting.</dd>
             <dt>what I did</dt><dd>Instrumented the journey, A/B tested CTA placement, copy and form length, then ranked channels by ROI.</dd>
             <dt>result</dt><dd><strong>+35% lead-capture conversion</strong> and 60% of budget moved to top channels within six months.</dd>
@@ -1203,6 +1208,7 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
             <span class="ttl">Co-Founder &amp; Business Analyst</span>
             <p>Career guidance firm for students in Odisha. Ran the funnel, the tests and the budget.</p>
             <div class="tags"><span>+35% lead capture</span><span>5+ schools</span><span>20+ workshops</span></div>
+            <span class="aces-note">my first start-up that worked. then we split.</span>
           </div></div>
 
           <div class="tile xp-tile" data-xp="2" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open details: Career Map"><div class="tile-in">
@@ -1281,9 +1287,10 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
         <div class="pj-bar"><i></i><i></i><i></i><b>projects.sql</b><span>subham_portfolio</span><span class="conn">connected</span></div>
         <nav class="pj-side" aria-label="Projects">
           <h4>TABLES</h4>
-          <button type="button" data-pj="all" aria-pressed="true"><svg aria-hidden="true" viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 5.5h11M5.5 5.5V12" stroke="currentColor" stroke-width="1.4"/></svg>projects<span class="count">3</span></button>
+          <button type="button" data-pj="all" aria-pressed="true"><svg aria-hidden="true" viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 5.5h11M5.5 5.5V12" stroke="currentColor" stroke-width="1.4"/></svg>projects<span class="count">4</span></button>
           <button type="button" data-pj="flipkart_category" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 5.5h11M5.5 5.5V12" stroke="currentColor" stroke-width="1.4"/></svg>flipkart_category</button>
           <button type="button" data-pj="hcl_digital_journey" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 5.5h11M5.5 5.5V12" stroke="currentColor" stroke-width="1.4"/></svg>hcl_digital_journey</button>
+          <button type="button" data-pj="aces_website" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 5.5h11M5.5 5.5V12" stroke="currentColor" stroke-width="1.4"/></svg>aces_website</button>
           <button type="button" data-pj="portfolio_site" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 5.5h11M5.5 5.5V12" stroke="currentColor" stroke-width="1.4"/></svg>portfolio_site</button>
           <p class="foot">-- more writeups<br>-- available on request</p>
         </nav>
@@ -1485,15 +1492,19 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
          'Translated hiring-manager requirements into measurable screening criteria, converting subjective fit feedback into structured data the team can act on.',
          'Managed end-to-end placement delivery for US clients across data, AI/ML, cybersecurity, and finance roles.']}],
        tags:['SQL (BigQuery)','KPI Reporting','Root Cause Analysis','Stakeholder Reporting']},
-      {co:'ACES Consulting',place:'Bhubaneswar',
+      {co:'ACES Consulting',place:'Career guidance start-up • Bhubaneswar',link:['acesconsulting.in','https://www.acesconsulting.in'],
        roles:[['Co-Founder & Business Analyst','','Feb 2024 - Jul 2025']],
-       metrics:[['+35%','lead-capture conversion after A/B tests'],['60%','of spend moved to top channels within 6 months'],['5+','school collaborations, from zero'],['20+','career-awareness workshops delivered']],
+       story:['We started ACES with one goal: change how students in Odisha choose their futures. Too many bright students were picking careers based on limited information or family pressure. We built a way for them to discover their strengths, explore real options, and choose with confidence, backed by mentors and people from industry.',
+         'I ran strategy, partnerships and everything on the ground. We went from zero to 5+ partner schools, and I built the website and every piece of brand material myself.',
+         'It was also where I first used data to make decisions instead of guesses: I tracked the student journey, A/B tested our sign-up flow, and moved budget to whatever actually worked.'],
+       metrics:[['5+','partner schools, from zero'],['+35%','lead-capture conversion from A/B tests'],['60%','of marketing spend moved to top channels in 6 months'],['20+','career workshops for students, parents and schools'],['\u20b90','spent on outside design']],
        groups:[{items:[
-         'Analyzed website engagement metrics and ran A/B tests on CTAs, improving lead-capture conversion rate by 35%.',
-         'Ran ROI analysis across marketing channels and reallocated 60% of spend to top-performing digital channels within 6 months.',
-         'Scaled the firm from zero to collaborations with 5+ schools, using customer-discovery data to sharpen positioning in an ambiguous early market.',
-         'Delivered 20+ career-awareness workshops, translating complex academic data into clear narratives for students and administrators.']}],
-       tags:['A/B Testing','ROI Analysis','Segmentation']},
+         'Founded and scaled the firm from zero to collaborations with 5+ schools, navigating early market ambiguity through customer discovery and data-backed positioning.',
+         'Designed end-to-end digital user journey; analysed website engagement metrics and A/B tested CTAs, improving lead capture conversion rate by 35%.',
+         'Built the company website from scratch and designed all brand collateral, including brochures and digital promotion content, reducing external design spend to zero.',
+         'Directed operations and budget allocation based on ROI analysis, reallocating 60% of marketing spend to high-performing digital channels within 6 months.',
+         'Conducted 20+ career awareness workshops, translating complex academic data into compelling narratives for students, parents, and school administrators.']}],
+       tags:['A/B Testing','ROI Analysis','Customer Discovery','Partnerships','Web Design','Brand Design']},
       {co:'Career Map',place:'Unit of Identity Group • Bhubaneswar',
        roles:[['Head of Growth','','Aug 2023 - Jan 2024']],
        metrics:[['42%','of qualified leads converted'],['22 lakh+','students reached with UNICEF Odisha and the Dept. of Education'],['Phase 2','project phase secured']],
@@ -1542,6 +1553,8 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
     function render(i){
       var r=XP[i], h='';
       h+='<p class="xp-place">'+esc(r.place)+'</p><h3 id="xpTitle">'+esc(r.co)+'</h3>';
+      if(r.link) h+='<a class="xp-link" href="'+r.link[1]+'" target="_blank" rel="noopener">visit '+esc(r.link[0])+' \u2197</a>';
+      if(r.story) h+='<div class="xp-story">'+r.story.map(function(t){return '<p>'+esc(t)+'</p>';}).join('')+'</div>';
       h+='<div class="xp-roles">'+r.roles.map(function(x){return '<div class="xp-role"><b>'+esc(x[0])+(x[1]?'<small>'+esc(x[1])+'</small>':'')+'</b><span>'+esc(x[2])+'</span></div>';}).join('')+'</div>';
       if(r.metrics.length) h+='<div class="xp-metrics">'+r.metrics.map(function(m){return '<div class="xp-metric"><strong>'+esc(m[0])+'</strong><span>'+esc(m[1])+'</span></div>';}).join('')+'</div>';
       r.groups.forEach(function(g){
@@ -1619,11 +1632,14 @@ html.look-anim *,html.look-anim *::before,html.look-anim *::after{transition:bac
       hcl_digital_journey:{name:'HCL Digital Marketing Analytics',type:'SkilloVilla capstone',from:'capstones',
         tools:['Web analytics','User journey','CX'],scale:'12+',scaleNote:'journey metrics evaluated',hot:'every step, measured',
         did:'Evaluated digital-acquisition strategy using website and user-journey metrics, surfacing customer-experience improvements.',status:'completed'},
+      aces_website:{name:'ACES Consulting website',type:'Web design & build',from:'builds',
+        tools:['Website','Brand design','Brochures'],scale:'\u20b90',scaleNote:'external design spend',hot:'built it myself',
+        did:'Designed and built the ACES Consulting website from scratch, plus all brand collateral: brochures and digital promotion content. It is the site the +35% A/B tests ran on.',status:'live at acesconsulting.in'},
       portfolio_site:{name:'This portfolio',type:'Web design & build',from:'builds',
         tools:['HTML','CSS','Vanilla JS','SVG'],scale:'0',scaleNote:'frameworks used',hot:'all by hand',
         did:'Designed and built this site from scratch: stamp rails, nav hover scenes, a draggable polaroid, an animated avatar, and this console. Also builds portfolio, business and personal sites for others.',status:'live, you are in it'}
     };
-    var order=['flipkart_category','hcl_digital_journey','portfolio_site'];
+    var order=['flipkart_category','hcl_digital_journey','aces_website','portfolio_site'];
     var code=document.getElementById('pjCode'), ln=document.getElementById('pjLn'), out=document.getElementById('pjOut'),
         status=document.getElementById('pjStatus'), runBtn=document.getElementById('pjRun');
     var side=[].slice.call(document.querySelectorAll('.pj-side button'));
